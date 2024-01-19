@@ -1,0 +1,11 @@
+/* index.css */
+@font-face {
+  font-family: "NerkoOne-Regular";
+  src: url("./fonts/NerkoOne-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "NerkoOne-Regular", sans-serif;
+}
