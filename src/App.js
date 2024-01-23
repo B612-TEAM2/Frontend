@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 import MainPage from "./pages/Home/MainPage";
-import Writing from "./pages/Home/Writing";
+import Writing from "./pages/Writing/Writing";
 import Friends from "./pages/Friend/Friends";
 import Public from "./pages/Public/Public";
 import Account from "./pages/Account/Account";

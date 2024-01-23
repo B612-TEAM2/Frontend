@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-const FriendBar = () => {
+const FriendHeader = () => {
   return <div></div>;
 };
 
-export default FriendBar;
+export default FriendHeader;
 
 const Container = styled.div``;

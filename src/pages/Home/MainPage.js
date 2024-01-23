@@ -8,7 +8,7 @@ const MainPage = () => {
   return (
     <div>
       <SideMenuBar></SideMenuBar>
-      <MapTemp></MapTemp>
+      <Map></Map>
       <NewButton></NewButton>
     </div>
   );
