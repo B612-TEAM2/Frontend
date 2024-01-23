@@ -55,7 +55,7 @@ const MapTemp = () => {
   useEffect(() => {
     const loadGoogleMapsScript = () => {
       const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&callback=initMap`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAP_API_KEY}&callback=initMap`;
       script.defer = true;
       script.async = true;
       document.head.appendChild(script);
