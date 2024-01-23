@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import KakaoLogin from "../components/Login/KakaoLogin";
-import NaverLogin from "../components/Login/NaverLogin";
-import GoogleLogin from "../components/Login/GoogleLogin";
+import KakaoLogin from "../../components/Login/KakaoLogin";
+import NaverLogin from "../../components/Login/NaverLogin";
+import GoogleLogin from "../../components/Login/GoogleLogin";
 
 function LoginPage() {
     return (
