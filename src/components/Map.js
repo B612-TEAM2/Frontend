@@ -1,5 +1,12 @@
 import React from "react";
-import { GoogleMap, LoadScript, MarkerF } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  LoadScript,
+  MarkerF,
+  InfoWindowF,
+} from "@react-google-maps/api";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 //페이지 이동시 이미 로드되었다고 오류 뜸 -> ismount state 관리로 수정 필요.
 const Map = () => {
@@ -7,6 +14,8 @@ const Map = () => {
   const [lng, setLng] = React.useState(0);
   const [clickedLat, setClickedLat] = React.useState(null);
   const [clickedLng, setClickedLng] = React.useState(null);
+  const [infoWindowOpen, setInfoWindowOpen] = React.useState(false);
+  const navigate = useNavigate();
 
   const getLocation = () => {
     if (navigator.geolocation) {
@@ -55,7 +64,14 @@ const Map = () => {
     setClickedLng(e.latLng.lng());
   };
   const clickedMarkerPosition = { lat: clickedLat, lng: clickedLng };
-
+  /*
+  const handleMarkerClick = (e) => {
+    let infowindow = new google.maps.InfoWindow({
+      position: { clickedLat, clickedLng },
+    });
+    infowindow.setContent("여기에서 글쓰기");
+    infowindow.open();
+  };*/
   return (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
       <GoogleMap
@@ -66,7 +82,24 @@ const Map = () => {
         onClick={handleMapClick}
       >
         {clickedLat !== null && clickedLng !== null && (
-          <MarkerF position={clickedMarkerPosition} />
+          <MarkerF
+            position={clickedMarkerPosition}
+            onClick={() => setInfoWindowOpen(true)}
+          />
+        )}
+        {infoWindowOpen && (
+          <InfoWindowF
+            position={clickedMarkerPosition}
+            onCloseClick={() => setInfoWindowOpen(false)}
+          >
+            <NewFeedButton
+              onClick={() => {
+                navigate("/writing");
+              }}
+            >
+              이 위치에서 새 글 쓰기
+            </NewFeedButton>
+          </InfoWindowF>
         )}
       </GoogleMap>
     </LoadScript>
@@ -74,3 +107,7 @@ const Map = () => {
 };
 
 export default Map;
+
+const NewFeedButton = styled.div`
+  cursor: pointer;
+`;
