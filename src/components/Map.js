@@ -5,15 +5,14 @@ import { GoogleMap, LoadScript, MarkerF } from "@react-google-maps/api";
 const Map = () => {
   const [lat, setLat] = React.useState(0);
   const [lng, setLng] = React.useState(0);
-  const markerPosition = { lat, lng };
+  const [clickedLat, setClickedLat] = React.useState(null);
+  const [clickedLng, setClickedLng] = React.useState(null);
 
   const getLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          console.log(`Position.Latitude 위도 : ${position.coords.latitude}`);
           setLat(position.coords.latitude);
-          console.log(`Position.longitude 경도 : ${position.coords.longitude}`);
           setLng(position.coords.longitude);
         },
         (error) => {
@@ -47,9 +46,15 @@ const Map = () => {
   ];*/
 
   const defaultCenter = {
-    lat: 37.550747794030805,
-    lng: 126.92427237710723,
+    lat: lat,
+    lng: lng,
   }; //구글 맵 초기화
+
+  const handleMapClick = (e) => {
+    setClickedLat(e.latLng.lat());
+    setClickedLng(e.latLng.lng());
+  };
+  const clickedMarkerPosition = { lat: clickedLat, lng: clickedLng };
 
   return (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
@@ -58,8 +63,11 @@ const Map = () => {
         zoom={16}
         center={defaultCenter}
         options={{ disableDefaultUI: true }}
+        onClick={handleMapClick}
       >
-        <MarkerF position={markerPosition} />
+        {clickedLat !== null && clickedLng !== null && (
+          <MarkerF position={clickedMarkerPosition} />
+        )}
       </GoogleMap>
     </LoadScript>
   );
