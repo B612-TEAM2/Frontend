@@ -50,7 +50,7 @@ const Wrapper = styled.div`
   background-color: #95ada4;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 100vh;
   width: 261px;
   position: fixed;
   z-index: 1;
@@ -66,6 +66,8 @@ const TextContainer = styled.div`
   color: white;
   padding: 7px;
   cursor: pointer;
+  justify-content: flex-start;
+  align-items: center;
 `;
 
 const Text = styled.div`

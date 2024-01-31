@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   GoogleMap,
   LoadScript,
@@ -8,13 +8,13 @@ import {
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-//페이지 이동시 이미 로드되었다고 오류 뜸 -> ismount state 관리로 수정 필요.
 const Map = () => {
   const [lat, setLat] = React.useState(0);
   const [lng, setLng] = React.useState(0);
   const [clickedLat, setClickedLat] = React.useState(null);
   const [clickedLng, setClickedLng] = React.useState(null);
   const [infoWindowOpen, setInfoWindowOpen] = React.useState(false);
+  // const [mapLoaded, setMapLoaded] = useState(false);
   const navigate = useNavigate();
 
   const getLocation = () => {
@@ -39,20 +39,28 @@ const Map = () => {
   };
   React.useEffect(() => {
     getLocation();
+    return () => {
+      setClickedLat(null);
+      setClickedLng(null);
+      setInfoWindowOpen(false);
+      console.log(clickedLat);
+      console.log(clickedLng);
+      console.log(infoWindowOpen);
+    };
   }, []);
 
   const mapStyles = {
     height: "100vh",
     width: "100%",
   };
-  /*
+
   const myStyles = [
     {
       featureType: "poi",
       elementType: "labels",
       stylers: [{ visibility: "off" }],
     },
-  ];*/
+  ];
 
   const defaultCenter = {
     lat: lat,
@@ -64,14 +72,7 @@ const Map = () => {
     setClickedLng(e.latLng.lng());
   };
   const clickedMarkerPosition = { lat: clickedLat, lng: clickedLng };
-  /*
-  const handleMarkerClick = (e) => {
-    let infowindow = new google.maps.InfoWindow({
-      position: { clickedLat, clickedLng },
-    });
-    infowindow.setContent("여기에서 글쓰기");
-    infowindow.open();
-  };*/
+
   return (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
       <GoogleMap
