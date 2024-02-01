@@ -1,12 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { marked } from "marked";
 import SideMenuBar from "../../components/SideMenuBar";
+import Modal from "react-modal";
+import Map from "../../components/writing/Map";
 
 const Writing = () => {
   const [markdownText, setMarkdownText] = useState("");
   const [html, setHtml] = useState("");
   const currentDate = new Date().toLocaleDateString();
+
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const customStyles = {
+    //overlay: 모달 창 바깥 부분
+    //content : 모달 창부분
+    overlay: {
+      backgroundColor: " rgba(0, 0, 0, 0.4)",
+      width: "100%",
+      height: "100vh",
+      zIndex: "10",
+      position: "fixed",
+      top: "0",
+      left: "0",
+    },
+    content: {
+      width: "900px",
+      height: "600px",
+      zIndex: "150",
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      borderRadius: "10px",
+      boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
+      backgroundColor: "#95ada4",
+      justifyContent: "center",
+      border: "none",
+    },
+  };
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  useEffect(() => {
+    Modal.setAppElement("#root");
+  }, []);
 
   const handleInputChange = (e) => {
     const text = e.target.value;
@@ -14,7 +56,6 @@ const Writing = () => {
     const convertedHTML = marked(text);
     setHtml(convertedHTML);
   };
-  
   return (
     <Container>
       <SideMenuBar />
@@ -22,14 +63,26 @@ const Writing = () => {
         <WritingTitle>글쓰기</WritingTitle>
         <DateText>{currentDate}</DateText>
         <TitleText placeholder="제목을 입력해 주세요" />
-        <TextArea 
+        <TextArea
           value={markdownText}
           onChange={handleInputChange}
-          placeholder="내용을 입력해 주세요" />
+          placeholder="내용을 입력해 주세요"
+        />
         <Preview dangerouslySetInnerHTML={{ __html: html }} />
-        <Button>위치 설정</Button>
+        <Button onClick={openModal}>위치 설정</Button>
         <Button>작성 완료</Button>
-        </WritingArea>
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          style={customStyles}
+        >
+          <ModalWrapper>
+            <h2>모달입니다.</h2>
+            <Map></Map>
+            <button onClick={closeModal}>닫기</button>
+          </ModalWrapper>
+        </Modal>
+      </WritingArea>
     </Container>
   );
 };
@@ -60,7 +113,7 @@ const WritingTitle = styled.h1`
 const DateText = styled.text`
   width: 100%;
   font-size: 1rem;
-  color: #6F6F6F;
+  color: #6f6f6f;
   text-align: right;
 `;
 
@@ -88,6 +141,13 @@ const Button = styled.button`
   padding: 0.5rem;
   border: 1px solid #ccc;
   cursor: pointer;
+`;
+
+const ModalWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default Writing;
