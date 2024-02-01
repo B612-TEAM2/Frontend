@@ -1,58 +1,103 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import HomeMap from "./HomeMap";
-import HomeList from "./HomeList";
+import HomeMap from "../Home/HomeMap";
+import HomeList from "../Home/HomeList";
 
-function MainToggle() {
-    const [isMapView, setIsMapView] = useState(true);
+const MainToggle = () => {
+  const [toggle, setToggle] = useState("home");
 
-    const toggleView = () => {
-        setIsMapView(!isMapView);
-    };
+  const toggleHandler = () => {
+    setToggle((prevState) => (prevState === "home" ? "list" : "home"));
+  };
 
-    useEffect(() => {
-      console.log(isMapView);
-    }, [isMapView]);
-
-    return (
-        <Container>
-            <ToggleContainer>
-                <HomeToggle onClick={toggleView}>
-                    {isMapView ? "MAP" : "LIST"}
-                </HomeToggle>
-            </ToggleContainer>
-            <HomeContainer>
-              {isMapView ? <HomeMap /> : <HomeList />}
-            </HomeContainer>
-        </Container>
-    );
-}
+  return (
+    <Container>
+      <BtnWrapper>
+        <Checkbox
+          type="checkbox"
+          id="toggleBtn"
+          value={toggle}
+          onChange={toggleHandler}
+        />
+        <ButtonLabel htmlFor="toggleBtn" toggle={toggle}>
+          <TextWrapper>
+            <ButtonText>MAP</ButtonText>
+            <VerticalLine />
+            <ButtonText>LIST</ButtonText>
+          </TextWrapper>
+          <ButtonBackground toggle={toggle} />
+        </ButtonLabel>
+      </BtnWrapper>
+      {toggle === "home" ? <HomeMap /> : <HomeList />}
+    </Container>
+  );
+};
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const HomeContainer = styled.div`
   width: 100vw;
   height: 100vh;
+  z-index: 0;
+  position: relative;
 `
 
-const ToggleContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 999;
+const BtnWrapper = styled.div`
+  display: flex;
+  z-index: 1;
+  margin-left: 53vw;
+  margin-top: 15px;
+  position: absolute;
 `;
 
-const HomeToggle = styled.div`
-  width: 250px;
-  height: 70px;
-  border-radius: 20px;
-  cursor: pointer;
+const Checkbox = styled.input`
+  display: none;
+`;
+
+const ButtonLabel = styled.label`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+  width: 210px;
+  height: 60px;
+  border-radius: 1000px;
+  overflow: hidden;
   background-color: #69987F;
+`;
+
+const TextWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const ButtonText = styled.text`
+  display: flex;
+  color: white;
+  letter-spacing: -4px;
+  font-size: 36px;
+  font-family: 'Noto Sans', sans-serif;
+  width: 80px;
+  justify-content: center;
+`;
+
+const VerticalLine = styled.div`
+  width: 3px;
+  height: 40px;
+  background-color: #fff;
+  margin: 0 10px;
+`
+
+const ButtonBackground = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 50%;
+  left: ${({ toggle }) => (toggle === "home" ? "3%" : "54%")};
+  width: 92px;
+  height: 50px;
+  border-radius: 1000px;
+  background-color: white;
+  transition: left 0.3s ease-in-out;
 `;
 
 export default MainToggle;

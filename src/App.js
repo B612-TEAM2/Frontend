@@ -8,7 +8,6 @@ import Public from "./pages/Public/Public";
 import Account from "./pages/Account/Account";
 import LoginPage from "./pages/Login/LoginPage";
 import KakaoRedirection from "./pages/Login/KakaoRedirection";
-import NaverRedirection from "./pages/Login/NaverRedirection";
 import GoogleRedirection from "./pages/Login/GoogleRedirection";
 import SetProfile from "./pages/Login/SetProfile";
 
@@ -24,7 +23,6 @@ function App() {
           <Route path="/account" element={<Account />} />
           <Route path="/login" element={<LoginPage />} />
           <Route exact path="/authkakao" element={<KakaoRedirection />} />
-          <Route exact path="/authnaver" element={<NaverRedirection />} />
           <Route exact path="/authgoogle" element={<GoogleRedirection />} />
           <Route path="/SetProfile" element={<SetProfile />} />
         </Routes>

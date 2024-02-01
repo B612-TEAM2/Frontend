@@ -62,6 +62,8 @@ const Map = () => {
 
   useEffect(() => {
     getLocation();
+    console.log(lat);
+    console.log(lng);
   }, []);
 
   const mapStyles = {
