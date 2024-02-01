@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState, useEffect, useCallback } from "react";
 import {
   GoogleMap,
@@ -96,16 +95,6 @@ const HomeMap = () => {
     </GoogleMap>
   ) : (
     <></>
-=======
-import React from "react";
-import Map from "../Map";
-
-const HomeMap = () => {
-  return (
-    <div>
-        <Map></Map>
-    </div>
->>>>>>> cd1b7c0190bd3c3a5f198fafb76cd7fa8ee633b9
   );
 };
 
