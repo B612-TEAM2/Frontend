@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   GoogleMap,
-  LoadScript,
   MarkerF,
   InfoWindowF,
+  useJsApiLoader,
 } from "@react-google-maps/api";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,28 @@ const Map = () => {
   // const [mapLoaded, setMapLoaded] = useState(false);
   const navigate = useNavigate();
 
+  const [map, setMap] = useState(null);
+  //지도를 불러오는 함수
+  //USEJSAPILOADER : ISLOADED, LOADERROR를 RETURN함
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
+  });
+
+  const onLoad = useCallback((map) => {
+    map.setCenter(defaultCenter);
+    map.setOptions({ disableDefaultUI: true });
+    setMap(map);
+  }, []);
+
+  const onUnmount = useCallback((map) => {
+    setClickedLat(null);
+    setClickedLng(null);
+    setInfoWindowOpen(false);
+    setMap(null);
+  }, []);
+
+  //사용자 현재 위치 받아오는 함수 getLocation
   const getLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -37,16 +59,9 @@ const Map = () => {
       alert("GPS를 지원하지 않습니다. 설정을 확인하세요.");
     }
   };
-  React.useEffect(() => {
+
+  useEffect(() => {
     getLocation();
-    return () => {
-      setClickedLat(null);
-      setClickedLng(null);
-      setInfoWindowOpen(false);
-      console.log(clickedLat);
-      console.log(clickedLng);
-      console.log(infoWindowOpen);
-    };
   }, []);
 
   const mapStyles = {
@@ -73,40 +88,41 @@ const Map = () => {
   };
   const clickedMarkerPosition = { lat: clickedLat, lng: clickedLng };
 
-  return (
-    <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
-      <GoogleMap
-        mapContainerStyle={mapStyles}
-        zoom={16}
-        center={defaultCenter}
-        options={{ disableDefaultUI: true }}
-        onClick={handleMapClick}
-      >
-        {clickedLat !== null && clickedLng !== null && (
-          <MarkerF
-            position={clickedMarkerPosition}
-            onClick={() => setInfoWindowOpen(true)}
-          />
-        )}
-        {infoWindowOpen && (
-          <InfoWindowF
-            position={clickedMarkerPosition}
-            onCloseClick={() => setInfoWindowOpen(false)}
+  return isLoaded ? (
+    <GoogleMap
+      mapContainerStyle={mapStyles}
+      zoom={16}
+      center={defaultCenter}
+      options={{ disableDefaultUI: true }}
+      onClick={handleMapClick}
+      onLoad={onLoad}
+      onUnmount={onUnmount}
+    >
+      {clickedLat !== null && clickedLng !== null && (
+        <MarkerF
+          position={clickedMarkerPosition}
+          onClick={() => setInfoWindowOpen(true)}
+        />
+      )}
+      {infoWindowOpen && (
+        <InfoWindowF
+          position={clickedMarkerPosition}
+          onCloseClick={() => setInfoWindowOpen(false)}
+        >
+          <NewFeedButton
+            onClick={() => {
+              navigate("/writing");
+            }}
           >
-            <NewFeedButton
-              onClick={() => {
-                navigate("/writing");
-              }}
-            >
-              이 위치에서 새 글 쓰기
-            </NewFeedButton>
-          </InfoWindowF>
-        )}
-      </GoogleMap>
-    </LoadScript>
+            이 위치에서 새 글 쓰기
+          </NewFeedButton>
+        </InfoWindowF>
+      )}
+    </GoogleMap>
+  ) : (
+    <></>
   );
 };
-
 export default Map;
 
 const NewFeedButton = styled.div`
