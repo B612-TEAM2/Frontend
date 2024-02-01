@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function SetProfile() {
@@ -6,18 +7,17 @@ function SetProfile() {
   const fileInput = useRef(null);
 
   function onChange(e) {
-    if(e.target.files[0]){
-      setImage(e.target.files[0])
+    if (e.target.files && e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImage(reader.result);
+        }
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    } else {
+      return;
     }
-    const reader = new FileReader();
-    reader.onload = () => {
-      if(reader.readyState === 2){
-        setImage(reader.result)
-      } else {
-        return;
-      }
-    }
-    reader.readAsDataURL(e.target.files[0]);
   }
 
   function handleCompleteButton() {
@@ -30,6 +30,7 @@ function SetProfile() {
 
     const formData = new FormData();
     formData.append("profileImg", fileInput.current.files[0]);
+    formData.append("nickname", nickname);
 
     fetch("/upload", {  // 백엔드 경로로 수정
       method: "POST",
@@ -37,25 +38,34 @@ function SetProfile() {
     })
       .then(response => {
         if(response.ok){
-          console.log("이미지 전송 성공");
+          console.log("이미지 및 닉네임 전송 성공");
+          window.location.href = '/';
         } else {
-          console.log("이미지 전송 실패");
+          console.log("이미지 및 닉네임 전송 실패");
         }
       })
       .catch(error => {
-        console.error("이미지 전송 중 오류 발생:", error);
+        console.error("이미지 및 닉네임 전송 중 오류 발생:", error);
       });
   }
 
-  function validNickname(nickname){
+  function validNickname(nickname) {
     const regex = /^[a-zA-Z0-9]{4,10}$/;
     return regex.test(nickname);
+  }
+
+  function handleImageClick() {
+    if (image !== "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" && window.confirm("이미지를 삭제하겠습니까?")) {
+      setImage("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
+    } else {
+      fileInput.current.click();
+    }
   }
 
   return (
     <Container>
       <ProfileImgSetting>
-        <Avatar src={image} style={{margin: '20px'}} size={200} onClick={()=>{fileInput.current.click()}} />
+        <Avatar src={image} style={{margin: '20px'}} size={200} onClick={handleImageClick} />
         <input type="file" style={{display:'none'}} accept='image/jpg,image/png,image/jpeg' name='profileImg' onChange={onChange} ref={fileInput} />
       </ProfileImgSetting>
       <NicknameSetting>
