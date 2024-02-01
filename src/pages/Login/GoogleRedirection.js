@@ -20,7 +20,7 @@ function GoogleRedirection() {
       localStorage.setItem("refreshToken", REFRESH_TOKEN);
     };
     GoogleLogin();
-    navigate("/SetProfile", {replace: true})
+//    navigate("/SetProfile", {replace: true})
     }, []);
 
   return <div>로그인 중입니다...</div>;

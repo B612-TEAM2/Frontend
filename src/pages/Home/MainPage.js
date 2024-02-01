@@ -1,14 +1,14 @@
 import React from "react";
-import Map from "../../components/Map";
 import SideMenuBar from "../../components/SideMenuBar";
 import NewButton from "../../components/NewButton";
-import MapTemp from "../../components/MapTemp";
+import MainToggle from "../../components/Home/MainToggle";
+
 
 const MainPage = () => {
   return (
     <div>
       <SideMenuBar></SideMenuBar>
-      <Map></Map>
+        <MainToggle />
       <NewButton></NewButton>
     </div>
   );

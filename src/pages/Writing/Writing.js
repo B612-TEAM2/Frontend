@@ -56,7 +56,6 @@ const Writing = () => {
     const convertedHTML = marked(text);
     setHtml(convertedHTML);
   };
-
   return (
     <Container>
       <SideMenuBar />
