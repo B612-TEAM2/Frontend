@@ -3,6 +3,7 @@ import SideMenuBar from "../../components/SideMenuBar";
 import NewButton from "../../components/NewButton";
 import MainToggle from "../../components/Home/MainToggle";
 
+
 const MainPage = () => {
   return (
     <div>
