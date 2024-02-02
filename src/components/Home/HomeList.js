@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { Link as RouterLink } from "react-router-dom";
 
 const HomeList = () => {
   const [posts, setPosts] = useState([]);
@@ -25,11 +26,12 @@ const HomeList = () => {
       <ListContainer>
         <ListWrapper>
           {posts.map((post) => (
-            <PostingWrapper key={post.pid}>
+            <Link to={`/${post.id}`} key={post.id}>
+            <PostingWrapper key={post.id}>
               <Img src={post.image} alt={post.title} />
               <ContentWrapper>
                 <PostTitle>{post.title}</PostTitle>
-                <Content>{post.content}</Content>
+                <Content>{post.contentPreview}</Content>
                 <Line />
                 <ScopeWrapper>
                   <Scope>{post.scope}</Scope>
@@ -37,6 +39,7 @@ const HomeList = () => {
                 </ScopeWrapper>
               </ContentWrapper>
             </PostingWrapper>
+            </Link>
           ))}
         </ListWrapper>
       </ListContainer>
@@ -62,6 +65,11 @@ const ListContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const Link = styled(RouterLink)`
+  text-decoration: none;
+  color: black;
 `;
 
 const ListWrapper = styled.div`
@@ -92,6 +100,7 @@ const ContentWrapper = styled.div`
   margin-left: 1rem;
   font-family: "Noto Sans KR", sans-serif;
   letter-spacing: -0.5px;
+  cursor: pointer;
 `; 
 
 const PostTitle = styled.div`
