@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { marked } from "marked";
-import SideMenuBar from "../../components/SideMenuBar";
+import SideMenuBar from "../../../components/SideMenuBar";
 import Modal from "react-modal";
-import Map from "../../components/writing/Map";
+import Map from "../../../components/Home/Writing/Map";
 
 const Writing = () => {
   const [markdownText, setMarkdownText] = useState("");
