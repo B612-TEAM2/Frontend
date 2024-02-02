@@ -77,7 +77,7 @@ const Writing = () => {
           style={customStyles}
         >
           <ModalWrapper>
-            <h2>모달입니다.</h2>
+            <h2>장소 검색 모달입니다.</h2>
             <Map></Map>
             <button onClick={closeModal}>닫기</button>
           </ModalWrapper>
