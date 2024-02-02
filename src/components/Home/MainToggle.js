@@ -43,8 +43,8 @@ const Container = styled.div`
 const BtnWrapper = styled.div`
   display: flex;
   z-index: 1;
-  margin-left: 53vw;
-  margin-top: 15px;
+  right: 1vw;
+  margin-top: 2vh;
   position: absolute;
 `;
 
