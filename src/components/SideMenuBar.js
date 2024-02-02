@@ -60,7 +60,6 @@ const Wrapper = styled.div`
 
 const Container = styled.div`
   margin-top: 10px;
-  margin-left: 15px;
 `
 
 const TextContainer = styled.div`
@@ -70,7 +69,7 @@ const TextContainer = styled.div`
   }
   height: 70px;
   color: white;
-  padding: 10px;
+  padding: 10px 10px 10px 20px;
   cursor: pointer;
   justify-content: flex-start;
   align-items: center;
