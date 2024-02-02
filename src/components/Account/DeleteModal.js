@@ -1,8 +1,10 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
 import AccountSettingButton from "./AccountSettingButton";
+import { useNavigate } from "react-router-dom";
 
 const DeleteModal = ({ closeModal, ...props }) => {
+  const navigate = useNavigate();
   const modalRef = useRef();
   const imgSrc = `${process.env.PUBLIC_URL}/img/sad.png`;
   const clickOutside = (e) => {
@@ -24,7 +26,12 @@ const DeleteModal = ({ closeModal, ...props }) => {
           }}
           children="핑과 계속 함께하기"
         />
-        <AccountSettingButton children="미련없이 떠나기" />
+        <AccountSettingButton
+          onClick={() => {
+            navigate("/login");
+          }}
+          children="미련없이 떠나기"
+        />
       </ModalWrapper>
     </Layer>
   );

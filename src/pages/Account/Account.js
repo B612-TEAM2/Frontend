@@ -1,13 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import SideMenuBar from "../../components/SideMenuBar";
 import AccountSettingButton from "../../components/Account/AccountSettingButton";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../../components/Account/DeleteModal";
+import Modal from "react-modal";
 
 const Account = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [imgSetModal, setImgSetModal] = useState(false);
+
+  function openImgModal() {
+    setImgSetModal(true);
+  }
+
+  function closeImgModal() {
+    setImgSetModal(false);
+  }
+
+  useEffect(() => {
+    Modal.setAppElement("#root");
+  }, []);
+
+  const customStyles = {
+    //overlay: 모달 창 바깥 부분
+    //content : 모달 창부분
+    overlay: {
+      backgroundColor: " rgba(0, 0, 0, 0.4)",
+      width: "100%",
+      height: "100vh",
+      zIndex: "10",
+      position: "fixed",
+      top: "0",
+      left: "0",
+    },
+    content: {
+      width: "900px",
+      height: "600px",
+      zIndex: "150",
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      borderRadius: "10px",
+      boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
+      backgroundColor: "#95ada4",
+      justifyContent: "center",
+      border: "none",
+    },
+  };
+
   const onClickDelete = () => {
     setIsModalOpen(true);
   };
@@ -21,12 +64,15 @@ const Account = () => {
       <Wrapper>
         <ProfileImg></ProfileImg>
         <Greeting>000님, 안녕하세요. </Greeting>
-        <AccountSettingButton
-          onClick={() => {
-            navigate("/");
-          }}
-          children="개인정보변경"
-        />
+        <AccountSettingButton onClick={openImgModal} children="개인정보변경" />
+        <Modal
+          isOpen={imgSetModal}
+          onRequestClose={closeImgModal}
+          style={customStyles}
+        >
+          <div>프로필 이미지 변경 모달입니다</div>
+          <button onClick={closeImgModal}>닫기</button>
+        </Modal>
         <AccountSettingButton
           onClick={() => {
             navigate("/login");
