@@ -1,44 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 const HomeList = () => {
-  const posts = [
-    {
-      id: 1,
-      image: "image-url-1",
-      title: "Sample Post 1",
-      detail: "This is a sample post 1",
-      status: "Published",
-      date: "2022-01-01",
-    },
-    {
-      id: 2,
-      image: "image-url-2",
-      title: "Sample Post 2",
-      detail: "This is a sample post 2",
-      status: "Draft",
-      date: "2022-01-02",
-    },
-    // Add more sample posts as needed
-  ];
+  const [posts, setPosts] = useState([]);
+
+  const getUserPosts = async (uId) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/posts/home/list?userId=${uId}`);
+      console.log(response);
+      setPosts(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getUserPosts('uId');
+  }, []);
 
   return (
     <Container>
       <TitleText>내가 쓴 글</TitleText>
-      <ListWrapper>
-        {posts.map((post) => (
-          <PostingWrapper key={post.id}>
-            <Img src={post.image} alt={post.title} />
-            <DetailWrapper>
-              <PostTitle>{post.title}</PostTitle>
-              <Detail>{post.detail}</Detail>
-              <br />
-              <Status>{post.status}</Status>
-              <Date>{post.date}</Date>
-            </DetailWrapper>
-          </PostingWrapper>
-        ))}
-      </ListWrapper>
+      <ListContainer>
+        <ListWrapper>
+          {posts.map((post) => (
+            <PostingWrapper key={post.pid}>
+              <Img src={post.image} alt={post.title} />
+              <ContentWrapper>
+                <PostTitle>{post.title}</PostTitle>
+                <Content>{post.content}</Content>
+                <Line />
+                <ScopeWrapper>
+                  <Scope>{post.scope}</Scope>
+                  <Date>{post.createdDate}</Date>
+                </ScopeWrapper>
+              </ContentWrapper>
+            </PostingWrapper>
+          ))}
+        </ListWrapper>
+      </ListContainer>
     </Container>
   );
 };
@@ -51,59 +52,81 @@ const Container = styled.div`
 const TitleText = styled.div`
   font-size: 2rem;
   font-weight: 400;
-  margin-left: 2rem;
-  padding-top: 2rem;
+  padding-top: 2.5rem;
+  margin-left: 4rem;
+`;
+
+const ListContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ListWrapper = styled.div`
-  width: 100%;
+  width: 70%;
   height: 100%;
-  margin-top: 2rem;
+  margin-top: 3rem;
 `;
 
 const PostingWrapper = styled.div`
-  width: 100%;
   height: 10rem;
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #7A7A7A;
+  padding: 1.5rem;
 `;
 
 const Img = styled.img`
   width: 10rem;
   height: 10rem;
-  border-radius: 1rem;
-  margin-left: 2rem;
+  object-fit: cover;
 `;
 
-const DetailWrapper = styled.div`
+const ContentWrapper = styled.div`
   width: 100%;
   height: 100%;
   margin-left: 1rem;
+  font-family: "Noto Sans KR", sans-serif;
+  letter-spacing: -0.5px;
 `; 
 
 const PostTitle = styled.div`
   font-size: 1.2rem;
-  font-weight: bold;
 `;
 
-const Detail = styled.div`
+const Content = styled.div`
   font-size: 1rem;
-  font-weight: bold;
-  margin-top: 0.5rem;
+  margin-top: 0.2rem;
+  color: #6F6F6F;
+  height: 6rem;
 `;
 
-const Status = styled.div`
-  font-size: 1rem;
-  font-weight: bold;
+const Line = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: #7A7A7A;
   margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+`;
+
+const ScopeWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const Scope = styled.div`
+  font-size: 1rem;
+  color: #6F6F6F;
 `;
 
 const Date = styled.div`
   font-size: 1rem;
-  font-weight: bold;
-  margin-top: 0.5rem;
+  color: #6F6F6F;
 `;
 
 

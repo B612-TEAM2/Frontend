@@ -32,7 +32,7 @@ function SetProfile() {
     formData.append("profileImg", fileInput.current.files[0]);
     formData.append("nickname", nickname);
 
-    fetch("/upload", {  // 백엔드 경로로 수정
+    fetch(`${process.env.REACT_APP_SETPROFILE_URL}`, {  // 백엔드 경로로 수정
       method: "POST",
       body: formData,
     })
