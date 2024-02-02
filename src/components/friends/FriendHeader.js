@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import FriendBubble from "./FriendBubble";
 import Modal from "react-modal";
-import FriednSearch from "../../components/friends/FriendSearch";
+import FriendSearch from "../../components/friends/FriendSearch";
 
 const FriendHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,7 +57,7 @@ const FriendHeader = () => {
           onRequestClose={closeModal}
           style={customStyles}
         >
-          <FriednSearch></FriednSearch>
+          <FriendSearch></FriendSearch>
         </Modal>
       </Container>
     </>
