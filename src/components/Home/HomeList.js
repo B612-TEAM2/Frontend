@@ -19,7 +19,6 @@ const HomeList = () => {
       status: "Draft",
       date: "2022-01-02",
     },
-    // Add more sample posts as needed
   ];
 
   return (
@@ -46,28 +45,33 @@ const HomeList = () => {
 const Container = styled.div`
   margin-left: 275px;
   width: calc(100% - 275px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const TitleText = styled.div`
   font-size: 2rem;
   font-weight: 400;
-  margin-left: 2rem;
   padding-top: 2rem;
+  margin-right: 20vw;
 `;
 
 const ListWrapper = styled.div`
-  width: 100%;
+  width: 80%;
   height: 100%;
   margin-top: 2rem;
 `;
 
 const PostingWrapper = styled.div`
-  width: 100%;
   height: 10rem;
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-bottom: 1rem;
+  border: 1px solid black;
+  padding: 2rem;
 `;
 
 const Img = styled.img`
