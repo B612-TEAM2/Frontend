@@ -39,8 +39,8 @@ function SetProfile() {
       method: "POST",
       body: formData,
       headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+        'Authorization': `Bearer ${accessToken}`,
+      }
     })
       .then((response) => {
         if (response.ok) {

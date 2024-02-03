@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { marked } from "marked";
 import SideMenuBar from "../../../components/SideMenuBar";
 import Modal from "react-modal";
 import Map from "../../../components/Home/Writing/Map";
+import MenuBar from "../../../components/Home/Writing/MenuBar";
 
 const Writing = () => {
   const [markdownText, setMarkdownText] = useState("");
   const [html, setHtml] = useState("");
   const currentDate = new Date().toLocaleDateString();
+  const textareaRef = useRef();
+  const [title, setTitle] = useState("");
 
   const [modalIsOpen, setIsOpen] = useState(false);
   const customStyles = {
@@ -38,14 +41,8 @@ const Writing = () => {
       border: "none",
     },
   };
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
+  function openModal() { setIsOpen(true); }
+  function closeModal() { setIsOpen(false); }
   useEffect(() => {
     Modal.setAppElement("#root");
   }, []);
@@ -56,32 +53,64 @@ const Writing = () => {
     const convertedHTML = marked(text);
     setHtml(convertedHTML);
   };
+
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
+
+  const handleSubmit = async () => {
+    const date = new Date().toISOString().split('T')[0];
+  
+    try {
+      const response = await fetch('http://localhost:8080/postinfo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ title: title, content: markdownText, createdDate: date })
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      console.log('작성 성공:', data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
     <Container>
       <SideMenuBar />
       <WritingArea>
         <WritingTitle>글쓰기</WritingTitle>
-        <DateText>{currentDate}</DateText>
-        <TitleText placeholder="제목을 입력해 주세요" />
-        <TextArea
-          value={markdownText}
-          onChange={handleInputChange}
-          placeholder="내용을 입력해 주세요"
-        />
-        <Preview dangerouslySetInnerHTML={{ __html: html }} />
-        <Button onClick={openModal}>위치 설정</Button>
-        <Button>작성 완료</Button>
-        <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          style={customStyles}
-        >
-          <ModalWrapper>
-            <h2>장소 검색 모달입니다.</h2>
-            <Map></Map>
-            <button onClick={closeModal}>닫기</button>
-          </ModalWrapper>
-        </Modal>
+        <WritingWrapper>
+          <DateText>{currentDate}</DateText>
+          <TitleText value={title} onChange={handleTitleChange} placeholder="제목을 입력해 주세요" />
+          <MenuBar markdownText={markdownText} setMarkdownText={setMarkdownText} textareaRef={textareaRef} />
+          <TextArea
+            ref={textareaRef}
+            value={markdownText}
+            onChange={handleInputChange}
+            placeholder="내용을 입력해 주세요"
+          />
+          <Preview dangerouslySetInnerHTML={{ __html: html }} />
+          <Button onClick={openModal}>위치 설정</Button>
+          <Button onClick={handleSubmit}>작성 완료</Button>
+          <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            style={customStyles}
+          >
+            <ModalWrapper>
+              <h2>장소 검색 모달입니다.</h2>
+              <Map></Map>
+              <button onClick={closeModal}>닫기</button>
+            </ModalWrapper>
+          </Modal>
+        </WritingWrapper>
       </WritingArea>
     </Container>
   );
@@ -89,18 +118,25 @@ const Writing = () => {
 
 const Container = styled.div`
   display: flex;
-  gap: 1rem;
-  padding: 1rem;
-  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
 `;
 
 const WritingArea = styled.div`
-  width: 50vw;
+  width: calc(100vw - 275px);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 1rem;
-  margin-left: 400px;
+  align-items: center;
+  margin-left: 275px;
+  margin-top: 10vh;
+`;
+
+const WritingWrapper = styled.div`
+  width: 65%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const WritingTitle = styled.h1`

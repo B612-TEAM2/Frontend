@@ -6,9 +6,14 @@ import { Link as RouterLink } from "react-router-dom";
 const HomeList = () => {
   const [posts, setPosts] = useState([]);
 
-  const getUserPosts = async (uId) => {
+  const getUserPosts = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/posts/home/list?userId=${uId}`);
+      const token = localStorage.getItem('accessToken');
+      const response = await axios.get(`http://localhost:8080/posts/home/list`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(response);
       setPosts(response.data);
     } catch (error) {
@@ -17,7 +22,7 @@ const HomeList = () => {
   };
 
   useEffect(() => {
-    getUserPosts('uId');
+    getUserPosts();
   }, []);
 
   return (
