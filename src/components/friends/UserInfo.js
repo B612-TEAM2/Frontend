@@ -1,12 +1,41 @@
 import React from "react";
 import styled from "styled-components";
+import axios from "axios";
 
-const UserInfo = () => {
+const UserInfo = (props) => {
+  const handleDeleteFriend = async () => {
+    try {
+      const response = await axios.delete("http://localhost:8080/friends", {
+        data: { nickname: props.UserName },
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error("친구 삭제 중 오류 발생:", error);
+    }
+  };
+
+  const handleAddFriend = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080//friends/search",
+        {
+          data: { nickname: props.UserName },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("친구 삭제 중 오류 발생:", error);
+    }
+  };
   return (
     <Container>
-      <UserImg></UserImg>
-      <UserName>nickname</UserName>
-      <AddFriendButton>+</AddFriendButton>
+      <UserImg src={props.imgSrc}></UserImg>
+      <UserName>{props.UserName}</UserName>
+      {props.isFriend ? (
+        <DeleteFriendButton onClick={handleDeleteFriend}>X</DeleteFriendButton>
+      ) : (
+        <AddFriendButton onClick={handleAddFriend}>+</AddFriendButton>
+      )}
     </Container>
   );
 };
@@ -50,4 +79,14 @@ const AddFriendButton = styled.div`
   font-size: 30px;
 `;
 
-const DeleteFriendButton = styled.div``;
+const DeleteFriendButton = styled.div`
+  width: 30px;
+  height: 30px;
+  background-color: #69987f;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  color: white;
+`;
