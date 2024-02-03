@@ -12,7 +12,8 @@ const Account = () => {
   const [imgSetModal, setImgSetModal] = useState(false);
   const [image, setImage] = useState(
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-  ); //백에서 해당 유저 id의 profileImg요청
+  ); //백에서 해당 유저 id의 profileImg요청(바꾸기전의 이미지로) -> profileimg component src로 사용.
+  // 이미지 변경으로 image 값 바뀌면 rerender
   const fileInput = useRef(null);
 
   function onChange(e) {
@@ -31,12 +32,15 @@ const Account = () => {
 
   function handleCompleteButton() {
     const formData = new FormData();
+    const accessToken = localStorage.getItem("accessToken");
     formData.append("profileImg", fileInput.current.files[0]);
 
     fetch(`${process.env.REACT_APP_SETPROFILE_URL}`, {
-      // 백엔드 경로로 수정
       method: "POST",
       body: formData,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     })
       .then((response) => {
         if (response.ok) {
@@ -226,7 +230,7 @@ const CompleteButton = styled.button`
   height: 40px;
   background-color: white;
   font-size: 15px;
-  border: none;
+  border: 1px solid gray;
   border-radius: 10px;
   cursor: pointer;
 `;

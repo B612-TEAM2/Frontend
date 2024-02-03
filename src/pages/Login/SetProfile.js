@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function SetProfile() {
-  const [image, setImage] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
+  const [image, setImage] = useState(
+    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+  );
   const fileInput = useRef(null);
 
   function onChange(e) {
@@ -23,13 +25,13 @@ function SetProfile() {
   function handleCompleteButton() {
     const nickname = document.getElementById("nickname").value;
 
-    if(!validNickname(nickname)) {
+    if (!validNickname(nickname)) {
       alert("닉네임은 영문자와 숫자로 이루어진 4~10자여야 합니다.");
       return;
     }
 
     const formData = new FormData();
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = localStorage.getItem("accessToken");
     formData.append("profileImg", fileInput.current.files[0]);
     formData.append("nickname", nickname);
 
@@ -40,15 +42,15 @@ function SetProfile() {
         'Authorization': `Bearer ${accessToken}`,
       }
     })
-      .then(response => {
-        if(response.ok){
+      .then((response) => {
+        if (response.ok) {
           console.log("이미지 및 닉네임 전송 성공");
-          window.location.href = '/';
+          window.location.href = "/";
         } else {
           console.log("이미지 및 닉네임 전송 실패");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("이미지 및 닉네임 전송 중 오류 발생:", error);
       });
   }
@@ -59,8 +61,14 @@ function SetProfile() {
   }
 
   function handleImageClick() {
-    if (image !== "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" && window.confirm("이미지를 삭제하겠습니까?")) {
-      setImage("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
+    if (
+      image !==
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" &&
+      window.confirm("이미지를 삭제하겠습니까?")
+    ) {
+      setImage(
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+      );
     } else {
       fileInput.current.click();
     }
@@ -69,16 +77,28 @@ function SetProfile() {
   return (
     <Container>
       <ProfileImgSetting>
-        <Avatar src={image} style={{margin: '20px'}} size={200} onClick={handleImageClick} />
-        <input type="file" style={{display:'none'}} accept='image/jpg,image/png,image/jpeg' name='profileImg' onChange={onChange} ref={fileInput} />
+        <Avatar
+          src={image}
+          style={{ margin: "20px" }}
+          size={200}
+          onClick={handleImageClick}
+        />
+        <input
+          type="file"
+          style={{ display: "none" }}
+          accept="image/jpg,image/png,image/jpeg"
+          name="profileImg"
+          onChange={onChange}
+          ref={fileInput}
+        />
       </ProfileImgSetting>
       <NicknameSetting>
         <NicknameInput id="nickname" placeholder="닉네임을 입력해 주세요" />
         <Button onClick={handleCompleteButton}>완료</Button>
       </NicknameSetting>
     </Container>
-  )
-  }
+  );
+}
 
 const Container = styled.div`
   display: flex;
@@ -87,8 +107,8 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: #95ADA4;
-`
+  background-color: #95ada4;
+`;
 
 const ProfileImgSetting = styled.div`
   display: flex;
@@ -96,14 +116,14 @@ const ProfileImgSetting = styled.div`
   height: 20vh;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const Avatar = styled.img`
-  width: ${({size}) => size}px;
+  width: ${({ size }) => size}px;
   height: ${({ size }) => size}px;
   border-radius: 50%;
   cursor: pointer;
-`
+`;
 
 const NicknameSetting = styled.div`
   display: flex;
@@ -111,12 +131,12 @@ const NicknameSetting = styled.div`
   height: 10vh;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const NicknameInput = styled.input`
   width: 200px;
   height: 40px;
-  color: #D9D9D9;
+  color: #d9d9d9;
   border-radius: 10px;
   border: 0px;
   text-align: center;
@@ -124,19 +144,17 @@ const NicknameInput = styled.input`
   ::placeholder {
     color: #868686;
   }
-`
+`;
 
 const Button = styled.button`
   width: 60px;
   height: 40px;
-  color: #FFF;
+  color: #fff;
   border-radius: 10px;
   border: 0px;
   text-align: center;
   color: black;
   margin-left: 10px;
-`
-
-
+`;
 
 export default SetProfile;
