@@ -17,12 +17,12 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<LoginPage />} />
           <Route path="/writing" element={<Writing />} />
           <Route path="/friends" element={<Friends />} />
           <Route path="/public" element={<Public />} />
           <Route path="/account" element={<Account />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/home" element={<MainPage />} />
           <Route exact path="/authkakao" element={<KakaoRedirection />} />
           <Route exact path="/authgoogle" element={<GoogleRedirection />} />
           <Route path="/SetProfile" element={<SetProfile />} />

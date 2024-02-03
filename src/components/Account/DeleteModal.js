@@ -28,7 +28,7 @@ const DeleteModal = ({ closeModal, ...props }) => {
         />
         <AccountSettingButton
           onClick={() => {
-            navigate("/login");
+            navigate("/");
           }}
           children="미련없이 떠나기"
         />
