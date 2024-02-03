@@ -226,7 +226,7 @@ const CompleteButton = styled.button`
   height: 40px;
   background-color: white;
   font-size: 15px;
-  border: none;
+  border: 1px solid gray;
   border-radius: 10px;
   cursor: pointer;
 `;
