@@ -21,7 +21,7 @@ function SetProfile() {
   }
 
   function handleCompleteButton() {
-    const nickname = document.getElementById("nickname").ariaValueMax;
+    const nickname = document.getElementById("nickname").value;
 
     if(!validNickname(nickname)) {
       alert("닉네임은 영문자와 숫자로 이루어진 4~10자여야 합니다.");
@@ -29,12 +29,15 @@ function SetProfile() {
     }
 
     const formData = new FormData();
+    const accessToken = localStorage.getItem('accessToken');
     formData.append("profileImg", fileInput.current.files[0]);
     formData.append("nickname", nickname);
 
-    fetch(`${process.env.REACT_APP_SETPROFILE_URL}`, {  // 백엔드 경로로 수정
+    fetch(`${process.env.REACT_APP_SETPROFILE_URL}`, {
       method: "POST",
       body: formData,
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
     })
       .then(response => {
         if(response.ok){
