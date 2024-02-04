@@ -41,8 +41,12 @@ const Writing = () => {
       border: "none",
     },
   };
-  function openModal() { setIsOpen(true); }
-  function closeModal() { setIsOpen(false); }
+  function openModal() {
+    setIsOpen(true);
+  }
+  function closeModal() {
+    setIsOpen(false);
+  }
   useEffect(() => {
     Modal.setAppElement("#root");
   }, []);
@@ -59,25 +63,31 @@ const Writing = () => {
   };
 
   const handleSubmit = async () => {
-    const date = new Date().toISOString().split('T')[0];
-  
+    const date = new Date().toISOString().split("T")[0];
+
     try {
-      const response = await fetch('http://localhost:8080/postinfo', {
-        method: 'POST',
+      const token = localStorage.getItem("accessToken");
+      const response = await fetch("http://localhost:8080/postInfo", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title: title, content: markdownText, createdDate: date })
+        body: JSON.stringify({
+          title: title,
+          content: markdownText,
+          createdDate: date,
+        }),
       });
-  
+
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
-  
+
       const data = await response.json();
-      console.log('작성 성공:', data);
+      console.log("작성 성공:", data);
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
@@ -88,8 +98,16 @@ const Writing = () => {
         <WritingTitle>글쓰기</WritingTitle>
         <WritingWrapper>
           <DateText>{currentDate}</DateText>
-          <TitleText value={title} onChange={handleTitleChange} placeholder="제목을 입력해 주세요" />
-          <MenuBar markdownText={markdownText} setMarkdownText={setMarkdownText} textareaRef={textareaRef} />
+          <TitleText
+            value={title}
+            onChange={handleTitleChange}
+            placeholder="제목을 입력해 주세요"
+          />
+          <MenuBar
+            markdownText={markdownText}
+            setMarkdownText={setMarkdownText}
+            textareaRef={textareaRef}
+          />
           <TextArea
             ref={textareaRef}
             value={markdownText}
@@ -105,9 +123,9 @@ const Writing = () => {
             style={customStyles}
           >
             <ModalWrapper>
-              <h2>장소 검색 모달입니다.</h2>
-              <Map></Map>
-              <button onClick={closeModal}>닫기</button>
+              <h3>장소 검색</h3>
+              <Map closeModal={closeModal}></Map>
+              <CloseButton onClick={closeModal}>닫기</CloseButton>
             </ModalWrapper>
           </Modal>
         </WritingWrapper>
@@ -184,6 +202,19 @@ const ModalWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+const CloseButton = styled.button`
+  width: 70px;
+  height: 30px;
+  background-color: black;
+  color: white;
+  font-size: 12px;
+  border: none;
+  border-radius: 10px;
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+  cursor: pointer;
 `;
 
 export default Writing;
