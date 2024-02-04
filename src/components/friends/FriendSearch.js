@@ -16,16 +16,15 @@ const FriendSearch = () => {
 
   const searchFriends = async () => {
     try {
-      setIsSearching(true);
-      console.log(isSearching);
-      const response = await axios.get(
-        "http://localhost:8080/friends/search/",
-        {
-          params: {
-            nickname: input,
-          },
-        }
-      );
+      const token = localStorage.getItem("accessToken");
+      const response = await axios.get(`http://localhost:8080/friends/search`, {
+        params: {
+          nickname: input,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(response.data);
       setSearchedUser(response.data);
     } catch (error) {
@@ -58,6 +57,7 @@ const FriendSearch = () => {
           userName={searchedUser.nickname}
           imgSrc={searchedUser.profileImg}
           id={searchedUser.id}
+          isFriend={searchedUser.isFriend}
         ></UserInfo>
       ) : (
         <InfoText>해당 닉네임이 존재하지 않습니다😓</InfoText>

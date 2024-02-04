@@ -29,8 +29,11 @@ const UserInfo = (props) => {
   };
   return (
     <Container>
-      <UserImg src={props.imgSrc}></UserImg>
-      <UserName>{props.UserName}</UserName>
+      <UserImg
+        src={`data:image/jpeg;base64,${props.imgSrc}`}
+        alt="Profile Image"
+      ></UserImg>
+      <UserName>{props.userName}</UserName>
       {props.isFriend ? (
         <DeleteFriendButton onClick={handleDeleteFriend}>X</DeleteFriendButton>
       ) : (
