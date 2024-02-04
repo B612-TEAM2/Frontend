@@ -45,7 +45,7 @@ function SetProfile() {
       .then((response) => {
         if (response.ok) {
           console.log("이미지 및 닉네임 전송 성공");
-          window.location.href = "/";
+          window.location.href = "/home";
         } else {
           console.log("이미지 및 닉네임 전송 실패");
         }

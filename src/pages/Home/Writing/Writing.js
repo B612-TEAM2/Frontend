@@ -60,20 +60,22 @@ const Writing = () => {
 
   const handleSubmit = async () => {
     const date = new Date().toISOString().split('T')[0];
-  
+
     try {
-      const response = await fetch('http://localhost:8080/postinfo', {
+      const token = localStorage.getItem('accessToken');
+      const response = await fetch('http://localhost:8080/posts/home/store', {
         method: 'POST',
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ title: title, content: markdownText, createdDate: date })
       });
-  
+
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-  
+
       const data = await response.json();
       console.log('작성 성공:', data);
     } catch (error) {
