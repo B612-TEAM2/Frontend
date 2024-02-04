@@ -6,20 +6,20 @@ import {
   useJsApiLoader,
 } from "@react-google-maps/api";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 
-const Map = () => {
+const Map = ({ closeModal }) => {
   const [lat, setLat] = React.useState(0);
   const [lng, setLng] = React.useState(0);
   const [clickedLat, setClickedLat] = React.useState(null);
   const [clickedLng, setClickedLng] = React.useState(null);
   const [infoWindowOpen, setInfoWindowOpen] = React.useState(false);
-  // const [mapLoaded, setMapLoaded] = useState(false);
-  const navigate = useNavigate();
 
+  let defaultCenter = {
+    lat: lat,
+    lng: lng,
+  }; //구글 맵 초기화시 사용자의 현위치
   const [map, setMap] = useState(null);
-  //지도를 불러오는 함수
-  //USEJSAPILOADER : ISLOADED, LOADERROR를 RETURN함
+
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
@@ -29,6 +29,8 @@ const Map = () => {
     map.setCenter(defaultCenter);
     map.setOptions({ disableDefaultUI: true });
     setMap(map);
+    console.log("사용자 현재 위치 : ", lat, lng);
+    console.log("default center:", lat, lng);
   }, []);
 
   const onUnmount = useCallback((map) => {
@@ -45,6 +47,7 @@ const Map = () => {
         (position) => {
           setLat(position.coords.latitude);
           setLng(position.coords.longitude);
+          console.log("getLocation 함수에서 latlng", lat, lng);
         },
         (error) => {
           console.error(error);
@@ -67,28 +70,18 @@ const Map = () => {
   }, []);
 
   const mapStyles = {
-    height: "550px",
+    height: "500px",
     width: "780px",
   };
-
-  // const myStyles = [
-  //   {
-  //     featureType: "poi",
-  //     elementType: "labels",
-  //     stylers: [{ visibility: "off" }],
-  //   },
-  // ];
-
-  const defaultCenter = {
-    lat: lat,
-    lng: lng,
-  }; //구글 맵 초기화
 
   const handleMapClick = (e) => {
     setClickedLat(e.latLng.lat());
     setClickedLng(e.latLng.lng());
   };
-  const clickedMarkerPosition = { lat: clickedLat, lng: clickedLng };
+  let clickedMarkerPosition = { lat: clickedLat, lng: clickedLng };
+
+  // useEffect(() => {
+  // }, [clickedMarkerPosition]);
 
   return isLoaded ? (
     <GoogleMap
@@ -113,7 +106,7 @@ const Map = () => {
         >
           <NewFeedButton
             onClick={() => {
-              navigate("/writing");
+              closeModal();
             }}
           >
             이 위치에서 새 글 쓰기
