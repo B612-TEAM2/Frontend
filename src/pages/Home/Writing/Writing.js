@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { marked } from "marked";
 import SideMenuBar from "../../../components/SideMenuBar";
 import Modal from "react-modal";
 import Map from "../../../components/Home/Writing/Map";
 import EditorComponent from "../../../components/Home/Writing/EditorComponent";
+import { useNavigate } from "react-router-dom";
 
 const Writing = () => {
-  const [markdownText, setMarkdownText] = useState("");
-  const [html, setHtml] = useState("");
   const [title, setTitle] = useState("");
+  const navigate = useNavigate();
 
   const now = new Date();
   const year = now.getFullYear();
@@ -68,6 +67,7 @@ const Writing = () => {
   };
 
   const handleSubmit = async () => {  
+    try {
       const token = localStorage.getItem("accessToken");
       const response = await fetch("http://localhost:8080/postInfo", {
         method: "POST",
@@ -75,14 +75,15 @@ const Writing = () => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title: title, content: content, createdDate: date });
-
+        body: JSON.stringify({ title: title, content: content, createdDate: date })
+      });
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
 
       const data = await response.json();
       console.log("작성 성공:", data);
+      navigate(-1);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -155,10 +156,11 @@ const TitleText = styled.input`
 `;
 
 const ButtonWrapper = styled.div`
-  width: 60%;
+  width: 40%;
   display: flex;
   justify-content: space-between;
-  margin-top: 4.2rem;
+  flex-direction: row;
+  margin-top: 3rem;
 `;
 
 const Button = styled.button`
