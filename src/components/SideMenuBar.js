@@ -8,38 +8,38 @@ const SideMenuBar = () => {
   return (
     <Wrapper>
       <Container>
-      <TextContainer
-        onClick={() => {
-          navigate("/");
-        }}
-      >
-        <Icon src={`${process.env.PUBLIC_URL}/img/home.svg`} />
-        <Text>Home</Text>
-      </TextContainer>
-      <TextContainer
-        onClick={() => {
-          navigate("/friends");
-        }}
-      >
-        <Icon src={`${process.env.PUBLIC_URL}/img/friends.svg`} />
-        <Text>Friends</Text>
-      </TextContainer>
-      <TextContainer
-        onClick={() => {
-          navigate("/public");
-        }}
-      >
-        <Icon src={`${process.env.PUBLIC_URL}/img/public.svg`} />
-        <Text>Public</Text>
-      </TextContainer>
-      <TextContainer
-        onClick={() => {
-          navigate("/account");
-        }}
-      >
-        <Icon src={`${process.env.PUBLIC_URL}/img/account.svg`} />
-        <Text>Account</Text>
-      </TextContainer>
+        <TextContainer
+          onClick={() => {
+            navigate("/home");
+          }}
+        >
+          <Icon src={`${process.env.PUBLIC_URL}/img/home.svg`} />
+          <Text>Home</Text>
+        </TextContainer>
+        <TextContainer
+          onClick={() => {
+            navigate("/friends");
+          }}
+        >
+          <Icon src={`${process.env.PUBLIC_URL}/img/friends.svg`} />
+          <Text>Friends</Text>
+        </TextContainer>
+        <TextContainer
+          onClick={() => {
+            navigate("/public");
+          }}
+        >
+          <Icon src={`${process.env.PUBLIC_URL}/img/public.svg`} />
+          <Text>Public</Text>
+        </TextContainer>
+        <TextContainer
+          onClick={() => {
+            navigate("/account");
+          }}
+        >
+          <Icon src={`${process.env.PUBLIC_URL}/img/account.svg`} />
+          <Text>Account</Text>
+        </TextContainer>
       </Container>
       <Logo src={`${process.env.PUBLIC_URL}/img/PINg.svg`} />
     </Wrapper>
@@ -60,7 +60,7 @@ const Wrapper = styled.div`
 
 const Container = styled.div`
   margin-top: 10px;
-`
+`;
 
 const TextContainer = styled.div`
   display: flex;
@@ -76,7 +76,7 @@ const TextContainer = styled.div`
 `;
 
 const Text = styled.div`
-  font-family: 'Nerko One';
+  font-family: "Nerko One";
   font-size: 2.5rem;
   margin-top: 3px;
   margin-left: 13px;

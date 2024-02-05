@@ -5,15 +5,39 @@ import AccountSettingButton from "../../components/Account/AccountSettingButton"
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../../components/Account/DeleteModal";
 import Modal from "react-modal";
+import axios from "axios";
 
 const Account = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imgSetModal, setImgSetModal] = useState(false);
-  const [image, setImage] = useState(
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-  ); //백에서 해당 유저 id의 profileImg요청
+  const [image, setImage] = useState();
   const fileInput = useRef(null);
+  const [userData, setUserData] = useState(null);
+  const [imgSrc, setImgSrc] = useState("");
+  const [nickname, setNickname] = useState("");
+  //페이지 마운트시 유저 정보 get
+  useEffect(() => {
+    const fetchData = async () => {
+      const apiUrl = `http://localhost:8080/account`;
+      const accessToken = localStorage.getItem("accessToken");
+
+      try {
+        const response = await axios.get(apiUrl, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        console.log("백엔드에서 받은 데이터:", response.data);
+        setUserData(response.data);
+        setImgSrc(response.data.profileImg);
+        setNickname(response.data.nickname);
+      } catch (error) {
+        console.error("에러 발생:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   function onChange(e) {
     if (e.target.files && e.target.files[0]) {
@@ -31,12 +55,15 @@ const Account = () => {
 
   function handleCompleteButton() {
     const formData = new FormData();
+    const accessToken = localStorage.getItem("accessToken");
     formData.append("profileImg", fileInput.current.files[0]);
 
     fetch(`${process.env.REACT_APP_SETPROFILE_URL}`, {
-      // 백엔드 경로로 수정
       method: "POST",
       body: formData,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     })
       .then((response) => {
         if (response.ok) {
@@ -117,8 +144,19 @@ const Account = () => {
     <>
       <SideMenuBar />
       <Wrapper>
-        <ProfileImg></ProfileImg>
-        <Greeting>000님, 안녕하세요. </Greeting>
+        {imgSrc ? (
+          <ProfileImg
+            src={`data:image/jpeg;base64,${imgSrc}`}
+            alt="Profile Image"
+          ></ProfileImg>
+        ) : (
+          <ProfileImg></ProfileImg>
+        )}
+        {nickname ? (
+          <Greeting>{nickname}님, 안녕하세요. </Greeting>
+        ) : (
+          <Greeting>000님, 안녕하세요.</Greeting>
+        )}
         <AccountSettingButton onClick={openImgModal} children="개인정보변경" />
         <Modal
           isOpen={imgSetModal}
@@ -226,7 +264,7 @@ const CompleteButton = styled.button`
   height: 40px;
   background-color: white;
   font-size: 15px;
-  border: none;
+  border: 1px solid gray;
   border-radius: 10px;
   cursor: pointer;
 `;

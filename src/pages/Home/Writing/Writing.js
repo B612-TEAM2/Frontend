@@ -48,8 +48,12 @@ const Writing = () => {
       border: "none",
     },
   };
-  function openModal() { setIsOpen(true); }
-  function closeModal() { setIsOpen(false); }
+  function openModal() {
+    setIsOpen(true);
+  }
+  function closeModal() {
+    setIsOpen(false);
+  }
   useEffect(() => {
     Modal.setAppElement("#root");
   }, []);
@@ -64,23 +68,23 @@ const Writing = () => {
   };
 
   const handleSubmit = async () => {  
-    try {
-      const response = await fetch('http://localhost:8080/postInfo', {
-        method: 'POST',
+      const token = localStorage.getItem("accessToken");
+      const response = await fetch("http://localhost:8080/postInfo", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title: title, content: content, createdDate: date })
-      });
-  
+        body: JSON.stringify({ title: title, content: content, createdDate: date });
+
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
-  
+
       const data = await response.json();
-      console.log('작성 성공:', data);
+      console.log("작성 성공:", data);
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
@@ -172,6 +176,19 @@ const ModalWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+const CloseButton = styled.button`
+  width: 70px;
+  height: 30px;
+  background-color: black;
+  color: white;
+  font-size: 12px;
+  border: none;
+  border-radius: 10px;
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+  cursor: pointer;
 `;
 
 export default Writing;
