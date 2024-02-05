@@ -5,23 +5,24 @@ import {
   InfoWindowF,
   useJsApiLoader,
 } from "@react-google-maps/api";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import MarekrPreview from "./MarkerPreview";
+import { useRecoilState } from "recoil";
+import { clickedId, previewOpen } from "../../atom";
 
 const HomeMap = () => {
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
-  const navigate = useNavigate();
   const [markers, setMarkers] = useState([]);
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [clickedId, setClickedId] = useState("");
+
   const [map, setMap] = useState(null);
 
+  const [previewState, setPreviewState] = useRecoilState(previewOpen);
+  const [markerId, setMarkerId] = useRecoilState(clickedId);
+
   const handleMarkerClick = (id) => {
-    setPreviewOpen(true);
-    setClickedId(id);
+    setPreviewState(true);
+    setMarkerId(id);
   };
 
   const { isLoaded } = useJsApiLoader({
@@ -92,28 +93,30 @@ const HomeMap = () => {
     lng: lng,
   }; //구글 맵 초기화
 
-  return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={mapStyles}
-      zoom={16}
-      center={defaultCenter}
-      options={{ disableDefaultUI: true }}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-    >
-      {markers.length !== 0 &&
-        markers.map((marker) => (
-          <MarkerF
-            key={marker.id}
-            position={{ lat: marker.latitude, lng: marker.longitude }}
-            onClick={() => {
-              handleMarkerClick(marker.id);
-            }}
-          />
-        ))}
-    </GoogleMap>
-  ) : (
-    <></>
+  return (
+    <>
+      {isLoaded && (
+        <GoogleMap
+          mapContainerStyle={mapStyles}
+          zoom={16}
+          center={defaultCenter}
+          options={{ disableDefaultUI: true }}
+          onLoad={onLoad}
+          onUnmount={onUnmount}
+        >
+          {markers.length !== 0 &&
+            markers.map((marker) => (
+              <MarkerF
+                key={marker.id}
+                position={{ lat: marker.latitude, lng: marker.longitude }}
+                onClick={() => {
+                  handleMarkerClick(marker.id);
+                }}
+              />
+            ))}
+        </GoogleMap>
+      )}
+    </>
   );
 };
 

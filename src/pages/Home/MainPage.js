@@ -6,11 +6,17 @@ import styled from "styled-components";
 import axios from "axios";
 import Modal from "react-modal";
 import PendingInfo from "../../components/Home/PendingInfo";
+import { useRecoilValue } from "recoil";
+import { clickedId, previewOpen } from "../../atom";
+import MarkerPreview from "../../components/Home/MarkerPreview";
 
 const MainPage = () => {
   const imgSrc = `${process.env.PUBLIC_URL}/img/alert.png`;
   const [pendingUsers, setPendingUsers] = useState(null);
   const [modalIsOpen, setIsOpen] = useState(false);
+
+  const pid = useRecoilValue(clickedId);
+  const openState = useRecoilValue(previewOpen);
 
   useEffect(() => {
     Modal.setAppElement("#root");
@@ -131,6 +137,7 @@ const MainPage = () => {
   function closeModal() {
     setIsOpen(false);
   }
+  const dummy = 123;
 
   return (
     <Container>
@@ -146,6 +153,10 @@ const MainPage = () => {
         <FriendAlert src={imgSrc}></FriendAlert>
         <AlertText>새로운 친구 요청이 있어요!</AlertText>
       </AlertWrapper>
+      <PreviewContainer>
+        <PreviewText>이 위치에서 쓴 글</PreviewText>
+        <MarkerPreview pid={dummy} />
+      </PreviewContainer>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -204,4 +215,26 @@ const ModalWrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+`;
+
+const PreviewContainer = styled.div`
+  position: absolute;
+  right: 30px;
+  top: 100px;
+  width: 500px;
+  height: 280px;
+  background-color: white;
+  border: 1px solid #69987f;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+  padding: 10px 3px 10px 3px;
+`;
+
+const PreviewText = styled.div`
+  font-size: 18px;
 `;
