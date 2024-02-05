@@ -10,19 +10,25 @@ const Writing = () => {
   const [title, setTitle] = useState("");
   const navigate = useNavigate();
 
+  const [clickedLat, setClickedLat] = useState();
+  const [clickedLng, setClickedLng] = useState();
+
+  const handleLocationClick = (location) => {
+    setClickedLat(location.lat);
+    setClickedLng(location.lng);
+  };
+
   const now = new Date();
   const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const day = String(now.getDate()).padStart(2, '0');
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  const hours = String(now.getHours()).padStart(2, "0");
+  const minutes = String(now.getMinutes()).padStart(2, "0");
 
   const date = `${year}/${month}/${day} ${hours}:${minutes}`;
 
   const [modalIsOpen, setIsOpen] = useState(false);
   const customStyles = {
-    //overlay: 모달 창 바깥 부분
-    //content : 모달 창부분
     overlay: {
       backgroundColor: " rgba(0, 0, 0, 0.4)",
       width: "100%",
@@ -57,16 +63,16 @@ const Writing = () => {
     Modal.setAppElement("#root");
   }, []);
 
-  const [content, setContent] = useState('');
-    function onEditorChange(value) {
-        setContent(value)
-    }
+  const [content, setContent] = useState("");
+  function onEditorChange(value) {
+    setContent(value);
+  }
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
 
-  const handleSubmit = async () => {  
+  const handleSubmit = async () => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await fetch("http://localhost:8080/postInfo", {
@@ -75,7 +81,13 @@ const Writing = () => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title: title, content: content, createdDate: date })
+        body: JSON.stringify({
+          title: title,
+          content: content,
+          createdDate: date,
+          latitude: clickedLat,
+          longitude: clickedLng,
+        }),
       });
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -95,8 +107,16 @@ const Writing = () => {
       <WritingArea>
         <WritingTitle>글쓰기</WritingTitle>
         <WritingWrapper>
-          <TitleText value={title} onChange={handleTitleChange} placeholder="제목을 입력해 주세요" />
-          <EditorComponent value={content} onChange={onEditorChange} placeholder="내용을 입력해 주세요" />
+          <TitleText
+            value={title}
+            onChange={handleTitleChange}
+            placeholder="제목을 입력해 주세요"
+          />
+          <EditorComponent
+            value={content}
+            onChange={onEditorChange}
+            placeholder="내용을 입력해 주세요"
+          />
           <ButtonWrapper>
             <Button onClick={openModal}>위치 설정</Button>
             <Button onClick={handleSubmit}>작성 완료</Button>
@@ -107,9 +127,12 @@ const Writing = () => {
             style={customStyles}
           >
             <ModalWrapper>
-              <h2>장소 검색 모달입니다.</h2>
-              <Map></Map>
-              <button onClick={closeModal}>닫기</button>
+              <h2>지도에서 글쓰기를 원하는 위치를 클릭하세요!</h2>
+              <Map
+                closeModal={closeModal}
+                onLocationClick={handleLocationClick}
+              ></Map>
+              <CloseButton onClick={closeModal}>닫기</CloseButton>
             </ModalWrapper>
           </Modal>
         </WritingWrapper>
@@ -169,7 +192,7 @@ const Button = styled.button`
   border: 1px solid #ccc;
   cursor: pointer;
   margin-left: 0.5rem;
-  background-color: #95ADA4;
+  background-color: #95ada4;
   color: white;
 `;
 

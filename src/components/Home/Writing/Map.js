@@ -1,125 +1,86 @@
-import React, { useState, useEffect, useCallback } from "react";
-import {
-  GoogleMap,
-  MarkerF,
-  InfoWindowF,
-  useJsApiLoader,
-} from "@react-google-maps/api";
+// Map.js
+import React, { useState, useEffect } from "react";
+import { GoogleMap, useLoadScript, InfoWindow } from "@react-google-maps/api";
 import styled from "styled-components";
 
-const Map = ({ closeModal }) => {
-  const [lat, setLat] = React.useState(0);
-  const [lng, setLng] = React.useState(0);
-  const [clickedLat, setClickedLat] = React.useState(null);
-  const [clickedLng, setClickedLng] = React.useState(null);
-  const [infoWindowOpen, setInfoWindowOpen] = React.useState(false);
-
-  let defaultCenter = {
-    lat: lat,
-    lng: lng,
-  }; //구글 맵 초기화시 사용자의 현위치
+const Map = ({ closeModal, onLocationClick }) => {
   const [map, setMap] = useState(null);
+  const [infoWindow, setInfoWindow] = useState(null);
+  const [clickedPosition, setClickedPosition] = useState();
 
-  const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
+  const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
   });
 
-  const onLoad = useCallback((map) => {
-    map.setCenter(defaultCenter);
-    map.setOptions({ disableDefaultUI: true });
-    setMap(map);
-    console.log("사용자 현재 위치 : ", lat, lng);
-    console.log("default center:", lat, lng);
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setInitialCenter({ lat: latitude, lng: longitude });
+      },
+      (error) => {
+        console.error("Error getting current location:", error);
+      }
+    );
   }, []);
 
-  const onUnmount = useCallback((map) => {
-    setClickedLat(null);
-    setClickedLng(null);
-    setInfoWindowOpen(false);
-    setMap(null);
-  }, []);
+  const [initialCenter, setInitialCenter] = useState({
+    lat: 37.55065522798923,
+    lng: 126.92538979941851,
+  });
 
-  //사용자 현재 위치 받아오는 함수 getLocation
-  const getLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLat(position.coords.latitude);
-          setLng(position.coords.longitude);
-          console.log("getLocation 함수에서 latlng", lat, lng);
-        },
-        (error) => {
-          console.error(error);
-        },
-        {
-          enableHighAccuracy: false,
-          maximumAge: 0,
-          timeout: Infinity,
-        }
-      );
-    } else {
-      alert("GPS를 지원하지 않습니다. 설정을 확인하세요.");
+  const handleMapClick = (event) => {
+    if (infoWindow) {
+      infoWindow.close();
+    }
+    const position = event.latLng.toJSON();
+    setClickedPosition(position);
+    console.log(position);
+
+    const newInfoWindow = new window.google.maps.InfoWindow({
+      position: event.latLng,
+      disableAutoPan: true,
+    });
+    map.panTo(event.latLng);
+    newInfoWindow.open(map);
+    setInfoWindow(newInfoWindow);
+  };
+
+  const handleNewFeed = () => {
+    closeModal();
+    onLocationClick(clickedPosition);
+    if (infoWindow) {
+      infoWindow.close();
     }
   };
 
-  useEffect(() => {
-    getLocation();
-    console.log(lat);
-    console.log(lng);
-  }, []);
+  if (loadError) return <div>Error loading maps</div>;
+  if (!isLoaded) return <div>Loading maps</div>;
 
-  const mapStyles = {
-    height: "500px",
-    width: "780px",
-  };
-
-  const handleMapClick = (e) => {
-    setClickedLat(e.latLng.lat());
-    setClickedLng(e.latLng.lng());
-  };
-  let clickedMarkerPosition = { lat: clickedLat, lng: clickedLng };
-
-  // useEffect(() => {
-  // }, [clickedMarkerPosition]);
-
-  return isLoaded ? (
+  return (
     <GoogleMap
-      mapContainerStyle={mapStyles}
-      zoom={16}
-      center={defaultCenter}
-      options={{ disableDefaultUI: true }}
+      mapContainerStyle={{ width: "100%", height: "500px" }}
+      zoom={14}
+      center={initialCenter}
       onClick={handleMapClick}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
+      onLoad={(map) => setMap(map)}
     >
-      {clickedLat !== null && clickedLng !== null && (
-        <MarkerF
-          position={clickedMarkerPosition}
-          onClick={() => setInfoWindowOpen(true)}
-        />
-      )}
-      {infoWindowOpen && (
-        <InfoWindowF
-          position={clickedMarkerPosition}
-          onCloseClick={() => setInfoWindowOpen(false)}
+      {infoWindow && (
+        <InfoWindow
+          position={infoWindow.getPosition()}
+          onCloseClick={() => infoWindow.close()}
         >
-          <NewFeedButton
-            onClick={() => {
-              closeModal();
-            }}
-          >
+          <NewFeedButton onClick={handleNewFeed}>
             이 위치에서 새 글 쓰기
           </NewFeedButton>
-        </InfoWindowF>
+        </InfoWindow>
       )}
     </GoogleMap>
-  ) : (
-    <></>
   );
 };
-export default Map;
 
 const NewFeedButton = styled.div`
   cursor: pointer;
 `;
+
+export default Map;
