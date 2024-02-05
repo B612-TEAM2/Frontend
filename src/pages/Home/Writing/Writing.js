@@ -4,14 +4,21 @@ import { marked } from "marked";
 import SideMenuBar from "../../../components/SideMenuBar";
 import Modal from "react-modal";
 import Map from "../../../components/Home/Writing/Map";
-import MenuBar from "../../../components/Home/Writing/MenuBar";
+import EditorComponent from "../../../components/Home/Writing/EditorComponent";
 
 const Writing = () => {
   const [markdownText, setMarkdownText] = useState("");
   const [html, setHtml] = useState("");
-  const currentDate = new Date().toLocaleDateString();
-  const textareaRef = useRef();
   const [title, setTitle] = useState("");
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+
+  const date = `${year}/${month}/${day} ${hours}:${minutes}`;
 
   const [modalIsOpen, setIsOpen] = useState(false);
   const customStyles = {
@@ -51,21 +58,16 @@ const Writing = () => {
     Modal.setAppElement("#root");
   }, []);
 
-  const handleInputChange = (e) => {
-    const text = e.target.value;
-    setMarkdownText(text);
-    const convertedHTML = marked(text);
-    setHtml(convertedHTML);
-  };
+  const [content, setContent] = useState('');
+    function onEditorChange(value) {
+        setContent(value)
+    }
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
 
-  const handleSubmit = async () => {
-    const date = new Date().toISOString().split("T")[0];
-
-    try {
+  const handleSubmit = async () => {  
       const token = localStorage.getItem("accessToken");
       const response = await fetch("http://localhost:8080/postInfo", {
         method: "POST",
@@ -73,12 +75,7 @@ const Writing = () => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          title: title,
-          content: markdownText,
-          createdDate: date,
-        }),
-      });
+        body: JSON.stringify({ title: title, content: content, createdDate: date });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -92,45 +89,31 @@ const Writing = () => {
   };
 
   return (
-      <Container>
-        <SideMenuBar />
-        <WritingArea>
-          <WritingTitle>글쓰기</WritingTitle>
-          <WritingWrapper>
-            <DateText>{currentDate}</DateText>
-            <TitleText
-                value={title}
-                onChange={handleTitleChange}
-                placeholder="제목을 입력해 주세요"
-            />
-            <MenuBar
-                markdownText={markdownText}
-                setMarkdownText={setMarkdownText}
-                textareaRef={textareaRef}
-            />
-            <TextArea
-                ref={textareaRef}
-                value={markdownText}
-                onChange={handleInputChange}
-                placeholder="내용을 입력해 주세요"
-            />
-            <Preview dangerouslySetInnerHTML={{ __html: html }} />
+    <Container>
+      <SideMenuBar />
+      <WritingArea>
+        <WritingTitle>글쓰기</WritingTitle>
+        <WritingWrapper>
+          <TitleText value={title} onChange={handleTitleChange} placeholder="제목을 입력해 주세요" />
+          <EditorComponent value={content} onChange={onEditorChange} placeholder="내용을 입력해 주세요" />
+          <ButtonWrapper>
             <Button onClick={openModal}>위치 설정</Button>
             <Button onClick={handleSubmit}>작성 완료</Button>
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                style={customStyles}
-            >
-              <ModalWrapper>
-                <h3>장소 검색</h3>
-                <Map closeModal={closeModal}></Map>
-                <CloseButton onClick={closeModal}>닫기</CloseButton>
-              </ModalWrapper>
-            </Modal>
-          </WritingWrapper>
-        </WritingArea>
-      </Container>
+          </ButtonWrapper>
+          <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            style={customStyles}
+          >
+            <ModalWrapper>
+              <h2>장소 검색 모달입니다.</h2>
+              <Map></Map>
+              <button onClick={closeModal}>닫기</button>
+            </ModalWrapper>
+          </Modal>
+        </WritingWrapper>
+      </WritingArea>
+    </Container>
   );
 };
 
@@ -138,6 +121,7 @@ const Container = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
+  align-items: center;
 `;
 
 const WritingArea = styled.div`
@@ -146,48 +130,35 @@ const WritingArea = styled.div`
   flex-direction: column;
   align-items: center;
   margin-left: 275px;
-  margin-top: 10vh;
+  height: 80%;
 `;
 
 const WritingWrapper = styled.div`
-  width: 65%;
+  width: 50vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
 `;
 
 const WritingTitle = styled.h1`
-  font-size: 2rem;
-  font-weight: bold;
   font-family: "inter", sans-serif;
   text-align: center;
 `;
 
-const DateText = styled.text`
-  width: 100%;
-  font-size: 1rem;
-  color: #6f6f6f;
-  text-align: right;
-`;
-
 const TitleText = styled.input`
   width: 100%;
-  padding: 0.5rem;
+  box-sizing: border-box;
   border: 1px solid #ccc;
+  padding: 0.5rem;
+  font-size: 1rem;
 `;
 
-const TextArea = styled.textarea`
-  width: 100%;
-  height: 200px;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-`;
-
-const Preview = styled.div`
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
+const ButtonWrapper = styled.div`
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4.2rem;
 `;
 
 const Button = styled.button`
@@ -195,6 +166,9 @@ const Button = styled.button`
   padding: 0.5rem;
   border: 1px solid #ccc;
   cursor: pointer;
+  margin-left: 0.5rem;
+  background-color: #95ADA4;
+  color: white;
 `;
 
 const ModalWrapper = styled.div`
