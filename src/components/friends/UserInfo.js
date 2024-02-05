@@ -5,8 +5,12 @@ import axios from "axios";
 const UserInfo = (props) => {
   const handleDeleteFriend = async () => {
     try {
+      const token = localStorage.getItem("accessToken");
       const response = await axios.delete("http://localhost:8080/friends", {
         data: { nickname: props.UserName },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       console.log(response.data);
     } catch (error) {
@@ -16,15 +20,26 @@ const UserInfo = (props) => {
 
   const handleAddFriend = async () => {
     try {
+      const token = localStorage.getItem("accessToken");
       const response = await axios.post(
-        "http://localhost:8080//friends/search",
+        "http://localhost:8080/friends/search",
         {
           data: { nickname: props.UserName },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
-      console.log(response.data);
+      if (response.status === 200) {
+        console.log(response.data);
+        alert("친구 요청이 완료되었습니다!");
+      } else {
+        console.error("친구 요청 중 오류 발생:", response.statusText);
+        alert("친구 요청에 실패했습니다. 다시 시도해주세요.");
+      }
     } catch (error) {
-      console.error("친구 삭제 중 오류 발생:", error);
+      console.error("친구 요청 중 오류 발생:", error);
+      alert("친구 요청 중 오류가 발생했습니다. 다시 시도해주세요.");
     }
   };
   return (
