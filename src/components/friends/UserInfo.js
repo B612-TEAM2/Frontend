@@ -50,11 +50,19 @@ const UserInfo = (props) => {
       ></UserImg>
       <UserName>{props.userName}</UserName>
       {props.isFriend ? (
-        <DeleteFriendButton onClick={handleDeleteFriend(props.userName)}>
+        <DeleteFriendButton
+          onClick={() => {
+            handleDeleteFriend(props.userName);
+          }}
+        >
           X
         </DeleteFriendButton>
       ) : (
-        <AddFriendButton onClick={handleAddFriend(props.userName)}>
+        <AddFriendButton
+          onClick={() => {
+            handleAddFriend(props.userName);
+          }}
+        >
           +
         </AddFriendButton>
       )}

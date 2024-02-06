@@ -13,7 +13,6 @@ const HomeMap = () => {
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
   const [markers, setMarkers] = useState([]);
-  //MAREKRS - {id 제목 공개범위 생성날짜 미리보기 15자 , 위도, 경도}
   const [map, setMap] = useState(null);
 
   const [previewState, setPreviewState] = useRecoilState(previewOpen);

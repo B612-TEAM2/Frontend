@@ -8,7 +8,7 @@ const MarkerPreview = ({ preview }) => {
   }
   return (
     <Wrapper>
-      <div>pid{preview.id}</div>
+      <div>{preview.id}</div>
       <Link to={`/${preview.id}`} key={preview.id}>
         <PostingWrapper key={preview.id}>
           <Img />
