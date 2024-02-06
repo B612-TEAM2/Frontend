@@ -7,7 +7,7 @@ const UserInfo = (props) => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await axios.delete("http://localhost:8080/friends", {
-        data: { nickname: name },
+        body: { nickname: name },
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -21,10 +21,11 @@ const UserInfo = (props) => {
   const handleAddFriend = async (name) => {
     try {
       const token = localStorage.getItem("accessToken");
+      const body = { nickname: name };
       const response = await axios.post(
         "http://localhost:8080/friends/search",
+        body,
         {
-          params: { nickname: name },
           headers: {
             Authorization: `Bearer ${token}`,
           },
