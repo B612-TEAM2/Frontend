@@ -2,18 +2,23 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { Link as RouterLink } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { isHomeMap } from "../../atom";
 
 const HomeList = () => {
   const [posts, setPosts] = useState([]);
-
+  const setIsHome = useSetRecoilState(isHomeMap);
   const getUserPosts = async () => {
     try {
-      const token = localStorage.getItem('accessToken');
-      const response = await axios.get(`http://localhost:8080/posts/home/list`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const token = localStorage.getItem("accessToken");
+      const response = await axios.get(
+        `http://localhost:8080/posts/home/list`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log(response);
       setPosts(response.data);
     } catch (error) {
@@ -23,6 +28,7 @@ const HomeList = () => {
 
   useEffect(() => {
     getUserPosts();
+    setIsHome(false);
   }, []);
 
   return (
@@ -32,18 +38,18 @@ const HomeList = () => {
         <ListWrapper>
           {posts.map((post) => (
             <Link to={`/${post.id}`} key={post.id}>
-            <PostingWrapper key={post.id}>
-              <Img src={post.image} alt={post.title} />
-              <ContentWrapper>
-                <PostTitle>{post.title}</PostTitle>
-                <Content>{post.contentPreview}</Content>
-                <Line />
-                <ScopeWrapper>
-                  <Scope>{post.scope}</Scope>
-                  <Date>{post.createdDate}</Date>
-                </ScopeWrapper>
-              </ContentWrapper>
-            </PostingWrapper>
+              <PostingWrapper key={post.id}>
+                <Img src={post.image} alt={post.title} />
+                <ContentWrapper>
+                  <PostTitle>{post.title}</PostTitle>
+                  <Content>{post.contentPreview}</Content>
+                  <Line />
+                  <ScopeWrapper>
+                    <Scope>{post.scope}</Scope>
+                    <Date>{post.createdDate}</Date>
+                  </ScopeWrapper>
+                </ContentWrapper>
+              </PostingWrapper>
             </Link>
           ))}
         </ListWrapper>
@@ -89,7 +95,7 @@ const PostingWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   margin-bottom: 1.5rem;
-  border: 1px solid #7A7A7A;
+  border: 1px solid #7a7a7a;
   padding: 1.5rem;
 `;
 
@@ -106,7 +112,7 @@ const ContentWrapper = styled.div`
   font-family: "Noto Sans KR", sans-serif;
   letter-spacing: -0.5px;
   cursor: pointer;
-`; 
+`;
 
 const PostTitle = styled.div`
   font-size: 1.2rem;
@@ -115,14 +121,14 @@ const PostTitle = styled.div`
 const Content = styled.div`
   font-size: 1rem;
   margin-top: 0.2rem;
-  color: #6F6F6F;
+  color: #6f6f6f;
   height: 6rem;
 `;
 
 const Line = styled.div`
   width: 100%;
   height: 1px;
-  background-color: #7A7A7A;
+  background-color: #7a7a7a;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 `;
@@ -135,13 +141,12 @@ const ScopeWrapper = styled.div`
 
 const Scope = styled.div`
   font-size: 1rem;
-  color: #6F6F6F;
+  color: #6f6f6f;
 `;
 
 const Date = styled.div`
   font-size: 1rem;
-  color: #6F6F6F;
+  color: #6f6f6f;
 `;
-
 
 export default HomeList;

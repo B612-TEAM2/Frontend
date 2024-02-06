@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function GoogleRedirection() {
-  const code = new URL(document.location.toString()).searchParams.get('code');
+  const code = new URL(document.location.toString()).searchParams.get("code");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,12 +20,14 @@ function GoogleRedirection() {
 
       localStorage.setItem("accessToken", ACCESS_TOKEN);
       localStorage.setItem("refreshToken", REFRESH_TOKEN);
-    };
+    }
     GoogleLogin();
-   navigate("/SetProfile", {replace: true})
-    }, []);
+
+    navigate("/SetProfile", { replace: true });
+  }, []);
+
 
   return <div>로그인 중입니다...</div>;
-};
+}
 
 export default GoogleRedirection;

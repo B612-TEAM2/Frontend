@@ -3,11 +3,11 @@ import styled from "styled-components";
 import axios from "axios";
 
 const UserInfo = (props) => {
-  const handleDeleteFriend = async () => {
+  const handleDeleteFriend = async (name) => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await axios.delete("http://localhost:8080/friends", {
-        data: { nickname: props.UserName },
+        data: { nickname: name },
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -18,13 +18,13 @@ const UserInfo = (props) => {
     }
   };
 
-  const handleAddFriend = async () => {
+  const handleAddFriend = async (name) => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await axios.post(
         "http://localhost:8080/friends/search",
         {
-          data: { nickname: props.UserName },
+          data: { nickname: name },
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -50,9 +50,21 @@ const UserInfo = (props) => {
       ></UserImg>
       <UserName>{props.userName}</UserName>
       {props.isFriend ? (
-        <DeleteFriendButton onClick={handleDeleteFriend}>X</DeleteFriendButton>
+        <DeleteFriendButton
+          onClick={() => {
+            handleDeleteFriend(props.userName);
+          }}
+        >
+          X
+        </DeleteFriendButton>
       ) : (
-        <AddFriendButton onClick={handleAddFriend}>+</AddFriendButton>
+        <AddFriendButton
+          onClick={() => {
+            handleAddFriend(props.userName);
+          }}
+        >
+          +
+        </AddFriendButton>
       )}
     </Container>
   );

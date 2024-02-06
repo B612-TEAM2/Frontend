@@ -9,3 +9,8 @@ export const clickedId = atom({
   key: "clickedId",
   default: null,
 });
+
+export const isHomeMap = atom({
+  key: "isHomeMap",
+  default: false,
+});
