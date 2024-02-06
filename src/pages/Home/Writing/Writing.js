@@ -66,7 +66,7 @@ const Writing = () => {
   const handleSubmit = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await fetch("http://localhost:8080/postInfo", {
+      const response = await fetch("http://localhost:8080/posts/home/store", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
