@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const PostPage = () => {
-  const { id } = useParams();
+  const { pid } = useParams();
   const [post, setPost] = useState(null);
   //조회수 높이는 기능도 같이 반환됨
   useEffect(() => {
@@ -13,7 +13,7 @@ const PostPage = () => {
     const fetchPost = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/postInfo/${id}`,
+          `http://localhost:8080/postInfo/${pid}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -27,17 +27,18 @@ const PostPage = () => {
     };
 
     fetchPost();
-  }, [id]);
+  }, [pid]);
 
   if (!post) return <h1>Post not found</h1>;
 
+  //sidemenubar layout 수정 필요!
   return (
     <Container>
       <SideMenuBar />
       <WritingArea>
         <DateText>{post.createdDate}</DateText>
         <TitleText>{post.title}</TitleText>
-        <TextArea>{post.contents}</TextArea>
+        <TextArea>{post.content}</TextArea>
         <Button>수정하기</Button>
         <Button>삭제하기</Button>
       </WritingArea>
@@ -75,13 +76,13 @@ const DateText = styled.text`
   text-align: right;
 `;
 
-const TitleText = styled.input`
+const TitleText = styled.div`
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #ccc;
 `;
 
-const TextArea = styled.textarea`
+const TextArea = styled.div`
   width: 100%;
   height: 200px;
   padding: 0.5rem;
