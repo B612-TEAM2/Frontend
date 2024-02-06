@@ -26,7 +26,7 @@ function App() {
           <Route exact path="/authkakao" element={<KakaoRedirection />} />
           <Route exact path="/authgoogle" element={<GoogleRedirection />} />
           <Route path="/SetProfile" element={<SetProfile />} />
-          <Route path="/:pid" component={PostPage} />
+          <Route path="/:pid" element={<PostPage />} />
         </Routes>
       </BrowserRouter>
     </div>
