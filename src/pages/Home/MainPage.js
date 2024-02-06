@@ -80,7 +80,7 @@ const MainPage = () => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await axios.post(
-        "http://localhost:8080/friends/search",
+        "http://localhost:8080/friends/pending",
         {
           data: { nickname: userName },
           headers: {
