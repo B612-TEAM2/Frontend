@@ -20,6 +20,7 @@ function KakaoRedirection() {
       localStorage.setItem("accessToken", ACCESS_TOKEN);
       localStorage.setItem("refreshToken", REFRESH_TOKEN);
     };
+
     KakaoLogin();
     navigate("/SetProfile", {replace: true})
     }, []);

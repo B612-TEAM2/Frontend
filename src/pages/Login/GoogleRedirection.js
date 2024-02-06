@@ -8,19 +8,21 @@ function GoogleRedirection() {
 
   useEffect(() => {
     async function GoogleLogin() {
-      const res = await axios.get(
-        process.env.REACT_APP_GOOGLE_URL + 
-          `/api/member/login/google?code=${code}`
+      const res = await axios.post(
+          process.env.REACT_APP_GOOGLE_URL
+          , {
+            code: code
+          }
       );
 
-      const ACCESS_TOKEN = res.headers["authrization"];
-      const REFRESH_TOKEN = res.headers["refresh-token"];
-      
+      const ACCESS_TOKEN = res.data["access-token"];
+      const REFRESH_TOKEN = res.data["refresh-token"];
+
       localStorage.setItem("accessToken", ACCESS_TOKEN);
       localStorage.setItem("refreshToken", REFRESH_TOKEN);
     };
     GoogleLogin();
-//    navigate("/SetProfile", {replace: true})
+   navigate("/SetProfile", {replace: true})
     }, []);
 
   return <div>로그인 중입니다...</div>;
