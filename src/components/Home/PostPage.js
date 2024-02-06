@@ -31,6 +31,7 @@ const PostPage = () => {
 
   if (!post) return <h1>Post not found</h1>;
 
+  //sidemenubar layout 수정 필요!
   return (
     <Container>
       <SideMenuBar />
