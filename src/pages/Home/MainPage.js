@@ -46,15 +46,13 @@ const MainPage = () => {
   const handleAccept = async (userName) => {
     try {
       const token = localStorage.getItem("accessToken");
+      const requestData = { nickname: userName, status: accept };
       const response = await axios.post(
         `http://localhost:8080/friends/pending`,
+        requestData,
         {
-          data: { nickname: userName },
           headers: {
             Authorization: `Bearer ${token}`,
-          },
-          params: {
-            status: "accept",
           },
         }
       );
@@ -79,15 +77,13 @@ const MainPage = () => {
   const handleReject = async (userName) => {
     try {
       const token = localStorage.getItem("accessToken");
+      const requestData = { nickname: userName, status: accept };
       const response = await axios.post(
-        "http://localhost:8080/friends/pending",
+        `http://localhost:8080/friends/pending`,
+        requestData,
         {
-          data: { nickname: userName },
           headers: {
             Authorization: `Bearer ${token}`,
-          },
-          params: {
-            status: "reject",
           },
         }
       );
