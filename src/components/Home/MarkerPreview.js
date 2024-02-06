@@ -4,7 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 const MarkerPreview = ({ preview }) => {
   if (!preview) {
-    return null; // preview가 null이면 렌더링하지 않음
+    return null;
   }
   return (
     <Wrapper>
