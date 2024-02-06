@@ -22,6 +22,9 @@ const MainPage = () => {
   useEffect(() => {
     Modal.setAppElement("#root");
     console.log("프리뷰 openstate: ", openState);
+    console.log("isMap: ", isMap);
+    console.log("preview ", preview);
+
     const fetchData = async () => {
       const apiUrl = `http://localhost:8080/friends/pending`;
       const accessToken = localStorage.getItem("accessToken");
@@ -139,13 +142,13 @@ const MainPage = () => {
   function closeModal() {
     setIsOpen(false);
   }
-  const dummy = {
-    id: 123,
-    title: "제목",
-    scope: "공개범위",
-    content: "내용15자까지나옴",
-    createdData: "날짜",
-  };
+  // const dummy = {
+  //   id: 123,
+  //   title: "제목",
+  //   scope: "공개범위",
+  //   content: "내용15자까지나옴",
+  //   createdData: "날짜",
+  // };
 
   return (
     <Container>
@@ -161,7 +164,7 @@ const MainPage = () => {
         <FriendAlert src={imgSrc}></FriendAlert>
         <AlertText>새로운 친구 요청이 있어요!</AlertText>
       </AlertWrapper>
-      <PreviewContainer showContainer={openState && preview !== null && isMap}>
+      <PreviewContainer key={openState && preview !== null && isMap}>
         <PreviewText>이 위치에서 쓴 글</PreviewText>
         <MarkerPreview preview={preview} />
         <CloseButton
