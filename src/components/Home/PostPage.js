@@ -5,23 +5,23 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const PostPage = () => {
-    const { id } = useParams();
-    const [post, setPost] = useState(null);
+  const { id } = useParams();
+  const [post, setPost] = useState(null);
+  //조회수 높이는 기능도 같이 반환됨
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/posts/${id}`);
+        setPost(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-    useEffect(() => {
-        const fetchPost = async () => {
-          try {
-            const response = await axios.get(`http://localhost:8080/posts/${id}`);
-            setPost(response.data);
-          } catch (error) {
-            console.error(error);
-          }
-        };
-    
-        fetchPost();
-      }, [id]);
-    
-      if (!post) return <h1>Post not found</h1>;
+    fetchPost();
+  }, [id]);
+
+  if (!post) return <h1>Post not found</h1>;
 
   return (
     <Container>

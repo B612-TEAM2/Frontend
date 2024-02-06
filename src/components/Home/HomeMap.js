@@ -5,24 +5,25 @@ import {
   InfoWindowF,
   useJsApiLoader,
 } from "@react-google-maps/api";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useRecoilState } from "recoil";
-import { clickedId, previewOpen } from "../../atom";
+import { clickedId, isHomeMap, previewOpen } from "../../atom";
 
 const HomeMap = () => {
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
   const [markers, setMarkers] = useState([]);
-
+  //MAREKRS - {id 제목 공개범위 생성날짜 미리보기 15자 , 위도, 경도}
   const [map, setMap] = useState(null);
 
   const [previewState, setPreviewState] = useRecoilState(previewOpen);
   const [markerId, setMarkerId] = useRecoilState(clickedId);
+  const [isMap, setIsMap] = useRecoilState(isHomeMap);
 
-  const handleMarkerClick = (id) => {
+  const handleMarkerClick = (pid) => {
+    const previewData = markers.find((marker) => marker.id === pid);
     setPreviewState(true);
-    setMarkerId(id);
+    setMarkerId(previewData);
   };
 
   const { isLoaded } = useJsApiLoader({
@@ -60,6 +61,8 @@ const HomeMap = () => {
   useEffect(() => {
     fetchMarkersData();
     getLocation();
+    setIsMap(true);
+    console.log(isMap);
   }, []);
 
   const getLocation = () => {

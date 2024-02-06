@@ -1,88 +1,24 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import { Link as RouterLink } from "react-router-dom";
 
-/*
-mainpage.js에서 
-     <PreviewContainer>
-        <PreviewText>이 위치에서 쓴 글</PreviewText>
-        <MarkerPreview pid={dummy} />
-      </PreviewContainer>
-
-      -->
-
-      {openState && pid!==null &&      <PreviewContainer>
-        <PreviewText>이 위치에서 쓴 글</PreviewText>
-        <MarkerPreview pid={dummy} />
-      </PreviewContainer>} 로 바꾸고
-*/
-
-/*
-  백에 pid 주면 미리보기 주는 거 있는지?
-  있으면 응답 : 해당 글의 미리보기 (res. id,image,title,contentpreview,scope,createdData)
-  
-  const getUserPosts = async () => {
-    try {
-      const token = localStorage.getItem('accessToken');
-      const response = await axios.get(`백 apiurl`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params:{
-          pid:pid
-        },
-      });.then()
-      console.log(response);
-      setPosts(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getUserPosts();
-  }, []);
-
-  없으면 pid상관없이 posts 다 가져와서 pid값이랑 같은거 필터링해야함
-  homelist에서 가져오는 코드
-    const [posts, setPosts] = useState([]);
-    const [selectedpost , setSelectedPost] = useState();
-
-  const getUserPosts = async () => {
-    try {
-      const token = localStorage.getItem('accessToken');
-      const response = await axios.get(`http://localhost:8080/posts/home/list`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(response);
-      setPosts(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getUserPosts();
-  }, []);
-*/
-
-const MarkerPreview = ({ pid }) => {
+const MarkerPreview = ({ preview }) => {
+  if (!preview) {
+    return null; // preview가 null이면 렌더링하지 않음
+  }
   return (
     <Wrapper>
-      <div>pid{pid}</div>
-      <Link to={`/${pid}`} key={pid}>
-        <PostingWrapper key={pid}>
+      <div>pid{preview.id}</div>
+      <Link to={`/${preview.id}`} key={preview.id}>
+        <PostingWrapper key={preview.id}>
           <Img />
           <ContentWrapper>
-            <PostTitle>제목</PostTitle>
-            <Content>컨텐츠프리뷰</Content>
+            <PostTitle>{preview.title}</PostTitle>
+            <Content>{preview.content}</Content>
             <Line />
             <ScopeWrapper>
-              <Scope>공개범위</Scope>
-              <Date>날짜</Date>
+              <Scope>{preview.scope}</Scope>
+              <Date>{preview.createdData}</Date>
             </ScopeWrapper>
           </ContentWrapper>
         </PostingWrapper>

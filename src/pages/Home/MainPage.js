@@ -6,8 +6,8 @@ import styled from "styled-components";
 import axios from "axios";
 import Modal from "react-modal";
 import PendingInfo from "../../components/Home/PendingInfo";
-import { useRecoilValue } from "recoil";
-import { clickedId, previewOpen } from "../../atom";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { clickedId, isHomeMap, previewOpen } from "../../atom";
 import MarkerPreview from "../../components/Home/MarkerPreview";
 
 const MainPage = () => {
@@ -15,11 +15,13 @@ const MainPage = () => {
   const [pendingUsers, setPendingUsers] = useState(null);
   const [modalIsOpen, setIsOpen] = useState(false);
 
-  const pid = useRecoilValue(clickedId);
-  const openState = useRecoilValue(previewOpen);
+  const preview = useRecoilValue(clickedId); // 미리보기 필요한 모든 정보
+  const [openState, setOpenState] = useRecoilState(previewOpen);
+  const isMap = useRecoilValue(isHomeMap);
 
   useEffect(() => {
     Modal.setAppElement("#root");
+    console.log("프리뷰 openstate: ", openState);
     const fetchData = async () => {
       const apiUrl = `http://localhost:8080/friends/pending`;
       const accessToken = localStorage.getItem("accessToken");
@@ -137,7 +139,13 @@ const MainPage = () => {
   function closeModal() {
     setIsOpen(false);
   }
-  const dummy = 123;
+  const dummy = {
+    id: 123,
+    title: "제목",
+    scope: "공개범위",
+    content: "내용15자까지나옴",
+    createdData: "날짜",
+  };
 
   return (
     <Container>
@@ -153,9 +161,16 @@ const MainPage = () => {
         <FriendAlert src={imgSrc}></FriendAlert>
         <AlertText>새로운 친구 요청이 있어요!</AlertText>
       </AlertWrapper>
-      <PreviewContainer>
+      <PreviewContainer showContainer={openState && preview !== null && isMap}>
         <PreviewText>이 위치에서 쓴 글</PreviewText>
-        <MarkerPreview pid={dummy} />
+        <MarkerPreview preview={preview} />
+        <CloseButton
+          onClick={() => {
+            setOpenState(false);
+          }}
+        >
+          닫기
+        </CloseButton>
       </PreviewContainer>
       <Modal
         isOpen={modalIsOpen}
@@ -222,10 +237,10 @@ const PreviewContainer = styled.div`
   right: 30px;
   top: 100px;
   width: 500px;
-  height: 280px;
+  height: 300px;
   background-color: white;
   border: 1px solid #69987f;
-  display: flex;
+  display: ${(props) => (props.showContainer ? "flex" : "none")};
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
@@ -237,4 +252,18 @@ const PreviewContainer = styled.div`
 
 const PreviewText = styled.div`
   font-size: 18px;
+`;
+
+const CloseButton = styled.button`
+  width: 70px;
+  height: 30px;
+  background-color: black;
+  color: white;
+  font-size: 12px;
+  border: none;
+  border-radius: 10px;
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+  cursor: pointer;
 `;
