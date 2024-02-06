@@ -9,9 +9,17 @@ const PostPage = () => {
   const [post, setPost] = useState(null);
   //조회수 높이는 기능도 같이 반환됨
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/posts/${id}`);
+        const response = await axios.get(
+          `http://localhost:8080/postInfo/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setPost(response.data);
       } catch (error) {
         console.error(error);
