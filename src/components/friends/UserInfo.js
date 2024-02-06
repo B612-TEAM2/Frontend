@@ -24,7 +24,7 @@ const UserInfo = (props) => {
       const response = await axios.post(
         "http://localhost:8080/friends/search",
         {
-          data: { nickname: name },
+          params: { nickname: name },
           headers: {
             Authorization: `Bearer ${token}`,
           },
