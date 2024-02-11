@@ -12,10 +12,18 @@ const Writing = () => {
 
   const [clickedLat, setClickedLat] = useState();
   const [clickedLng, setClickedLng] = useState();
-
   const handleLocationClick = (location) => {
     setClickedLat(location.lat);
     setClickedLng(location.lng);
+  };
+
+  const [images, setImages] = useState([]);
+  const handleImageChange = (image) => {
+    if(images.length >= 10){
+      alert(`이미지는 최대 10개까지 첨부할 수 있습니다.`);
+      return;
+    }
+    setImages([...images, image]);
   };
 
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -66,18 +74,21 @@ const Writing = () => {
   const handleSubmit = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await fetch("http://localhost:8080/posts/home/store", {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("content", content);
+      formData.append("latitude", clickedLat);
+      formData.append("longitude", clickedLng);
+      images.forEach((image, index) => {
+        formData.append(`image${index}`, image);
+      });
+      const response = await fetch("http://localhost:8080/postInfo", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          title: title,
-          content: content,
-          latitude: clickedLat,
-          longitude: clickedLng,
-        }),
+        body: formData,
       });
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -105,6 +116,8 @@ const Writing = () => {
           <EditorComponent
             value={content}
             onChange={onEditorChange}
+            onImageChange={handleImageChange}
+            imagesCount={images.length}
             placeholder="내용을 입력해 주세요"
           />
           <ButtonWrapper>
