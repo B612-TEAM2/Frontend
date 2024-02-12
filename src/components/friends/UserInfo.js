@@ -5,9 +5,10 @@ import axios from "axios";
 const UserInfo = (props) => {
   const handleDeleteFriend = async (name) => {
     try {
+      const NameString = String(name);
       const token = localStorage.getItem("accessToken");
       const response = await axios.delete("http://localhost:8080/friends", {
-        body: { nickname: name },
+        body: { nickname: NameString },
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -20,9 +21,9 @@ const UserInfo = (props) => {
 
   const handleAddFriend = async (name) => {
     try {
+      const NameString = String(name);
       const token = localStorage.getItem("accessToken");
-      const body = {
-        "nickname": name };
+      const body = { nickname: NameString };
       const response = await axios.post(
         "http://localhost:8080/friends/search",
         body,
