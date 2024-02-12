@@ -21,7 +21,8 @@ const UserInfo = (props) => {
   const handleAddFriend = async (name) => {
     try {
       const token = localStorage.getItem("accessToken");
-      const body = { nickname: name };
+      const body = {
+        "nickname": name };
       const response = await axios.post(
         "http://localhost:8080/friends/search",
         body,
