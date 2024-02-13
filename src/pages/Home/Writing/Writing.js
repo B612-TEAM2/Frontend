@@ -80,9 +80,9 @@ const Writing = () => {
       formData.append("content", content);
       formData.append("latitude", clickedLat);
       formData.append("longitude", clickedLng);
-      images.forEach((image) => {
-        formData.append("imgs", image);
-      });
+      for(let i=0; i<images.length; i++){
+        formData.append("imgs", images[i]);
+      }
       const response = await fetch("http://localhost:8080/posts/home/store", {
         method: "POST",
         headers: {
