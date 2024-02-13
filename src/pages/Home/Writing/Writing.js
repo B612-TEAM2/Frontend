@@ -79,14 +79,14 @@ const Writing = () => {
       formData.append("content", content);
       formData.append("latitude", clickedLat);
       formData.append("longitude", clickedLng);
-      images.forEach((image, index) => {
-        formData.append(`image${index}`, image);
+      images.forEach((image) => {
+        formData.append("imgs", image);
       });
       const response = await fetch("http://localhost:8080/posts/home/store", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
         },
         body: formData,
       });
