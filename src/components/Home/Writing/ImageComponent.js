@@ -4,16 +4,14 @@ function ImageComponent({onImageChange}) {
     const [previews, setPreviews] = useState([]);
 
     const handleImageChange = (e) => {
-        if(e.target.files) {
-            const filesArray = Array.from(e.target.files).map((file) =>
-                URL.createObjectURL(file)
-            );
+        if(e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            const preview = URL.createObjectURL(file);
 
-            setPreviews((prevImages) => prevImages.concat(filesArray));
-            Array.from(e.target.files).map((file) => URL.revokeObjectURL(file));
+            setPreviews((prevImages) => prevImages.concat(preview));
+            URL.revokeObjectURL(file);
 
-            const fileArray = Array.from(e.target.files);
-            onImageChange(fileArray);
+            onImageChange(file);
         }
     };
 
@@ -25,7 +23,7 @@ function ImageComponent({onImageChange}) {
 
     return (
       <div>
-        <input type="file" id="file" multiple onChange={handleImageChange} accpet="image/jpeg, image/png" />
+        <input type="file" id="file" onChange={handleImageChange} accpet="image/jpeg, image/png" />
         <div className="result">{renderPhotos(previews)}</div>
       </div>
     );
