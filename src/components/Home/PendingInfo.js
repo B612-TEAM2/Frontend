@@ -12,7 +12,10 @@ const PendingInfo = ({ pendingUsers, onAccept, onReject }) => {
     <>
       {pendingUsers.map((user) => (
         <Container key={user.nickname}>
-          <UserImg></UserImg>
+          <UserImg
+            src={`data:image/jpeg;base64,${user.imgSrc}`}
+            alt="Profile Image"
+          ></UserImg>
           <UserName>{user.nickname}</UserName>
           <AcceptButton onClick={() => onAccept(user.nickname)}>
             친구 수락
