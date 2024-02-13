@@ -13,7 +13,7 @@ const PendingInfo = ({ pendingUsers, onAccept, onReject }) => {
       {pendingUsers.map((user) => (
         <Container key={user.nickname}>
           <UserImg
-            src={`data:image/jpeg;base64,${user.imgSrc}`}
+            src={`data:image/jpeg;base64,${user.profileImg}`}
             alt="Profile Image"
           ></UserImg>
           <UserName>{user.nickname}</UserName>
