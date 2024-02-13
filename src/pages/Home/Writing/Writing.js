@@ -82,7 +82,7 @@ const Writing = () => {
       images.forEach((image, index) => {
         formData.append(`image${index}`, image);
       });
-      const response = await fetch("http://localhost:8080/postInfo", {
+      const response = await fetch("http://localhost:8080/posts/home/store", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
