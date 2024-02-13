@@ -79,7 +79,7 @@ const Writing = () => {
       formData.append("content", content);
       formData.append("latitude", clickedLat);
       formData.append("longitude", clickedLng);
-      images.forEach(image => formData.append("imgs", image));
+      images.forEach(image => formData.append("img", image));
       
       fetch("http://localhost:8080/posts/home/store", {
         method: "POST",
