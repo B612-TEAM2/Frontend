@@ -72,35 +72,36 @@ const Writing = () => {
     setTitle(event.target.value);
   };
 
-  const handleSubmit = async () => {
-    try {
+  const handleSubmit = () => {
       const token = localStorage.getItem("accessToken");
       const formData = new FormData();
       formData.append("title", title);
       formData.append("content", content);
       formData.append("latitude", clickedLat);
       formData.append("longitude", clickedLng);
-      for(let i=0; i<images.length; i++){
-        formData.append("imgs", images[i]);
-      }
-      const response = await fetch("http://localhost:8080/posts/home/store", {
+      images.forEach(image => formData.append("imgs", image));
+      
+      fetch("http://localhost:8080/posts/home/store", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
         },
         body: formData,
+      })
+      .then((response) => {
+        if(!response.ok){
+          throw new Error("서버 오류");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("작성 성공: ", data);
+        navigate(-1);
+      })
+      .catch((error) => {
+        console.error("작성 실패: ", error);
       });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
-      console.log("작성 성공:", data);
-      navigate(-1);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+    };
 
   return (
     <Container>
