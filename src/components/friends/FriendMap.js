@@ -5,25 +5,25 @@ import {
   InfoWindowF,
   useJsApiLoader,
 } from "@react-google-maps/api";
-import axios from "axios";
-import { useRecoilState } from "recoil";
-import { clickedId, isHomeMap, previewOpen } from "../../atom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { clickedId, friendMarkers, isHomeMap, previewOpen } from "../../atom";
 
 const FriendMap = () => {
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
-  const [markers, setMarkers] = useState([]);
   const [map, setMap] = useState(null);
 
   const [previewState, setPreviewState] = useRecoilState(previewOpen);
   const [markerId, setMarkerId] = useRecoilState(clickedId);
-  const [isMap, setIsMap] = useRecoilState(isHomeMap);
+  const [isMap, setIsMap] = useRecoilState(isHomeMap); // isFriendmap으로 수정
 
-  const handleMarkerClick = (pid) => {
-    const previewData = markers.find((marker) => marker.id === pid);
-    setPreviewState(true);
-    setMarkerId(previewData);
-  };
+  const markerData = useRecoilValue(friendMarkers); // friendheader에서 클릭시 바뀌는 friendmarkers data 구독
+
+  // const handleMarkerClick = (pid) => {
+  //   const previewData = markers.find((marker) => marker.id === pid);
+  //   setPreviewState(true);
+  //   setMarkerId(previewData);
+  // };
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -40,25 +40,7 @@ const FriendMap = () => {
     setMap(null);
   }, []);
 
-  const fetchMarkersData = async () => {
-    try {
-      const token = localStorage.getItem("accessToken");
-      const response = await axios.get(
-        `http://localhost:8080/posts/home/pins`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setMarkers(response.data);
-    } catch (error) {
-      console.error("Error fetching markers data:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchMarkersData();
     getLocation();
     setIsMap(true);
     console.log(isMap);
@@ -106,14 +88,15 @@ const FriendMap = () => {
           onLoad={onLoad}
           onUnmount={onUnmount}
         >
-          {markers.length !== 0 &&
-            markers.map((marker) => (
+          {markerData &&
+            markerData.length !== 0 &&
+            markerData.map((marker) => (
               <MarkerF
                 key={marker.id}
                 position={{ lat: marker.latitude, lng: marker.longitude }}
-                onClick={() => {
-                  handleMarkerClick(marker.id);
-                }}
+                // onClick={() => {
+                //   handleMarkerClick(marker.id);
+                // }}
               />
             ))}
         </GoogleMap>

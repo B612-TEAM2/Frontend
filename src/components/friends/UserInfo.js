@@ -14,7 +14,13 @@ const UserInfo = (props) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
+      if (response.status === 200) {
+        console.log(response.data);
+        alert("친구 삭제가 완료되었습니다!");
+      } else {
+        console.error("친구 삭제 중 오류 발생:", response.statusText);
+        alert("친구 삭제에 실패했습니다. 다시 시도해주세요.");
+      }
     } catch (error) {
       console.error("친구 삭제 중 오류 발생:", error);
     }
@@ -111,16 +117,18 @@ const AddFriendButton = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 30px;
+  cursor: pointer;
 `;
 
 const DeleteFriendButton = styled.div`
   width: 30px;
   height: 30px;
-  background-color: #69987f;
+  background-color: red;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 30px;
+  font-size: 27px;
   color: white;
+  cursor: pointer;
 `;

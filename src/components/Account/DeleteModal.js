@@ -12,6 +12,9 @@ const DeleteModal = ({ closeModal, ...props }) => {
       closeModal();
     }
   };
+
+  // 탈퇴 로직 구현 필요
+  // 백에 api 어디로?/?
   return (
     <Layer ref={modalRef} onClick={clickOutside}>
       <ModalWrapper>
