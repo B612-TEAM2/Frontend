@@ -6,6 +6,7 @@ import Map from "../../../components/Home/Writing/Map";
 import EditorComponent from "../../../components/Home/Writing/EditorComponent";
 import ImageComponent from "../../../components/Home/Writing/ImageComponent";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Writing = () => {
   const [images, setImages] = useState([]);
@@ -72,36 +73,30 @@ const Writing = () => {
     setTitle(event.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
       const token = localStorage.getItem("accessToken");
       const formData = new FormData();
       formData.append("title", title);
       formData.append("content", content);
       formData.append("latitude", clickedLat);
       formData.append("longitude", clickedLng);
-      images.forEach(image => formData.append("imgs", image));
-      
-      fetch("http://localhost:8080/posts/home/store", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      })
-      .then((response) => {
-        if(!response.ok){
-          throw new Error("서버 오류");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("작성 성공: ", data);
-        navigate(-1);
-      })
-      .catch((error) => {
-        console.error("작성 실패: ", error);
+      images.forEach((image) => {
+        formData.append("img", image);
       });
-    };
+      
+      try {
+        const response = await axios.post("http://localhost:8080/posts/home/store", formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log("작성 성공: ", response.data);
+        navigate(-1);
+      } catch (error) {
+        console.error("작성 실패: ", error);
+      }
+  };
 
   return (
     <Container>
