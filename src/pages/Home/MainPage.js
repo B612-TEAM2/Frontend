@@ -46,7 +46,7 @@ const MainPage = () => {
   const handleAccept = async (userName) => {
     try {
       const token = localStorage.getItem("accessToken");
-      const requestData = { nickname: "userName", status: "accept" };
+      const requestData = { nickname: userName, status: "accept" };
       const response = await axios.post(
         `http://localhost:8080/friends/pending`,
         requestData,
@@ -77,7 +77,7 @@ const MainPage = () => {
   const handleReject = async (userName) => {
     try {
       const token = localStorage.getItem("accessToken");
-      const requestData = { nickname: "userName", status: "reject" };
+      const requestData = { nickname: userName, status: "reject" };
       const response = await axios.post(
         `http://localhost:8080/friends/pending`,
         requestData,
@@ -154,7 +154,7 @@ const MainPage = () => {
       <AlertWrapper
         onClick={openModal}
         style={{
-          display: pendingUsers && pendingUsers.length ? "block" : "none",
+          display: pendingUsers && pendingUsers.length ? "flex" : "none",
         }}
       >
         <FriendAlert src={imgSrc}></FriendAlert>
@@ -213,9 +213,9 @@ const AlertWrapper = styled.div`
 `;
 const FriendAlert = styled.img`
   width: 35px;
-  height: 305px;
+  height: 35px;
   cursor: pointer;
-  margin-right: 10px;
+  margin-right: 15px;
 `;
 
 const AlertText = styled.span`

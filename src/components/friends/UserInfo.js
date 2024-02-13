@@ -5,10 +5,11 @@ import axios from "axios";
 const UserInfo = (props) => {
   const handleDeleteFriend = async (name) => {
     try {
-      const NameString = String(name);
       const token = localStorage.getItem("accessToken");
       const response = await axios.delete("http://localhost:8080/friends", {
-        body: { nickname: NameString },
+        data: {
+          nickname: name, //서버에서 req.body.{}로 확인 가능
+        },
         headers: {
           Authorization: `Bearer ${token}`,
         },
