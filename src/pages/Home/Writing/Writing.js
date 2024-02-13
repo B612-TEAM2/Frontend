@@ -4,9 +4,11 @@ import SideMenuBar from "../../../components/SideMenuBar";
 import Modal from "react-modal";
 import Map from "../../../components/Home/Writing/Map";
 import EditorComponent from "../../../components/Home/Writing/EditorComponent";
+import ImageComponent from "../../../components/Home/Writing/ImageComponent";
 import { useNavigate } from "react-router-dom";
 
 const Writing = () => {
+  const [images, setImages] = useState([]);
   const [title, setTitle] = useState("");
   const navigate = useNavigate();
 
@@ -17,7 +19,6 @@ const Writing = () => {
     setClickedLng(location.lng);
   };
 
-  const [images, setImages] = useState([]);
   const handleImageChange = (image) => {
     if(images.length >= 10){
       alert(`이미지는 최대 10개까지 첨부할 수 있습니다.`);
@@ -112,6 +113,7 @@ const Writing = () => {
             onChange={handleTitleChange}
             placeholder="제목을 입력해 주세요"
           />
+          <ImageComponent images={images} onImageChange={handleImageChange} />
           <EditorComponent
             value={content}
             onChange={onEditorChange}
