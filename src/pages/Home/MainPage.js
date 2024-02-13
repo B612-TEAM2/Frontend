@@ -77,7 +77,7 @@ const MainPage = () => {
   const handleReject = async (userName) => {
     try {
       const token = localStorage.getItem("accessToken");
-      const requestData = { nickname: "userName", status: "accept" };
+      const requestData = { nickname: "userName", status: "reject" };
       const response = await axios.post(
         `http://localhost:8080/friends/pending`,
         requestData,
