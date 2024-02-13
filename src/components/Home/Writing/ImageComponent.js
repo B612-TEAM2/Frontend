@@ -25,7 +25,7 @@ function ImageComponent({onImageChange}) {
 
     return (
       <div>
-        <input type="file" id="file" multiple onChange={handleImageChange} />
+        <input type="file" id="file" multiple onChange={handleImageChange} accpet="image/jpeg, image/png" />
         <div className="result">{renderPhotos(previews)}</div>
       </div>
     );

@@ -1,14 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import SideMenuBar from "../../components/SideMenuBar";
+import MainToggle from "../../components/Home/MainToggle";
+
+//반경 2km 내 핀들, 글 목록 백에서 반환해줌
+// friend 페이지와 비슷한 기능으로
 
 const Public = () => {
   return (
     <>
       <SideMenuBar></SideMenuBar>
-      <Container>
-        <div>public페이지입니다.</div>
-      </Container>
+      <Container></Container>
     </>
   );
 };
