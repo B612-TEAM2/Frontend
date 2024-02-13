@@ -67,7 +67,6 @@ const FriendHeader = () => {
 export default FriendHeader;
 
 const Container = styled.div`
-  //헤더 전체의 컨테이너
   height: 100px;
   width: 100%;
   display: flex;
