@@ -15,7 +15,7 @@ const FriendMap = () => {
 
   const [previewState, setPreviewState] = useRecoilState(previewOpen);
   const [markerId, setMarkerId] = useRecoilState(clickedId);
-  const [isMap, setIsMap] = useRecoilState(isHomeMap); // isFriendmap으로 수정
+  const [isMap, setIsMap] = useRecoilState(isHomeMap); // isFriendmap으로 state관리 필요!
 
   const markerData = useRecoilValue(friendMarkers); // friendheader에서 클릭시 바뀌는 friendmarkers data 구독
 
@@ -43,7 +43,6 @@ const FriendMap = () => {
   useEffect(() => {
     getLocation();
     setIsMap(true);
-    console.log(isMap);
   }, []);
 
   const getLocation = () => {

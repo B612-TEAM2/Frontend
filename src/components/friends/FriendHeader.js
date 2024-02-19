@@ -8,9 +8,10 @@ import { useRecoilState } from "recoil";
 import { friendMarkers } from "../../atom";
 
 //  /posts/friends/pins로 get id, token -> 위도, 경도 ,pid
+// /posts/friends/list get id, token -> 그 친구가 쓴 모든 글 보기
 
 // 핀 클릭시 list 반환
-//  -> "/posts/clickPin"  로 pid를 리스트 형식으로 요청(id, title, scope, createdDate, contentPreview, imgByte)
+//  -> "/posts/clickPin"  로 pid를 리스트 형식으로 요청보냄 (id, title, scope, createdDate, contentPreview, imgByte)
 // public, friend, home 다 동일한 api 주소로 요청
 
 const FriendHeader = () => {

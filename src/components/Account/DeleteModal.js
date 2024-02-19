@@ -3,6 +3,8 @@ import styled from "styled-components";
 import AccountSettingButton from "./AccountSettingButton";
 import { useNavigate } from "react-router-dom";
 
+//account로 delete token만
+
 const DeleteModal = ({ closeModal, ...props }) => {
   const navigate = useNavigate();
   const modalRef = useRef();
