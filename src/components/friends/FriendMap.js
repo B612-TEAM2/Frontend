@@ -71,7 +71,7 @@ const FriendMap = () => {
 
   const mapStyles = {
     height: "calc(100vh - 100px)",
-    width: "calc(100% - 275px)",
+    width: "100%",
   };
 
   const defaultCenter = {

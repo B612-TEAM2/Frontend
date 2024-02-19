@@ -153,7 +153,7 @@ export default FriendHeader;
 
 const Container = styled.div`
   height: 100px;
-  width: calc(100vw - 600px);
+  width: calc(100% - 275px);
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -161,6 +161,7 @@ const Container = styled.div`
   position: relative;
   overflow-x: auto;
   background-color: white;
+  margin-left: 275px;
 `;
 
 const FriendContainer = styled.div`
