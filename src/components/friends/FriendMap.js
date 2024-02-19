@@ -6,7 +6,7 @@ import {
   useJsApiLoader,
 } from "@react-google-maps/api";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { clickedId, friendMarkers, isHomeMap, previewOpen } from "../../atom";
+import { clickedId, friendMarkers, isFriendMap, previewOpen } from "../../atom";
 
 const FriendMap = () => {
   const [lat, setLat] = useState(0);
@@ -15,7 +15,7 @@ const FriendMap = () => {
 
   const [previewState, setPreviewState] = useRecoilState(previewOpen);
   const [markerId, setMarkerId] = useRecoilState(clickedId);
-  const [isMap, setIsMap] = useRecoilState(isHomeMap); // isFriendmap으로 state관리 필요!
+  const [isMap, setIsMap] = useRecoilState(isFriendMap); // isFriendmap으로 state관리 필요!
 
   const markerData = useRecoilValue(friendMarkers); // friendheader에서 클릭시 바뀌는 friendmarkers data 구독
 
@@ -43,6 +43,9 @@ const FriendMap = () => {
   useEffect(() => {
     getLocation();
     setIsMap(true);
+    return () => {
+      setIsMap(false);
+    };
   }, []);
 
   const getLocation = () => {
@@ -68,7 +71,7 @@ const FriendMap = () => {
 
   const mapStyles = {
     height: "calc(100vh - 100px)",
-    width: "100%",
+    width: "calc(100% - 275px)",
   };
 
   const defaultCenter = {

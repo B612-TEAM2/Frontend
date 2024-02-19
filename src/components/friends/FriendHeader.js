@@ -17,7 +17,7 @@ import { friendMarkers } from "../../atom";
 const FriendHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [friends, setFriends] = useState({ id: 1, nickname: "닉네임" });
-  const [markers, setMarkers] = useRecoilState(friendMarkers); //back으로 부터 langitude,longitude,pid 받아옴 -> atom에 저장
+  const [markers, setMarkers] = useRecoilState(friendMarkers); //back으로 부터 langitude,longitude,pid 받아옴 -> atom에 저장 -> friendmap에서 사용용
 
   const customStyles = {
     overlay: {
@@ -51,7 +51,7 @@ const FriendHeader = () => {
   function closeModal() {
     setIsModalOpen(false);
   }
-
+  // 백에서 친구 정보 (사용자의 모든 친구 id 받아오는 함수)
   const fetchFriends = async () => {
     try {
       const token = localStorage.getItem("accessToken");
@@ -153,7 +153,7 @@ export default FriendHeader;
 
 const Container = styled.div`
   height: 100px;
-  width: 100%;
+  width: calc(100vw - 600px);
   display: flex;
   justify-content: flex-start;
   align-items: center;

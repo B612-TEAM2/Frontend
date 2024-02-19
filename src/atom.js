@@ -20,3 +20,8 @@ export const friendMarkers = atom({
   key: "friendMarkers",
   default: null,
 });
+
+export const isFriendMap = atom({
+  key: "isFriendMap",
+  default: false,
+});
