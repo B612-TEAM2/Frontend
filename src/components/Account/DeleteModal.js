@@ -2,8 +2,7 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 import AccountSettingButton from "./AccountSettingButton";
 import { useNavigate } from "react-router-dom";
-
-//account로 delete token만
+import axios from "axios";
 
 const DeleteModal = ({ closeModal, ...props }) => {
   const navigate = useNavigate();
@@ -15,8 +14,27 @@ const DeleteModal = ({ closeModal, ...props }) => {
     }
   };
 
-  // 탈퇴 로직 구현 필요
-  // 백에 api 어디로?/?
+  const handleDeleteAccount = async () => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await axios.delete("http://localhost:8080/account", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 200) {
+        console.log(response.data);
+        alert("계정 삭제가 완료되었습니다.");
+        navigate("/");
+      } else {
+        console.error("계정 삭제 중 오류 발생:", response.statusText);
+        alert("계정 삭제에 실패했습니다. 다시 시도해주세요.");
+      }
+    } catch (error) {
+      console.error("계정 삭제 중 오류 발생:", error);
+    }
+  };
+
   return (
     <Layer ref={modalRef} onClick={clickOutside}>
       <ModalWrapper>
@@ -33,7 +51,7 @@ const DeleteModal = ({ closeModal, ...props }) => {
         />
         <AccountSettingButton
           onClick={() => {
-            navigate("/");
+            handleDeleteAccount();
           }}
           children="미련없이 떠나기"
         />

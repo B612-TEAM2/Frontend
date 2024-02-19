@@ -62,6 +62,9 @@ const HomeMap = () => {
     getLocation();
     setIsMap(true);
     console.log(isMap);
+    return () => {
+      setIsMap(false);
+    };
   }, []);
 
   const getLocation = () => {
@@ -70,6 +73,7 @@ const HomeMap = () => {
         (position) => {
           setLat(position.coords.latitude);
           setLng(position.coords.longitude);
+          console.log("lat:", lat, "lng: ", lng);
         },
         (error) => {
           console.error(error);
