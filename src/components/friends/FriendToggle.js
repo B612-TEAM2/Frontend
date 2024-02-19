@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import FriendHeader from "../../components/friends/FriendHeader";
-import SideMenuBar from "../../components/SideMenuBar";
-import FriendMap from "../../components/friends/FriendMap";
-import FriendList from "../../components/friends/FriendList";
+import FriendMap from "./FriendMap";
+import FriendList from "./FriendList";
 
-const Friends = () => {
+const FriendToggle = () => {
   const [toggle, setToggle] = useState("map");
 
   const toggleHandler = () => {
@@ -13,53 +11,35 @@ const Friends = () => {
   };
 
   return (
-    <Wrapper>
-      <SideMenuBar></SideMenuBar>
-      <Container>
-        <FriendHeader></FriendHeader>
-        <BtnWrapper>
-          <Checkbox
-            type="checkbox"
-            id="toggleBtn"
-            value={toggle}
-            onChange={toggleHandler}
-          />
-          <ButtonLabel htmlFor="toggleBtn" toggle={toggle}>
-            <TextWrapper>
-              <ButtonText>MAP</ButtonText>
-              <VerticalLine />
-              <ButtonText>LIST</ButtonText>
-            </TextWrapper>
-            <ButtonBackground toggle={toggle} />
-          </ButtonLabel>
-        </BtnWrapper>
-        {toggle === "map" ? <FriendMap /> : <FriendList />}
-      </Container>
-    </Wrapper>
+    <Container>
+      <BtnWrapper>
+        <Checkbox
+          type="checkbox"
+          id="toggleBtn"
+          value={toggle}
+          onChange={toggleHandler}
+        />
+        <ButtonLabel htmlFor="toggleBtn" toggle={toggle}>
+          <TextWrapper>
+            <ButtonText>MAP</ButtonText>
+            <VerticalLine />
+            <ButtonText>LIST</ButtonText>
+          </TextWrapper>
+          <ButtonBackground toggle={toggle} />
+        </ButtonLabel>
+      </BtnWrapper>
+      {toggle === "map" ? <FriendMap /> : <FriendList />}
+    </Container>
   );
 };
 
-export default Friends;
-
 const Container = styled.div`
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-`;
-
-const MapWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: calc(100vh - 100px);
-  width: calc(100% - 275px);
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  position: relative;
+  right: 0;
+  bottom: 0;
 `;
 
 const BtnWrapper = styled.div`
@@ -67,7 +47,7 @@ const BtnWrapper = styled.div`
   z-index: 1;
   right: 1vw;
   margin-top: 2vh;
-  position: fixed;
+  position: absolute;
 `;
 
 const Checkbox = styled.input`
@@ -121,3 +101,5 @@ const ButtonBackground = styled.div`
   background-color: white;
   transition: left 0.3s ease-in-out;
 `;
+
+export default FriendToggle;

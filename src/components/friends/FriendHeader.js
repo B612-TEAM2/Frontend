@@ -8,15 +8,16 @@ import { useRecoilState } from "recoil";
 import { friendMarkers } from "../../atom";
 
 //  /posts/friends/pins로 get id, token -> 위도, 경도 ,pid
+// /posts/friends/list get id, token -> 그 친구가 쓴 모든 글 보기
 
 // 핀 클릭시 list 반환
-//  -> "/posts/clickPin"  로 pid를 리스트 형식으로 요청(id, title, scope, createdDate, contentPreview, imgByte)
+//  -> "/posts/clickPin"  로 pid를 리스트 형식으로 요청보냄 (id, title, scope, createdDate, contentPreview, imgByte)
 // public, friend, home 다 동일한 api 주소로 요청
 
 const FriendHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [friends, setFriends] = useState({ id: 1, nickname: "닉네임" });
-  const [markers, setMarkers] = useRecoilState(friendMarkers); //back으로 부터 langitude,longitude,pid 받아옴 -> atom에 저장
+  const [markers, setMarkers] = useRecoilState(friendMarkers); //back으로 부터 langitude,longitude,pid 받아옴 -> atom에 저장 -> friendmap에서 사용용
 
   const customStyles = {
     overlay: {
@@ -50,7 +51,7 @@ const FriendHeader = () => {
   function closeModal() {
     setIsModalOpen(false);
   }
-
+  // 백에서 친구 정보 (사용자의 모든 친구 id 받아오는 함수)
   const fetchFriends = async () => {
     try {
       const token = localStorage.getItem("accessToken");
@@ -152,7 +153,7 @@ export default FriendHeader;
 
 const Container = styled.div`
   height: 100px;
-  width: 100%;
+  width: calc(100% - 275px);
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -160,6 +161,7 @@ const Container = styled.div`
   position: relative;
   overflow-x: auto;
   background-color: white;
+  margin-left: 275px;
 `;
 
 const FriendContainer = styled.div`
