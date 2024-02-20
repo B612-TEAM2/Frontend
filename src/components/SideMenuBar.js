@@ -64,6 +64,9 @@ const Container = styled.div`
 
 const TextContainer = styled.div`
   display: flex;
+  background-color: ${({ active }) =>
+    active ? "rgba(255, 255, 255, 0.3)" : "transparent"};
+
   &:hover {
     background-color: rgba(255, 255, 255, 0.3);
   }
