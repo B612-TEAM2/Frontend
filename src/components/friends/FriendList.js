@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { Link as RouterLink } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { isFriendMap } from "../../atom";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { clickedName, isFriendMap } from "../../atom";
 
 const FriendList = () => {
   const [posts, setPosts] = useState([]);
   const setIsFriend = useSetRecoilState(isFriendMap);
+  const friendName = useRecoilValue(clickedName);
 
   const getUserPosts = async () => {
     try {
@@ -35,7 +36,11 @@ const FriendList = () => {
 
   return (
     <Container>
-      <TitleText>친구가 쓴 글</TitleText>
+      {friendName !== null ? (
+        <TitleText>{friendName}님은 이런 글을 썼어요!</TitleText>
+      ) : (
+        <TitleText>친구들은 이런 글을 썼어요!</TitleText>
+      )}
       <ListContainer>
         <ListWrapper>
           {posts.map((post) => (

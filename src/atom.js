@@ -25,3 +25,20 @@ export const isFriendMap = atom({
   key: "isFriendMap",
   default: false,
 });
+
+//버블 클릭된 친구의 id정보
+//css 조건부 활용을 위한 데이터
+export const clickedFriend = atom({
+  key: "clickedFriend",
+  default: null,
+});
+
+export const isAllClicked = atom({
+  key: "isAllClicked",
+  default: true,
+});
+
+export const clickedName = atom({
+  key: "clickedName",
+  default: null,
+});
