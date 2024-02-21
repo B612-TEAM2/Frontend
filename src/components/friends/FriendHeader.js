@@ -5,19 +5,29 @@ import Modal from "react-modal";
 import FriendSearch from "../../components/friends/FriendSearch";
 import axios from "axios";
 import { useRecoilState } from "recoil";
-import { friendMarkers } from "../../atom";
+import {
+  clickedFriend,
+  clickedName,
+  friendMarkers,
+  isAllClicked,
+} from "../../atom";
 
 //  /posts/friends/pins로 get id, token -> 위도, 경도 ,pid
 // /posts/friends/list get id, token -> 그 친구가 쓴 모든 글 보기
 
 // 핀 클릭시 list 반환
 //  -> "/posts/clickPin"  로 pid를 리스트 형식으로 요청보냄 (id, title, scope, createdDate, contentPreview, imgByte)
-// public, friend, home 다 동일한 api 주소로 요청
 
 const FriendHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [friends, setFriends] = useState({ id: 1, nickname: "닉네임" });
+  const [friends, setFriends] = useState([
+    { id: 1, nickname: "닉네임" },
+    { id: 2, nickname: "닉네임2" },
+  ]);
   const [markers, setMarkers] = useRecoilState(friendMarkers); //back으로 부터 langitude,longitude,pid 받아옴 -> atom에 저장 -> friendmap에서 사용용
+  const [clickedBubble, setClickedBubble] = useRecoilState(clickedFriend);
+  const [clickedAll, setClickedAll] = useRecoilState(isAllClicked);
+  const [clickedFriendName, setClickedFriendName] = useRecoilState(clickedName);
 
   const customStyles = {
     overlay: {
@@ -91,18 +101,23 @@ const FriendHeader = () => {
 
   //모든 친구 id list 넘겨주는 함수
   const handleAllClick = () => {
-    var idList = friends.map(function (item) {
-      return item.id;
-    });
+    var idList =
+      friends &&
+      friends.map(function (item) {
+        return item.id;
+      });
     fetchMarkersData(idList);
   };
 
   useEffect(() => {
     Modal.setAppElement("#root");
     fetchFriends();
+    setClickedAll(true);
+    return () => {
+      setClickedBubble(null);
+      setClickedAll(true);
+    };
   }, []);
-
-  //friends 에 id, profileImg, nickname 있음
 
   return (
     <>
@@ -110,12 +125,15 @@ const FriendHeader = () => {
         <AllButton
           onClick={() => {
             handleAllClick();
+            setClickedAll(true);
+            setClickedFriendName(null);
           }}
+          clicked={clickedAll}
         >
           ALL
         </AllButton>
         <FriendContainer>
-          {/* {friends &&
+          {friends &&
             friends.length !== 0 &&
             friends.map((f) => (
               <FriendBubble
@@ -124,17 +142,13 @@ const FriendHeader = () => {
                 userName={f.nickname}
                 onClick={() => {
                   handleBubbleClick(f.id);
+                  setClickedBubble(f.id);
+                  setClickedFriendName(f.nickname);
+                  setClickedAll(false);
                 }}
+                clicked={clickedAll === false && clickedBubble === f.id}
               />
-            ))} */}
-          <FriendBubble
-            key={friends.id}
-            imgSrc={friends.profileImg}
-            userName={friends.nickname}
-            onClick={() => {
-              handleBubbleClick(friends.id);
-            }}
-          ></FriendBubble>
+            ))}
         </FriendContainer>
         <SearchButton onClick={openModal}>🔍</SearchButton>
         <Modal
@@ -178,7 +192,7 @@ const AllButton = styled.div`
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  border: none;
+  border: ${({ clicked }) => (clicked ? "1.5px solid black" : "none")};
   background-color: #95ada4;
   z-index: 2;
   display: flex;
