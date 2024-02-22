@@ -27,6 +27,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 90px;
+  width: 65px;
 `;
 
 const Bubble = styled.img`

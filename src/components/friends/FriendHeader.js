@@ -189,7 +189,7 @@ const FriendContainer = styled.div`
 `;
 
 const AllButton = styled.div`
-  position: fixed;
+  position: absolute;
   left: 30;
   width: 70px;
   height: 70px;
@@ -206,7 +206,7 @@ const AllButton = styled.div`
 `;
 
 const SearchButton = styled.div`
-  position: fixed;
+  position: absolute;
   right: 30px;
   cursor: pointer;
   width: 70px;

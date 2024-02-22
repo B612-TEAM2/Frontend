@@ -7,52 +7,52 @@ import { isHomeMap } from "../../atom";
 import { ListScope, ListMyLike } from "../ListScope";
 
 const HomeList = () => {
-  const dummyData = [
-    {
-      id: 1,
-      title: "제목1",
-      scope: "public",
-      likeCount: 10,
-      myLike: false,
-      createdDate: "2021-08-19",
-      contentPreview: "내용1",
-      image: "https://source.unsplash.com/random",
-    },
-    {
-      id: 2,
-      title: "제목2",
-      scope: "private",
-      likeCount: 5,
-      myLike: true,
-      createdDate: "2021-08-20",
-      contentPreview: "내용2",
-      image: "https://source.unsplash.com/random",
-    }
-  ];
-  const [posts, setPosts] = useState(dummyData);
-  // const setIsHome = useSetRecoilState(isHomeMap);
-  // const getUserPosts = async () => {
-  //   try {
-  //     const token = localStorage.getItem("accessToken");
-  //     const response = await axios.get(
-  //       `http://localhost:8080/posts/home/list`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //     console.log(response);
-  //     setPosts(response.data);
-  //   } catch (error) {
-  //     console.error(error);
+  // const dummyData = [
+  //   {
+  //     id: 1,
+  //     title: "제목1",
+  //     scope: "public",
+  //     likeCount: 10,
+  //     myLike: false,
+  //     createdDate: "2021-08-19",
+  //     contentPreview: "내용1",
+  //     image: "https://source.unsplash.com/random",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "제목2",
+  //     scope: "private",
+  //     likeCount: 5,
+  //     myLike: true,
+  //     createdDate: "2021-08-20",
+  //     contentPreview: "내용2",
+  //     image: "https://source.unsplash.com/random",
   //   }
-  // };
+  // ];
+  const [posts, setPosts] = useState([]);
+  const setIsHome = useSetRecoilState(isHomeMap);
+  const getUserPosts = async () => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await axios.get(
+        `http://localhost:8080/posts/home/list`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response);
+      setPosts(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  // useEffect(() => {
-  //   getUserPosts();
-  //   setIsHome(false);
-  // }, []);
+  useEffect(() => {
+    getUserPosts();
+    setIsHome(false);
+  }, []);
 
   return (
     <Container>
