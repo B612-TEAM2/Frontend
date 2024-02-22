@@ -107,6 +107,8 @@ const FriendHeader = () => {
         return item.id;
       });
     fetchMarkersData(idList);
+    setClickedBubble(idList);
+    console.log("handleAllclick에서 넘겨주는 idList: ", idList);
   };
 
   useEffect(() => {
