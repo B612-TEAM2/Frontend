@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import FriendHeader from "../../components/friends/FriendHeader";
 import SideMenuBar from "../../components/SideMenuBar";
 import FriendMap from "../../components/friends/FriendMap";
 import FriendList from "../../components/friends/FriendList";
+import { useSetRecoilState } from "recoil";
+import { isFriendPage } from "../../atom";
 
 const Friends = () => {
   const [toggle, setToggle] = useState("map");
+  const setIsFriendPage = useSetRecoilState(isFriendPage);
+  useEffect(() => {
+    setIsFriendPage(true);
+    return () => {
+      setIsFriendPage(false);
+    };
+  }, []);
 
   const toggleHandler = () => {
     setToggle((prevState) => (prevState === "map" ? "list" : "map"));
