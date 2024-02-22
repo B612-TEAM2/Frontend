@@ -47,7 +47,8 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
 `;
 
 const Wrapper = styled.div`
@@ -65,9 +66,12 @@ const MapWrapper = styled.div`
 const BtnWrapper = styled.div`
   display: flex;
   z-index: 1;
-  right: 1vw;
-  margin-top: 2vh;
-  position: fixed;
+  position: absolute;
+  top: 15%;
+  left: 80%;
+  transform: translateY(-10%);
+  transform: translateX(10%);
+  margin-top: 1vh;
 `;
 
 const Checkbox = styled.input`
