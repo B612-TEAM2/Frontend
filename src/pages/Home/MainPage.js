@@ -6,8 +6,8 @@ import styled from "styled-components";
 import axios from "axios";
 import Modal from "react-modal";
 import PendingInfo from "../../components/Home/PendingInfo";
-import { useRecoilValue, useRecoilState } from "recoil";
-import { clickedId, isHomeMap, previewOpen } from "../../atom";
+import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
+import { clickedId, isHomeMap, isHomePage, previewOpen } from "../../atom";
 import MarkerPreview from "../../components/Home/MarkerPreview";
 
 const MainPage = () => {
@@ -18,13 +18,14 @@ const MainPage = () => {
   const preview = useRecoilValue(clickedId); // 미리보기 필요한 모든 정보
   const [openState, setOpenState] = useRecoilState(previewOpen);
   const isMap = useRecoilValue(isHomeMap);
+  const setIsHomePage = useSetRecoilState(isHomePage);
 
   useEffect(() => {
     Modal.setAppElement("#root");
     console.log("프리뷰 openstate: ", openState);
     console.log("isMap: ", isMap);
     console.log("preview ", preview);
-
+    setIsHomePage(true);
     const fetchData = async () => {
       const apiUrl = `http://localhost:8080/friends/pending`;
       const accessToken = localStorage.getItem("accessToken");
@@ -41,6 +42,9 @@ const MainPage = () => {
       }
     };
     fetchData();
+    return () => {
+      setIsHomePage(false);
+    };
   }, []);
 
   const handleAccept = async (userName) => {

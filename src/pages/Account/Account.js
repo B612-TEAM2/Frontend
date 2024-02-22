@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import DeleteModal from "../../components/Account/DeleteModal";
 import Modal from "react-modal";
 import axios from "axios";
+import { useSetRecoilState } from "recoil";
+import { isAccountPage } from "../../atom";
 
 const Account = () => {
   const navigate = useNavigate();
@@ -16,8 +18,10 @@ const Account = () => {
   const [userData, setUserData] = useState(null);
   const [imgSrc, setImgSrc] = useState("");
   const [nickname, setNickname] = useState("");
-  //페이지 마운트시 유저 정보 get
+  const setIsAccountPage = useSetRecoilState(isAccountPage);
+
   useEffect(() => {
+    setIsAccountPage(true);
     const fetchData = async () => {
       const apiUrl = `http://localhost:8080/account`;
       const accessToken = localStorage.getItem("accessToken");
@@ -37,6 +41,9 @@ const Account = () => {
       }
     };
     fetchData();
+    return () => {
+      setIsAccountPage(false);
+    };
   }, []);
 
   function onChange(e) {

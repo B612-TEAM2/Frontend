@@ -57,3 +57,25 @@ export const curLng = atom({
   key: "curLng",
   default: null,
 });
+
+//side menubar data
+
+export const isHomePage = atom({
+  key: "isHomePage",
+  default: true,
+});
+
+export const isFriendPage = atom({
+  key: "isFriendPage",
+  default: false,
+});
+
+export const isPublicPage = atom({
+  key: "isPublicPage",
+  default: false,
+});
+
+export const isAccountPage = atom({
+  key: "isAccountPage",
+  default: false,
+});
