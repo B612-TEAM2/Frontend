@@ -3,12 +3,15 @@ import styled from "styled-components";
 import axios from "axios";
 import { Link as RouterLink } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from "recoil";
-import { clickedName, isFriendMap } from "../../atom";
+import { clickedFriend, clickedName, isFriendMap } from "../../atom";
 
 const FriendList = () => {
   const [posts, setPosts] = useState([]);
   const setIsFriend = useSetRecoilState(isFriendMap);
   const friendName = useRecoilValue(clickedName);
+  const clickedFriendId = useRecoilValue(clickedFriend); // click된 id/id리스트
+  // all버튼 클릭 : handleAllClick 함수 내부에서 setClickedBubble(idList)
+  // bubble 클릭 : setClickedBubble(f.id)
 
   const getUserPosts = async () => {
     try {
@@ -17,6 +20,7 @@ const FriendList = () => {
         `http://localhost:8080/posts/friends/list`,
         //글 미리보기 (id,title,scope,likeCount, myLike, createdDate, contentPreview,  imgByte)
         {
+          params: { uids: clickedFriendId },
           headers: {
             Authorization: `Bearer ${token}`,
           },
