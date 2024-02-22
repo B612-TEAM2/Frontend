@@ -3,71 +3,63 @@ import styled from "styled-components";
 import axios from "axios";
 import { Link as RouterLink } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from "recoil";
-import { clickedFriend, clickedName, isFriendMap } from "../../atom";
+import { curLng, curLat, isPublicMap } from "../../atom";
 import { ListScope, ListMyLike } from "../ListScope";
 
-const FriendList = () => {
-  const dummyData = [
-    {
-      id: 1,
-      title: "제목1",
-      scope: "public",
-      likeCount: 10,
-      myLike: false,
-      createdDate: "2021-08-19",
-      contentPreview: "내용1",
-      image: "https://source.unsplash.com/random",
-    },
-    {
-      id: 2,
-      title: "제목2",
-      scope: "private",
-      likeCount: 5,
-      myLike: true,
-      createdDate: "2021-08-20",
-      contentPreview: "내용2",
-      image: "https://source.unsplash.com/random",
-    },
-  ];
-  const [posts, setPosts] = useState(dummyData);
-  const setIsFriend = useSetRecoilState(isFriendMap);
-  const friendName = useRecoilValue(clickedName);
-  const clickedFriendId = useRecoilValue(clickedFriend); // click된 id/id리스트
-  // all버튼 클릭 : handleAllClick 함수 내부에서 setClickedBubble(idList)
-  // bubble 클릭 : setClickedBubble(f.id)
+const PublicList = () => {
+  // const dummyData = [
+  //   {
+  //     id: 1,
+  //     title: "제목1",
+  //     scope: "public",
+  //     likeCount: 10,
+  //     myLike: false,
+  //     createdDate: "2021-08-19",
+  //     contentPreview: "내용1",
+  //     image: "https://source.unsplash.com/random",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "제목2",
+  //     scope: "private",
+  //     likeCount: 5,
+  //     myLike: true,
+  //     createdDate: "2021-08-20",
+  //     contentPreview: "내용2",
+  //     image: "https://source.unsplash.com/random",
+  //   },
+  // ];
+  const [posts, setPosts] = useState([]);
+  const setIsMap = useSetRecoilState(isPublicMap);
+  const lat = useRecoilValue(curLat);
+  const lng = useRecoilValue(curLng);
 
-  // const getUserPosts = async () => {
-  //   try {
-  //     const token = localStorage.getItem("accessToken");
-  //     const response = await axios.get(
-  //       `http://localhost:8080/posts/friends/list`,
-  //       //글 미리보기 (id,title,scope,likeCount, myLike, createdDate, contentPreview,  imgByte)
-  //       {
-  //         params: { uids: clickedFriendId },
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //     console.log(response);
-  //     setPosts(response.data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const getPublicPosts = async () => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await axios.get(
+        `http://localhost:8080/posts/home/list`,
+        {
+          params: { latitude: lat, longitude: lng },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setPosts(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  // useEffect(() => {
-  //   getUserPosts();
-  //   setIsFriend(false);
-  // }, []);
+  useEffect(() => {
+    getPublicPosts();
+    setIsMap(false);
+  }, []);
 
   return (
     <Container>
-      {friendName !== null ? (
-        <TitleText>{friendName}님은 이런 글을 썼어요!</TitleText>
-      ) : (
-        <TitleText>친구들은 이런 글을 썼어요!</TitleText>
-      )}
+      <TitleText>내 주변의 Posts를 확인해보세요!</TitleText>
       <ListContainer>
         <ListWrapper>
           {posts.map((post) => (
@@ -188,4 +180,4 @@ const Date = styled.div`
   color: #6f6f6f;
 `;
 
-export default FriendList;
+export default PublicList;

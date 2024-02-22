@@ -26,6 +26,11 @@ export const isFriendMap = atom({
   default: false,
 });
 
+export const isPublicMap = atom({
+  key: "isPublicMap",
+  default: false,
+});
+
 //버블 클릭된 친구의 id정보
 //css 조건부 활용을 위한 데이터
 export const clickedFriend = atom({
@@ -40,5 +45,15 @@ export const isAllClicked = atom({
 
 export const clickedName = atom({
   key: "clickedName",
+  default: null,
+});
+
+//public page에서 사용을 위한 사용자 현위치 정보
+export const curLat = atom({
+  key: "curLat",
+  default: null,
+});
+export const curLng = atom({
+  key: "curLng",
   default: null,
 });
