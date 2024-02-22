@@ -29,7 +29,7 @@ const FriendList = () => {
   //     image: "https://source.unsplash.com/random",
   //   },
   // ];
-  const [posts, setPosts] = useState(dummyData);
+  const [posts, setPosts] = useState([]);
   const setIsFriend = useSetRecoilState(isFriendMap);
   const friendName = useRecoilValue(clickedName);
   const clickedFriendId = useRecoilValue(clickedFriend); // click된 id/id리스트
