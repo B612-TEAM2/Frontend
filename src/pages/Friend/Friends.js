@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import FriendHeader from "../../components/friends/FriendHeader";
 import SideMenuBar from "../../components/SideMenuBar";
 import FriendMap from "../../components/friends/FriendMap";
 import FriendList from "../../components/friends/FriendList";
+import { useSetRecoilState } from "recoil";
+import { isFriendPage } from "../../atom";
 
 const Friends = () => {
   const [toggle, setToggle] = useState("map");
+  const setIsFriendPage = useSetRecoilState(isFriendPage);
+  useEffect(() => {
+    setIsFriendPage(true);
+    return () => {
+      setIsFriendPage(false);
+    };
+  }, []);
 
   const toggleHandler = () => {
     setToggle((prevState) => (prevState === "map" ? "list" : "map"));
@@ -47,7 +56,8 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
 `;
 
 const Wrapper = styled.div`
@@ -65,9 +75,12 @@ const MapWrapper = styled.div`
 const BtnWrapper = styled.div`
   display: flex;
   z-index: 1;
-  right: 1vw;
-  margin-top: 2vh;
-  position: fixed;
+  position: absolute;
+  top: 15%;
+  left: 80%;
+  transform: translateY(-10%);
+  transform: translateX(10%);
+  margin-top: 1vh;
 `;
 
 const Checkbox = styled.input`

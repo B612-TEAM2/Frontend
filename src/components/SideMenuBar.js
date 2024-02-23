@@ -1,8 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { isAccountPage, isFriendPage, isHomePage, isPublicPage } from "../atom";
+import { useRecoilValue } from "recoil";
 
 const SideMenuBar = () => {
+  const isAccount = useRecoilValue(isAccountPage);
+  const isHome = useRecoilValue(isHomePage);
+  const isFriend = useRecoilValue(isFriendPage);
+  const isPublic = useRecoilValue(isPublicPage);
+
   const navigate = useNavigate();
 
   return (
@@ -12,6 +19,7 @@ const SideMenuBar = () => {
           onClick={() => {
             navigate("/home");
           }}
+          clicked={isHome}
         >
           <Icon src={`${process.env.PUBLIC_URL}/img/home.svg`} />
           <Text>Home</Text>
@@ -20,6 +28,7 @@ const SideMenuBar = () => {
           onClick={() => {
             navigate("/friends");
           }}
+          clicked={isFriend}
         >
           <Icon src={`${process.env.PUBLIC_URL}/img/friends.svg`} />
           <Text>Friends</Text>
@@ -28,6 +37,7 @@ const SideMenuBar = () => {
           onClick={() => {
             navigate("/public");
           }}
+          clicked={isPublic}
         >
           <Icon src={`${process.env.PUBLIC_URL}/img/public.svg`} />
           <Text>Public</Text>
@@ -36,6 +46,7 @@ const SideMenuBar = () => {
           onClick={() => {
             navigate("/account");
           }}
+          clicked={isAccount}
         >
           <Icon src={`${process.env.PUBLIC_URL}/img/account.svg`} />
           <Text>Account</Text>
@@ -64,6 +75,9 @@ const Container = styled.div`
 
 const TextContainer = styled.div`
   display: flex;
+  background-color: ${({ clicked }) =>
+    clicked ? "rgba(255, 255, 255, 0.3)" : "transparent"};
+
   &:hover {
     background-color: rgba(255, 255, 255, 0.3);
   }

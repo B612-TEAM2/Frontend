@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import FriendMap from "./FriendMap";
-import FriendList from "./FriendList";
+import PublicMap from "./PublicMap";
+import PublicList from "./PublicList";
 
-const FriendToggle = () => {
-  const [toggle, setToggle] = useState("map");
+const PublicToggle = () => {
+  const [toggle, setToggle] = useState("home");
 
   const toggleHandler = () => {
-    setToggle((prevState) => (prevState === "map" ? "list" : "map"));
+    setToggle((prevState) => (prevState === "home" ? "list" : "home"));
   };
 
   return (
@@ -28,7 +28,7 @@ const FriendToggle = () => {
           <ButtonBackground toggle={toggle} />
         </ButtonLabel>
       </BtnWrapper>
-      {toggle === "map" ? <FriendMap /> : <FriendList />}
+      {toggle === "home" ? <PublicMap /> : <PublicList />}
     </Container>
   );
 };
@@ -38,8 +38,6 @@ const Container = styled.div`
   height: 100vh;
   z-index: 0;
   position: relative;
-  right: 0;
-  bottom: 0;
 `;
 
 const BtnWrapper = styled.div`
@@ -94,7 +92,7 @@ const ButtonBackground = styled.div`
   top: 50%;
   transform: translateY(-50%);
   opacity: 50%;
-  left: ${({ toggle }) => (toggle === "map" ? "3%" : "54%")};
+  left: ${({ toggle }) => (toggle === "home" ? "3%" : "54%")};
   width: 92px;
   height: 50px;
   border-radius: 1000px;
@@ -102,4 +100,4 @@ const ButtonBackground = styled.div`
   transition: left 0.3s ease-in-out;
 `;
 
-export default FriendToggle;
+export default PublicToggle;

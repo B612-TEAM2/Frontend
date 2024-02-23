@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { Link as RouterLink } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { isHomeMap } from "../../atom";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { curLng, curLat, isPublicMap } from "../../atom";
 import { ListScope, ListMyLike } from "../ListScope";
 
-const HomeList = () => {
+const PublicList = () => {
   // const dummyData = [
   //   {
   //     id: 1,
@@ -27,22 +27,25 @@ const HomeList = () => {
   //     createdDate: "2021-08-20",
   //     contentPreview: "내용2",
   //     image: "https://source.unsplash.com/random",
-  //   }
+  //   },
   // ];
   const [posts, setPosts] = useState([]);
-  const setIsHome = useSetRecoilState(isHomeMap);
-  const getUserPosts = async () => {
+  const setIsMap = useSetRecoilState(isPublicMap);
+  const lat = useRecoilValue(curLat);
+  const lng = useRecoilValue(curLng);
+
+  const getPublicPosts = async () => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await axios.get(
         `http://localhost:8080/posts/home/list`,
         {
+          params: { latitude: lat, longitude: lng },
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      console.log(response);
       setPosts(response.data);
     } catch (error) {
       console.error(error);
@@ -50,13 +53,13 @@ const HomeList = () => {
   };
 
   useEffect(() => {
-    getUserPosts();
-    setIsHome(false);
+    getPublicPosts();
+    setIsMap(false);
   }, []);
 
   return (
     <Container>
-      <TitleText>내가 쓴 글</TitleText>
+      <TitleText>내 주변의 Posts를 확인해보세요!</TitleText>
       <ListContainer>
         <ListWrapper>
           {posts.map((post) => (
@@ -177,4 +180,4 @@ const Date = styled.div`
   color: #6f6f6f;
 `;
 
-export default HomeList;
+export default PublicList;
