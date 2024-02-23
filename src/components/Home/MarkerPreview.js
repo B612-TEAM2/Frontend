@@ -1,28 +1,73 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link as RouterLink } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { clickedId } from "../../atom";
 
-const MarkerPreview = ({ preview }) => {
-  if (!preview) {
-    return null;
-  }
+// 핀 클릭시 list 반환
+//  -> "/posts/clickPin"  로 pid를 리스트 형식으로 요청보냄
+// (id, title, scope, createdDate, contentPreview, imgByte)
+
+const MarkerPreview = () => {
+  const dummy = [
+    {
+      id: 123,
+      title: "제목",
+      scope: "공개범위",
+      content: "내용15자까지나옴",
+      createdData: "날짜",
+    },
+    {
+      id: 456,
+      title: "제목",
+      scope: "공개범위",
+      content: "내용15자까지나옴",
+      createdData: "날짜",
+    },
+  ];
+
+  const clickedData = useRecoilValue(clickedId);
+  //const clickedPidList = clickedData.map((obj) => obj.id);
+  const [postPreviews, setPostPreviews] = useState(dummy);
+
+  // useEffect(() => {
+  //   const fetchPreview = async () => {
+  //     try {
+  //       const token = localStorage.getItem("accessToken");
+  //       const response = await axios.get(
+  //         `http://localhost:8080/posts/clickPin`,{
+  //           params: { pids: clickedPidList },
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
+  //       setPostPreviews(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching preview data:", error);
+  //     }
+  //   };
+  //   fetchPreview();
+  // }, []);
+
   return (
     <Wrapper>
-      <div>{preview.id}</div>
-      <Link to={`/${preview.id}`} key={preview.id}>
-        <PostingWrapper key={preview.id}>
-          <Img />
-          <ContentWrapper>
-            <PostTitle>{preview.title}</PostTitle>
-            <Content>{preview.content}</Content>
-            <Line />
-            <ScopeWrapper>
-              <Scope>{preview.scope}</Scope>
-              <Date>{preview.createdData}</Date>
-            </ScopeWrapper>
-          </ContentWrapper>
-        </PostingWrapper>
-      </Link>
+      {postPreviews.map((p) => (
+        <Link to={`/${p.id}`} key={p.id}>
+          <PostingWrapper key={p.id}>
+            <Img />
+            <ContentWrapper>
+              <PostTitle>{p.title}</PostTitle>
+              <Content>{p.content}</Content>
+              <Line />
+              <ScopeWrapper>
+                <Scope>{p.scope}</Scope>
+                <Date>{p.createdData}</Date>
+              </ScopeWrapper>
+            </ContentWrapper>
+          </PostingWrapper>
+        </Link>
+      ))}
     </Wrapper>
   );
 };

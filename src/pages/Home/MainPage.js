@@ -142,22 +142,6 @@ const MainPage = () => {
   function closeModal() {
     setIsOpen(false);
   }
-  const dummy = [
-    {
-      id: 123,
-      title: "제목",
-      scope: "공개범위",
-      content: "내용15자까지나옴",
-      createdData: "날짜",
-    },
-    {
-      id: 456,
-      title: "제목",
-      scope: "공개범위",
-      content: "내용15자까지나옴",
-      createdData: "날짜",
-    },
-  ];
 
   return (
     <Container>
@@ -173,9 +157,12 @@ const MainPage = () => {
         <FriendAlert src={imgSrc}></FriendAlert>
         <AlertText>새로운 친구 요청이 있어요!</AlertText>
       </AlertWrapper>
-      <PreviewContainer key={openState && preview !== null && isMap}>
+      <PreviewContainer showContainer={openState && preview !== null && isMap}>
         <PreviewText>이 위치에서 쓴 글</PreviewText>
-        <MarkerPreview preview={dummy} />
+        <PreviewWrapper>
+          {" "}
+          <MarkerPreview />
+        </PreviewWrapper>
         <CloseButton
           onClick={() => {
             setOpenState(false);
@@ -252,18 +239,28 @@ const PreviewContainer = styled.div`
   height: 300px;
   background-color: white;
   border: 1px solid #69987f;
-  display: ${(props) => (props.showContainer ? "flex" : "none")};
+  display: ${({ showContainer }) => (showContainer ? "flex" : "none")};
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   border-radius: 10px;
-  cursor: pointer;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
   padding: 10px 3px 10px 3px;
 `;
 
+const PreviewWrapper = styled.div`
+  width: 500px;
+  height: 230px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
 const PreviewText = styled.div`
   font-size: 18px;
+  margin: 5px 0 10px 0px;
 `;
 
 const CloseButton = styled.button`
@@ -278,4 +275,5 @@ const CloseButton = styled.button`
   right: 20px;
   bottom: 10px;
   cursor: pointer;
+  z-index: 2;
 `;
