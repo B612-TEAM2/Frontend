@@ -11,6 +11,7 @@ import KakaoRedirection from "./pages/Login/KakaoRedirection";
 import GoogleRedirection from "./pages/Login/GoogleRedirection";
 import SetProfile from "./pages/Login/SetProfile";
 import PostPage from "./components/Home/PostPage";
+import EditPage from "./pages/Home/Writing/EditPage";
 
 function App() {
   return (
@@ -26,7 +27,8 @@ function App() {
           <Route exact path="/authkakao" element={<KakaoRedirection />} />
           <Route exact path="/authgoogle" element={<GoogleRedirection />} />
           <Route path="/SetProfile" element={<SetProfile />} />
-          <Route path="/:pid" element={<PostPage />} />
+          <Route path="/:id" element={<PostPage />} />
+          <Route path="/edit/:id" element={<EditPage />} />
         </Routes>
       </BrowserRouter>
     </div>
