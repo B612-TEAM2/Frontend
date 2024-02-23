@@ -256,6 +256,14 @@ const PreviewWrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: #95ada4;
+    height: 20%;
+  }
 `;
 
 const PreviewText = styled.div`
