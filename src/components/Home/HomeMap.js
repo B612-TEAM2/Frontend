@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
   GoogleMap,
-  MarkerF,
   InfoWindowF,
   Marker,
   useJsApiLoader,
@@ -23,11 +22,12 @@ const HomeMap = () => {
   const [markerId, setMarkerId] = useRecoilState(clickedId);
   const [isMap, setIsMap] = useRecoilState(isHomeMap);
 
-  const handleMarkerClick = (pid, lat, lng) => {
+  const handleMarkerClick = (pid, clickedLat, clickedLng) => {
     console.log("마커클릭이벤트발생");
-    const sameLat = markers.filter((m) => m.latitude === lat);
-    const sameLng = sameLat.filter((m) => m.longitude === lng);
+    const sameLat = markers.filter((m) => m.latitude === clickedLat);
+    const sameLng = sameLat.filter((m) => m.longitude === clickedLng);
     setPreviewState(true);
+
     console.log("프리뷰state:", previewState);
     setMarkerId(sameLng); //클릭된 마커와 같은 위치의 글 정보
   };
@@ -111,7 +111,7 @@ const HomeMap = () => {
       {isLoaded && (
         <GoogleMap
           mapContainerStyle={mapStyles}
-          zoom={16}
+          zoom={14}
           center={defaultCenter}
           options={{ disableDefaultUI: true }}
           onLoad={onLoad}
