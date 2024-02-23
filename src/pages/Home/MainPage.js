@@ -142,13 +142,22 @@ const MainPage = () => {
   function closeModal() {
     setIsOpen(false);
   }
-  // const dummy = {
-  //   id: 123,
-  //   title: "제목",
-  //   scope: "공개범위",
-  //   content: "내용15자까지나옴",
-  //   createdData: "날짜",
-  // };
+  const dummy = [
+    {
+      id: 123,
+      title: "제목",
+      scope: "공개범위",
+      content: "내용15자까지나옴",
+      createdData: "날짜",
+    },
+    {
+      id: 456,
+      title: "제목",
+      scope: "공개범위",
+      content: "내용15자까지나옴",
+      createdData: "날짜",
+    },
+  ];
 
   return (
     <Container>
@@ -166,7 +175,7 @@ const MainPage = () => {
       </AlertWrapper>
       <PreviewContainer key={openState && preview !== null && isMap}>
         <PreviewText>이 위치에서 쓴 글</PreviewText>
-        <MarkerPreview preview={preview} />
+        <MarkerPreview preview={dummy} />
         <CloseButton
           onClick={() => {
             setOpenState(false);

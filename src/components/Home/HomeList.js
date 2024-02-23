@@ -6,6 +6,8 @@ import { useSetRecoilState } from "recoil";
 import { isHomeMap } from "../../atom";
 import { ListScope, ListMyLike, HandleMyLike } from "../ListScope";
 
+//mylike가 변환된 pid만 보내기
+
 const HomeList = () => {
   // const dummyData = [
   //   {
