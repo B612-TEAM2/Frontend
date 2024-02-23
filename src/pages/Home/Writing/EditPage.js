@@ -7,7 +7,7 @@ import axios from "axios";
 import EditorComponent from "../../../components/Home/Writing/EditorComponent";
 import ImageComponent from "../../../components/Home/Writing/ImageComponent";
 import Dropdown from "../../../components/Home/Writing/Dropdown";
-import SideMenuBar from "../SideMenuBar";
+import SideMenuBar from "../../../components/SideMenuBar";
 
 const EditPage = () => {
     const { id } = useParams();
