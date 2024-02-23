@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import SideMenuBar from "../SideMenuBar";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 
 const PostPage = () => {
-  const { pid } = useParams();
-  const [post, setPost] = useState(null);
+  const { id } = useParams();
+  const [post, setPost] = useState();
   //조회수 높이는 기능도 같이 반환됨
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     const fetchPost = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/postInfo/${pid}`,
+          `http://localhost:8080/postInfo/${id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -27,7 +27,7 @@ const PostPage = () => {
     };
 
     fetchPost();
-  }, [pid]);
+  }, [id]);
 
   if (!post) return <h1>Post not found</h1>;
 
@@ -37,9 +37,13 @@ const PostPage = () => {
       <SideMenuBar />
       <WritingArea>
         <DateText>{post.createdDate}</DateText>
-        <TitleText>{post.title}</TitleText>
-        <TextArea>{post.content}</TextArea>
-        <Button>수정하기</Button>
+        <TitleText>
+          <WritingTitle>{post.title}</WritingTitle>
+        </TitleText>
+        <TextArea dangerouslySetInnerHTML={{ __html: post.content }} />
+        <Link to={`/edit/${post.id}`}>
+          <Button>수정하기</Button>
+        </Link>
         <Button>삭제하기</Button>
       </WritingArea>
     </Container>
@@ -48,8 +52,8 @@ const PostPage = () => {
 
 const Container = styled.div`
   display: flex;
-  gap: 1rem;
-  padding: 1rem;
+  width: 100%;
+  height: 100%;
   flex-direction: row;
 `;
 
