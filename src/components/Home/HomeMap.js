@@ -10,12 +10,14 @@ import { useRecoilState } from "recoil";
 import { clickedId, isHomeMap, previewOpen } from "../../atom";
 
 const HomeMap = () => {
+  // const dummy =
+  //   [
+  //     { id: 1, latitude: 37.55902624, longitude: 126.9749014 },
+  //     { id: 2, latitude: 37.55902624, longitude: 126.9749014 },
+  //   ];
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
-  const [markers, setMarkers] = useState([
-    { id: 1, latitude: 37.55902624, longitude: 126.9749014 },
-    { id: 2, latitude: 37.55902624, longitude: 126.9749014 },
-  ]);
+  const [markers, setMarkers] = useState([]);
   const [map, setMap] = useState(null);
 
   const [previewState, setPreviewState] = useRecoilState(previewOpen);

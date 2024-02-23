@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link as RouterLink } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { clickedId } from "../../atom";
+import axios from "axios";
 
 // 핀 클릭시 list 반환
 //  -> "/posts/clickPin"  로 pid를 리스트 형식으로 요청보냄
@@ -27,28 +28,29 @@ const MarkerPreview = () => {
   ];
 
   const clickedData = useRecoilValue(clickedId);
-  //const clickedPidList = clickedData.map((obj) => obj.id);
-  const [postPreviews, setPostPreviews] = useState(dummy);
+  const clickedPidList = clickedData.map((obj) => obj.id);
+  const [postPreviews, setPostPreviews] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchPreview = async () => {
-  //     try {
-  //       const token = localStorage.getItem("accessToken");
-  //       const response = await axios.get(
-  //         `http://localhost:8080/posts/clickPin`,{
-  //           params: { pids: clickedPidList },
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         }
-  //       );
-  //       setPostPreviews(response.data);
-  //     } catch (error) {
-  //       console.error("Error fetching preview data:", error);
-  //     }
-  //   };
-  //   fetchPreview();
-  // }, []);
+  useEffect(() => {
+    const fetchPreview = async () => {
+      try {
+        const token = localStorage.getItem("accessToken");
+        const response = await axios.get(
+          `http://localhost:8080/posts/clickPin`,
+          {
+            params: { pids: clickedPidList },
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setPostPreviews(response.data);
+      } catch (error) {
+        console.error("Error fetching preview data:", error);
+      }
+    };
+    fetchPreview();
+  }, []);
 
   return (
     <Wrapper>

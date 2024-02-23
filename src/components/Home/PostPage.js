@@ -12,14 +12,12 @@ const PostPage = () => {
     const token = localStorage.getItem("accessToken");
     const fetchPost = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/postInfo/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get(`http://localhost:8080/postInfo/`, {
+          params: { pid: id },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setPost(response.data);
       } catch (error) {
         console.error(error);
