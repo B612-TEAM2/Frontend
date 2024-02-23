@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 export function ListScope({ scope }) {
@@ -45,6 +45,24 @@ export function ListMyLike({ myLike }) {
             </>
         )
     }
+}
+
+export function HandleMyLike() {
+    const [myLike, setMyLike] = useState(false);
+
+    const handleIconClick = () => {
+        setMyLike(prevmyLike => !prevmyLike);
+    };
+
+    useEffect(() => {
+        console.log(myLike);
+    }, [myLike]);
+
+    return (
+        <i className="material-icons" onClick={handleIconClick}>
+        {myLike ? 'icon_for_like' : 'icon_for_dislike'}
+      </i>
+    );
 }
 
 const Div = styled.div`
