@@ -21,18 +21,13 @@ function GoogleRedirection() {
       localStorage.setItem("accessToken", ACCESS_TOKEN);
       localStorage.setItem("refreshToken", REFRESH_TOKEN);
     }
+    GoogleLogin();
 
-    const accessToken = localStorage.getItem("accessToken");
-    if (accessToken) {
-      navigate("/home", { replace: true });
-    } else {
-      GoogleLogin();
-      navigate("/SetProfile", { replace: true });
-    }
+    navigate("/SetProfile", { replace: true });
   }, []);
 
 
-  return <div>로그인 중입니다...</div>;
+  return <div>로그인 중입니다…</div>;
 }
 
 export default GoogleRedirection;
