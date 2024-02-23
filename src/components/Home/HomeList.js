@@ -9,6 +9,28 @@ import { ListScope, ListMyLike, HandleMyLike } from "../ListScope";
 //mylike가 변환된 pid만 보내기
 
 const HomeList = () => {
+  // const dummyData = [
+  //   {
+  //     id: 1,
+  //     title: "제목1",
+  //     scope: "public",
+  //     likeCount: 10,
+  //     myLike: false,
+  //     createdDate: "2021-08-19",
+  //     contentPreview: "내용1",
+  //     image: "https://source.unsplash.com/random",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "제목2",
+  //     scope: "private",
+  //     likeCount: 5,
+  //     myLike: true,
+  //     createdDate: "2021-08-20",
+  //     contentPreview: "내용2",
+  //     image: "https://source.unsplash.com/random",
+  //   }
+  // ];
   const [posts, setPosts] = useState([]);
   const setIsHome = useSetRecoilState(isHomeMap);
   const getUserPosts = async () => {
@@ -48,7 +70,7 @@ const HomeList = () => {
                     <PostTitle>{post.title}</PostTitle>
                     <ListMyLike myLike={post.myLike} />
                   </TitleWrapper>
-                  <Content dangerouslySetInnerHTML={{ __html: post.contentPreview }} />
+                  <Content>{post.contentPreview}</Content>
                   <Line />
                   <ScopeWrapper>
                     <ListScope scope={post.scope} />
