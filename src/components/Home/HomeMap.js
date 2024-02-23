@@ -3,6 +3,7 @@ import {
   GoogleMap,
   MarkerF,
   InfoWindowF,
+  Marker,
   useJsApiLoader,
 } from "@react-google-maps/api";
 import axios from "axios";
@@ -12,17 +13,23 @@ import { clickedId, isHomeMap, previewOpen } from "../../atom";
 const HomeMap = () => {
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
-  const [markers, setMarkers] = useState([]);
+  const [markers, setMarkers] = useState([
+    { id: 1, latitude: 37.55902624, longitude: 126.9749014 },
+    { id: 2, latitude: 37.55902624, longitude: 126.9749014 },
+  ]);
   const [map, setMap] = useState(null);
 
   const [previewState, setPreviewState] = useRecoilState(previewOpen);
   const [markerId, setMarkerId] = useRecoilState(clickedId);
   const [isMap, setIsMap] = useRecoilState(isHomeMap);
 
-  const handleMarkerClick = (pid) => {
-    const previewData = markers.find((marker) => marker.id === pid);
+  const handleMarkerClick = (pid, lat, lng) => {
+    console.log("마커클릭이벤트발생");
+    const sameLat = markers.filter((m) => m.latitude === lat);
+    const sameLng = sameLat.filter((m) => m.longitude === lng);
     setPreviewState(true);
-    setMarkerId(previewData);
+    console.log("프리뷰state:", previewState);
+    setMarkerId(sameLng); //클릭된 마커와 같은 위치의 글 정보
   };
 
   const { isLoaded } = useJsApiLoader({
@@ -112,11 +119,15 @@ const HomeMap = () => {
         >
           {markers.length !== 0 &&
             markers.map((marker) => (
-              <MarkerF
+              <Marker
                 key={marker.id}
                 position={{ lat: marker.latitude, lng: marker.longitude }}
                 onClick={() => {
-                  handleMarkerClick(marker.id);
+                  handleMarkerClick(
+                    marker.id,
+                    marker.latitude,
+                    marker.longitude
+                  );
                 }}
               />
             ))}
