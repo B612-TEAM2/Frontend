@@ -5,12 +5,14 @@ import Modal from "react-modal";
 import Map from "../../../components/Home/Writing/Map";
 import EditorComponent from "../../../components/Home/Writing/EditorComponent";
 import ImageComponent from "../../../components/Home/Writing/ImageComponent";
+import Dropdown from "../../../components/Home/Writing/Dropdown";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Writing = () => {
   const [images, setImages] = useState([]);
   const [title, setTitle] = useState("");
+  const [scope, setScope] = useState("private");
   const navigate = useNavigate();
 
   const [clickedLat, setClickedLat] = useState();
@@ -80,6 +82,7 @@ const Writing = () => {
       formData.append("content", content);
       formData.append("latitude", clickedLat);
       formData.append("longitude", clickedLng);
+      formData.append("scope", scope);
       images.forEach((image) => {
         formData.append("img", image);
       });
@@ -104,19 +107,20 @@ const Writing = () => {
       <WritingArea>
         <WritingTitle>글쓰기</WritingTitle>
         <WritingWrapper>
-          <TitleText
-            value={title}
-            onChange={handleTitleChange}
-            placeholder="제목을 입력해 주세요"
-          />
-          <ImageComponent images={images} onImageChange={handleImageChange} />
+          <TitleWrapper>
+            <TitleText
+              value={title}
+              onChange={handleTitleChange}
+              placeholder="제목을 입력해 주세요"
+            />
+            <Dropdown setScope={setScope} />
+          </TitleWrapper>
           <EditorComponent
-            value={content}
+            setContent={setContent}
             onChange={onEditorChange}
-            onImageChange={handleImageChange}
-            imagesCount={images.length}
             placeholder="내용을 입력해 주세요"
           />
+          <ImageComponent images={images} onImageChange={handleImageChange} />
           <ButtonWrapper>
             <Button onClick={openModal}>위치 설정</Button>
             <Button onClick={handleSubmit}>작성 완료</Button>
@@ -171,11 +175,20 @@ const WritingTitle = styled.h1`
 `;
 
 const TitleText = styled.input`
-  width: 100%;
+  width: 78%;
   box-sizing: border-box;
   border: 1px solid #ccc;
   padding: 0.5rem;
   font-size: 1rem;
+  font-weight: 600;
+`;
+
+const TitleWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
 `;
 
 const ButtonWrapper = styled.div`
@@ -183,7 +196,7 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  margin-top: 3rem;
+  margin-top: 1rem;
 `;
 
 const Button = styled.button`
