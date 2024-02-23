@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link as RouterLink } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { isHomeMap } from "../../atom";
-import { ListScope, ListMyLike } from "../ListScope";
+import { ListScope, ListMyLike, HandleMyLike } from "../ListScope";
 
 const HomeList = () => {
   // const dummyData = [
@@ -62,7 +62,7 @@ const HomeList = () => {
           {posts.map((post) => (
             <Link to={`/${post.id}`} key={post.id}>
               <PostingWrapper key={post.id}>
-                <Img src={post.image} alt={post.title} />
+                <Img src={post.imgByte} alt={post.title} />
                 <ContentWrapper>
                   <TitleWrapper>
                     <PostTitle>{post.title}</PostTitle>
