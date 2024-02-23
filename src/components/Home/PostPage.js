@@ -13,8 +13,9 @@ const PostPage = () => {
     const fetchPost = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/postInfo/${id}`,
+          `http://localhost:8080/postInfo/`,
           {
+            params: { pid: id },
             headers: {
               Authorization: `Bearer ${token}`,
             },
