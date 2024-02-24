@@ -4,12 +4,17 @@ import FriendHeader from "../../components/friends/FriendHeader";
 import SideMenuBar from "../../components/SideMenuBar";
 import FriendMap from "../../components/friends/FriendMap";
 import FriendList from "../../components/friends/FriendList";
-import { useSetRecoilState } from "recoil";
-import { isFriendPage } from "../../atom";
+import { useSetRecoilState, useRecoilState, useRecoilValue } from "recoil";
+import { isFriendPage, isFriendMap, previewOpen, clickedId } from "../../atom";
+import MarkerPreview from "../../components/Home/MarkerPreview";
 
 const Friends = () => {
   const [toggle, setToggle] = useState("map");
   const setIsFriendPage = useSetRecoilState(isFriendPage);
+  const [isMap, setIsMap] = useRecoilState(isFriendMap);
+  const [openState, setOpenState] = useRecoilState(previewOpen);
+  const preview = useRecoilValue(clickedId); // 미리보기 필요한 모든 정보
+
   useEffect(() => {
     setIsFriendPage(true);
     return () => {
@@ -44,6 +49,20 @@ const Friends = () => {
         </BtnWrapper>
         {toggle === "map" ? <FriendMap /> : <FriendList />}
       </Container>
+      <PreviewContainer showContainer={openState && preview !== null && isMap}>
+        <PreviewText>이 위치에서 쓴 글</PreviewText>
+        <PreviewWrapper>
+          {" "}
+          <MarkerPreview />
+        </PreviewWrapper>
+        <CloseButton
+          onClick={() => {
+            setOpenState(false);
+          }}
+        >
+          닫기
+        </CloseButton>
+      </PreviewContainer>
     </Wrapper>
   );
 };
@@ -51,11 +70,6 @@ const Friends = () => {
 export default Friends;
 
 const Container = styled.div`
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   width: 100vw;
   height: 100vh;
 `;
@@ -133,4 +147,58 @@ const ButtonBackground = styled.div`
   border-radius: 1000px;
   background-color: white;
   transition: left 0.3s ease-in-out;
+`;
+const PreviewContainer = styled.div`
+  position: absolute;
+  right: 30px;
+  top: 200px;
+  width: 500px;
+  height: 300px;
+  background-color: white;
+  border: 1px solid #69987f;
+  display: ${({ showContainer }) => (showContainer ? "flex" : "none")};
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+  padding: 10px 3px 10px 3px;
+`;
+
+const PreviewWrapper = styled.div`
+  width: 500px;
+  height: 230px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: #95ada4;
+    height: 20%;
+  }
+`;
+
+const PreviewText = styled.div`
+  font-size: 18px;
+  margin: 5px 0 10px 0px;
+`;
+
+const CloseButton = styled.button`
+  width: 70px;
+  height: 30px;
+  background-color: black;
+  color: white;
+  font-size: 12px;
+  border: none;
+  border-radius: 10px;
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+  cursor: pointer;
+  z-index: 2;
 `;

@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import {
-  GoogleMap,
-  MarkerF,
-  InfoWindowF,
-  useJsApiLoader,
-} from "@react-google-maps/api";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { clickedId, friendMarkers, isFriendMap, previewOpen } from "../../atom";
 
@@ -17,13 +12,20 @@ const FriendMap = () => {
   const [markerId, setMarkerId] = useRecoilState(clickedId);
   const [isMap, setIsMap] = useRecoilState(isFriendMap); // isFriendmap으로 state관리 필요!
 
-  const markerData = useRecoilValue(friendMarkers); // friendheader에서 클릭시 바뀌는 friendmarkers data 구독
+  const dummy = [
+    { id: 61, latitude: 37.587624, longitude: 126.97602 },
+    { id: 62, latitude: 37.587624, longitude: 126.97602 },
+  ];
+  //const markerData = useRecoilValue(friendMarkers); // friendheader에서 클릭시 바뀌는 friendmarkers data 구독
+  // {latitude, longitude, pid}배열
+  const markerData = dummy;
 
-  // const handleMarkerClick = (pid) => {
-  //   const previewData = markers.find((marker) => marker.id === pid);
-  //   setPreviewState(true);
-  //   setMarkerId(previewData);
-  // };
+  const handleMarkerClick = (pid, clickedLat, clickedLng) => {
+    const sameLat = markerData.filter((m) => m.latitude === clickedLat);
+    const sameLng = sameLat.filter((m) => m.longitude === clickedLng);
+    setPreviewState(true);
+    setMarkerId(sameLng); //클릭된 마커와 같은 위치의 글 정보
+  };
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -45,6 +47,7 @@ const FriendMap = () => {
     setIsMap(true);
     return () => {
       setIsMap(false);
+      setPreviewState(false);
     };
   }, []);
 
@@ -93,12 +96,16 @@ const FriendMap = () => {
           {markerData &&
             markerData.length !== 0 &&
             markerData.map((marker) => (
-              <MarkerF
+              <Marker
                 key={marker.id}
                 position={{ lat: marker.latitude, lng: marker.longitude }}
-                // onClick={() => {
-                //   handleMarkerClick(marker.id);
-                // }}
+                onClick={() => {
+                  handleMarkerClick(
+                    marker.id,
+                    marker.latitude,
+                    marker.longitude
+                  );
+                }}
               />
             ))}
         </GoogleMap>
