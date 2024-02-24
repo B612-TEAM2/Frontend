@@ -22,9 +22,6 @@ const MainPage = () => {
 
   useEffect(() => {
     Modal.setAppElement("#root");
-    console.log("프리뷰 openstate: ", openState);
-    console.log("isMap: ", isMap);
-    console.log("preview ", preview);
     setIsHomePage(true);
     const fetchData = async () => {
       const apiUrl = `http://localhost:8080/friends/pending`;
