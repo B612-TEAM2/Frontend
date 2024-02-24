@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import {
-  GoogleMap,
-  MarkerF,
-  InfoWindowF,
-  useJsApiLoader,
-} from "@react-google-maps/api";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import {
@@ -16,7 +11,12 @@ import {
 } from "../../atom";
 
 const PublicMap = () => {
+  const dummy = [
+    { id: 61, latitude: 37.587624, longitude: 126.97602 },
+    { id: 62, latitude: 37.587624, longitude: 126.97602 },
+  ];
   const [markers, setMarkers] = useState([]); //백에서 받아온 핀들위치 정보
+
   const [map, setMap] = useState(null);
 
   const [previewState, setPreviewState] = useRecoilState(previewOpen);
@@ -25,10 +25,11 @@ const PublicMap = () => {
   const [lat, setLat] = useRecoilState(curLat);
   const [lng, setLng] = useRecoilState(curLng);
 
-  const handleMarkerClick = (pid) => {
-    const previewData = markers.find((marker) => marker.id === pid);
+  const handleMarkerClick = (pid, clickedLat, clickedLng) => {
+    const sameLat = markers.filter((m) => m.latitude === clickedLat);
+    const sameLng = sameLat.filter((m) => m.longitude === clickedLng);
     setPreviewState(true);
-    setMarkerId(previewData);
+    setMarkerId(sameLng); //클릭된 마커와 같은 위치의 글 정보
   };
 
   const { isLoaded } = useJsApiLoader({
@@ -45,9 +46,6 @@ const PublicMap = () => {
   const onUnmount = useCallback((map) => {
     setMap(null);
   }, []);
-
-  //반경 2km 내의 핀들 백에서 반환
-  //"/posts/public/pins" -> 사용자 현위치 위도 경도 params로 get 요청 하면 response : 위도, 경도, pid
 
   const fetchMarkersData = async () => {
     try {
@@ -74,6 +72,7 @@ const PublicMap = () => {
     console.log(isMap);
     return () => {
       setIsMap(false);
+      setPreviewState(false);
     };
   }, []);
 
@@ -83,10 +82,8 @@ const PublicMap = () => {
         (position) => {
           const newLat = position.coords.latitude;
           const newLng = position.coords.longitude;
-
           setLat(newLat);
           setLng(newLng);
-          console.log("lat:", newLat, "lng: ", lng);
         },
         (error) => {
           console.error(error);
@@ -125,11 +122,15 @@ const PublicMap = () => {
         >
           {markers.length !== 0 &&
             markers.map((marker) => (
-              <MarkerF
+              <Marker
                 key={marker.id}
                 position={{ lat: marker.latitude, lng: marker.longitude }}
                 onClick={() => {
-                  handleMarkerClick(marker.id);
+                  handleMarkerClick(
+                    marker.id,
+                    marker.latitude,
+                    marker.longitude
+                  );
                 }}
               />
             ))}

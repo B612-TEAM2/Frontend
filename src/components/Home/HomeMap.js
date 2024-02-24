@@ -11,7 +11,7 @@ const HomeMap = () => {
   ];
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
-  const [markers, setMarkers] = useState(dummy); //dummy
+  const [markers, setMarkers] = useState([]); //dummy
   const [map, setMap] = useState(null);
 
   const [previewState, setPreviewState] = useRecoilState(previewOpen);

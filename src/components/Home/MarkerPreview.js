@@ -30,7 +30,7 @@ const MarkerPreview = () => {
   const clickedData = useRecoilValue(clickedId);
   const clickedPidList =
     clickedData !== null && clickedData.map((obj) => obj.id);
-  const [postPreviews, setPostPreviews] = useState(dummy); //dummy
+  const [postPreviews, setPostPreviews] = useState([]);
 
   useEffect(() => {
     const fetchPreview = async () => {
