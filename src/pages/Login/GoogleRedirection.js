@@ -8,12 +8,9 @@ function GoogleRedirection() {
 
   useEffect(() => {
     async function GoogleLogin() {
-      const res = await axios.post(
-          process.env.REACT_APP_GOOGLE_URL
-          , {
-            code: code
-          }
-      );
+      const res = await axios.post(process.env.REACT_APP_GOOGLE_URL, {
+        code: code,
+      });
 
       const ACCESS_TOKEN = res.data["access-token"];
       const REFRESH_TOKEN = res.data["refresh-token"];
@@ -24,7 +21,6 @@ function GoogleRedirection() {
     GoogleLogin();
     navigate("/SetProfile", { replace: true });
   }, []);
-
 
   return <div>로그인 중입니다...</div>;
 }

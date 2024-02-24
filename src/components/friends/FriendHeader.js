@@ -16,11 +16,12 @@ import {
 // /posts/friends/list get id, token -> 그 친구가 쓴 모든 글 보기
 
 const FriendHeader = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [friends, setFriends] = useState([
+  const dummy = [
     { id: 1, nickname: "닉네임" },
     { id: 2, nickname: "닉네임2" },
-  ]);
+  ];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [friends, setFriends] = useState(dummy);
   const [markers, setMarkers] = useRecoilState(friendMarkers); //back으로 부터 langitude,longitude,pid 받아옴 -> atom에 저장 -> friendmap에서 사용용
   const [clickedBubble, setClickedBubble] = useRecoilState(clickedFriend);
   const [clickedAll, setClickedAll] = useRecoilState(isAllClicked);
@@ -72,6 +73,14 @@ const FriendHeader = () => {
       console.error("Error fetching friends: ", error);
     }
   };
+
+  axios.defaults.paramsSerializer = function (paramObj) {
+    const params = new URLSearchParams();
+    for (const key in paramObj) {
+      params.append(key, paramObj[key]);
+    }
+    return params.toString();
+  };
   //id 백에 넘겨주고 위도, 경도, pid 받아서 atom에 저장(friendsmarkers) -> friendsmap에서 subscribe
   const fetchMarkersData = async (idList) => {
     try {
@@ -105,7 +114,6 @@ const FriendHeader = () => {
       });
     fetchMarkersData(idList);
     setClickedBubble(idList);
-    console.log("handleAllclick에서 넘겨주는 idList: ", idList);
   };
 
   useEffect(() => {
