@@ -21,14 +21,8 @@ function GoogleRedirection() {
       localStorage.setItem("accessToken", ACCESS_TOKEN);
       localStorage.setItem("refreshToken", REFRESH_TOKEN);
     }
-
-    const accessToken = localStorage.getItem("accessToken");
-    if (accessToken) {
-      navigate("/home", { replace: true });
-    } else {
-      GoogleLogin();
-      navigate("/SetProfile", { replace: true });
-    }
+    GoogleLogin();
+    navigate("/SetProfile", { replace: true });
   }, []);
 
 

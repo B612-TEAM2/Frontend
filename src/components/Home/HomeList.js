@@ -64,13 +64,13 @@ const HomeList = () => {
           {posts.map((post) => (
             <Link to={`/${post.id}`} key={post.id}>
               <PostingWrapper key={post.id}>
-                <Img src={post.imgByte} alt={post.title} />
+                <Img src={`data:image/png;base64,${post.imgByte}`} alt={post.title} />
                 <ContentWrapper>
                   <TitleWrapper>
                     <PostTitle>{post.title}</PostTitle>
                     <ListMyLike myLike={post.myLike} />
                   </TitleWrapper>
-                  <Content>{post.contentPreview}</Content>
+                  <Content dangerouslySetInnerHTML={{ __html: post.contentPreview }} />
                   <Line />
                   <ScopeWrapper>
                     <ListScope scope={post.scope} />
