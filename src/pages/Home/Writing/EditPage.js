@@ -110,7 +110,7 @@ const EditPage = () => {
         formData.append("longitude", clickedLng);
         formData.append("scope", scope);
         images.forEach((image) => {
-          formData.append("img", image);
+          formData.append("imgs", image);
         });
         
         try {

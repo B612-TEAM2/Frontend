@@ -84,7 +84,7 @@ const Writing = () => {
       formData.append("longitude", clickedLng);
       formData.append("scope", scope);
       images.forEach((image) => {
-        formData.append("img", image);
+        formData.append("imgs", image);
       });
       
       try {
@@ -100,6 +100,19 @@ const Writing = () => {
         console.error("작성 실패: ", error);
       }
   };
+
+  // const handleSubmit = async () => {
+  //   const formData = {
+  //     title: title,
+  //     content: content,
+  //     latitude: clickedLat,
+  //     longitude: clickedLng,
+  //     scope: scope,
+  //     imgs: images,
+  //   };
+
+  //   localStorage.setItem('post', JSON.stringify(formData));
+  // };
 
   return (
     <Container>
