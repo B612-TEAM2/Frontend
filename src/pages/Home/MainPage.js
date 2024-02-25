@@ -32,7 +32,6 @@ const MainPage = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        console.log("친구요청 보낸 사용자 정보", response.data);
         setPendingUsers(response.data);
       } catch (error) {
         console.error("에러 발생:", error);
@@ -60,7 +59,6 @@ const MainPage = () => {
           (u) => u.nickname !== userName
         );
         setPendingUsers(updatedUsers);
-        console.log("updatedArray", updatedUsers);
       } else {
         console.error("친구 수락 중 오류 발생:", response.statusText);
         alert("친구 수락에 실패했습니다. 다시 시도해주세요.");
