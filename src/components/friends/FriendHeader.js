@@ -73,18 +73,26 @@ const FriendHeader = () => {
       console.error("Error fetching friends: ", error);
     }
   };
+
+  axios.defaults.paramsSerializer = function (paramObj) {
+    const params = new URLSearchParams();
+    for (const key in paramObj) {
+      params.append(key, paramObj[key]);
+    }
+    return params.toString();
+  };
   //id 백에 넘겨주고 위도, 경도, pid 받아서 atom에 저장(friendsmarkers) -> friendsmap에서 subscribe
   const fetchMarkersData = async (idList) => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await axios.get(
-        `http://localhost:8080/posts/friends/pins`,
-        {
-          params: { uids: idList },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+          `http://localhost:8080/posts/friends/pins`,
+          {
+            params: { uids: idList },
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
       );
       setMarkers(response.data);
     } catch (error) {
@@ -100,13 +108,12 @@ const FriendHeader = () => {
   //모든 친구 id list 넘겨주는 함수
   const handleAllClick = () => {
     var idList =
-      friends &&
-      friends.map(function (item) {
-        return item.id;
-      });
+        friends &&
+        friends.map(function (item) {
+          return item.id;
+        });
     fetchMarkersData(idList);
     setClickedBubble(idList);
-    console.log("handleAllclick에서 넘겨주는 idList: ", idList);
   };
 
   useEffect(() => {
@@ -120,46 +127,46 @@ const FriendHeader = () => {
   }, []);
 
   return (
-    <>
-      <Container>
-        <AllButton
-          onClick={() => {
-            handleAllClick();
-            setClickedAll(true);
-            setClickedFriendName(null);
-          }}
-          clicked={clickedAll}
-        >
-          ALL
-        </AllButton>
-        <FriendContainer>
-          {friends &&
-            friends.length !== 0 &&
-            friends.map((f) => (
-              <FriendBubble
-                key={f.id}
-                imgSrc={f.profileImg}
-                userName={f.nickname}
-                onClick={() => {
-                  handleBubbleClick(f.id);
-                  setClickedBubble(f.id);
-                  setClickedFriendName(f.nickname);
-                  setClickedAll(false);
-                }}
-                clicked={clickedAll === false && clickedBubble === f.id}
-              />
-            ))}
-        </FriendContainer>
-        <SearchButton onClick={openModal}>🔍</SearchButton>
-        <Modal
-          isOpen={isModalOpen}
-          onRequestClose={closeModal}
-          style={customStyles}
-        >
-          <FriendSearch></FriendSearch>
-        </Modal>
-      </Container>
-    </>
+      <>
+        <Container>
+          <AllButton
+              onClick={() => {
+                handleAllClick();
+                setClickedAll(true);
+                setClickedFriendName(null);
+              }}
+              clicked={clickedAll}
+          >
+            ALL
+          </AllButton>
+          <FriendContainer>
+            {friends &&
+                friends.length !== 0 &&
+                friends.map((f) => (
+                    <FriendBubble
+                        key={f.id}
+                        imgSrc={f.profileImg}
+                        userName={f.nickname}
+                        onClick={() => {
+                          handleBubbleClick(f.id);
+                          setClickedBubble(f.id);
+                          setClickedFriendName(f.nickname);
+                          setClickedAll(false);
+                        }}
+                        clicked={clickedAll === false && clickedBubble === f.id}
+                    />
+                ))}
+          </FriendContainer>
+          <SearchButton onClick={openModal}>🔍</SearchButton>
+          <Modal
+              isOpen={isModalOpen}
+              onRequestClose={closeModal}
+              style={customStyles}
+          >
+            <FriendSearch></FriendSearch>
+          </Modal>
+        </Container>
+      </>
   );
 };
 
