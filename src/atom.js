@@ -43,6 +43,7 @@ export const isAllClicked = atom({
   default: true,
 });
 
+//friend list에서 __ 님은 이런 글을 썼어요에 사용
 export const clickedName = atom({
   key: "clickedName",
   default: null,

@@ -32,24 +32,22 @@ const MarkerPreview = () => {
     clickedData !== null && clickedData.map((obj) => obj.id);
   const [postPreviews, setPostPreviews] = useState([]);
 
+  const fetchPreview = async () => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await axios.get(`http://localhost:8080/posts/clickPin`, {
+        params: { pids: clickedPidList },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setPostPreviews(response.data);
+    } catch (error) {
+      console.error("Error fetching preview data:", error);
+    }
+  };
   useEffect(() => {
-    const fetchPreview = async () => {
-      try {
-        const token = localStorage.getItem("accessToken");
-        const response = await axios.get(
-          `http://localhost:8080/posts/clickPin`,
-          {
-            params: { pids: clickedPidList },
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setPostPreviews(response.data);
-      } catch (error) {
-        console.error("Error fetching preview data:", error);
-      }
-    };
+    console.log("fetchpreview 실행");
     fetchPreview();
   }, []);
 
