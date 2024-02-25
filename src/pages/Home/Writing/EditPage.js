@@ -114,7 +114,7 @@ const EditPage = () => {
         });
         
         try {
-          const response = await axios.put("http://localhost:8080/posts/home/edit", formData, {
+          const response = await axios.put(`http://localhost:8080/posts/home/edit/${id}`, formData, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
