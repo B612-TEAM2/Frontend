@@ -12,7 +12,7 @@ const PostPage = () => {
     const token = localStorage.getItem("accessToken");
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/postInfo`, {
+        const response = await axios.get(`/api/postInfo`, {
           params: { pid: id },
           headers: {
             Authorization: `Bearer ${token}`,

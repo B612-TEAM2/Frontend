@@ -48,7 +48,7 @@ const FriendList = () => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await axios.get(
-        `http://localhost:8080/api/posts/friends/list`,
+        `/api/posts/friends/list`,
         //글 미리보기 (id,title,scope,likeCount, myLike, createdDate, contentPreview,  imgByte)
         {
           params: { uids: clickedFriendId },
