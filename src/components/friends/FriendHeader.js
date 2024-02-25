@@ -103,6 +103,7 @@ const FriendHeader = () => {
   //친구 한명 id 넘겨주는 함수
   const handleBubbleClick = (id) => {
     fetchMarkersData(id);
+    setClickedBubble(id);
   };
 
   //모든 친구 id list 넘겨주는 함수
