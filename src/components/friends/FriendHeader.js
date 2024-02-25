@@ -89,13 +89,13 @@ const FriendHeader = () => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await axios.get(
-        `http://localhost:8080/posts/friends/pins`,
-        {
-          params: { uids: idList },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+          `http://localhost:8080/posts/friends/pins`,
+          {
+            params: { uids: idList },
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
       );
       setMarkers(response.data);
     } catch (error) {
@@ -117,6 +117,7 @@ const FriendHeader = () => {
     //   });
     fetchMarkersData(allFriendsId);
     setClickedBubble(allFriendsId);
+
   };
 
   useEffect(() => {
@@ -130,46 +131,46 @@ const FriendHeader = () => {
   }, []);
 
   return (
-    <>
-      <Container>
-        <AllButton
-          onClick={() => {
-            handleAllClick();
-            setClickedAll(true);
-            setClickedFriendName(null);
-          }}
-          clicked={clickedAll}
-        >
-          ALL
-        </AllButton>
-        <FriendContainer>
-          {friends &&
-            friends.length !== 0 &&
-            friends.map((f) => (
-              <FriendBubble
-                key={f.id}
-                imgSrc={f.profileImg}
-                userName={f.nickname}
-                onClick={() => {
-                  handleBubbleClick(f.id);
-                  setClickedBubble(f.id);
-                  setClickedFriendName(f.nickname);
-                  setClickedAll(false);
-                }}
-                clicked={clickedAll === false && clickedBubble === f.id}
-              />
-            ))}
-        </FriendContainer>
-        <SearchButton onClick={openModal}>🔍</SearchButton>
-        <Modal
-          isOpen={isModalOpen}
-          onRequestClose={closeModal}
-          style={customStyles}
-        >
-          <FriendSearch></FriendSearch>
-        </Modal>
-      </Container>
-    </>
+      <>
+        <Container>
+          <AllButton
+              onClick={() => {
+                handleAllClick();
+                setClickedAll(true);
+                setClickedFriendName(null);
+              }}
+              clicked={clickedAll}
+          >
+            ALL
+          </AllButton>
+          <FriendContainer>
+            {friends &&
+                friends.length !== 0 &&
+                friends.map((f) => (
+                    <FriendBubble
+                        key={f.id}
+                        imgSrc={f.profileImg}
+                        userName={f.nickname}
+                        onClick={() => {
+                          handleBubbleClick(f.id);
+                          setClickedBubble(f.id);
+                          setClickedFriendName(f.nickname);
+                          setClickedAll(false);
+                        }}
+                        clicked={clickedAll === false && clickedBubble === f.id}
+                    />
+                ))}
+          </FriendContainer>
+          <SearchButton onClick={openModal}>🔍</SearchButton>
+          <Modal
+              isOpen={isModalOpen}
+              onRequestClose={closeModal}
+              style={customStyles}
+          >
+            <FriendSearch></FriendSearch>
+          </Modal>
+        </Container>
+      </>
   );
 };
 
