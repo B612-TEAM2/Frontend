@@ -19,7 +19,6 @@ function GoogleRedirection() {
       localStorage.setItem("refreshToken", REFRESH_TOKEN);
     }
     GoogleLogin();
-
     navigate("/SetProfile", { replace: true });
   }, []);
 
