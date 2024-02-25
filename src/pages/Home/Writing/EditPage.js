@@ -10,167 +10,171 @@ import Dropdown from "../../../components/Home/Writing/Dropdown";
 import SideMenuBar from "../../../components/SideMenuBar";
 
 const EditPage = () => {
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-    const [images, setImages] = useState([]);
-    const [scope, setScope] = useState("");
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [images, setImages] = useState([]);
+  const [scope, setScope] = useState("");
 
-    const [clickedLat, setClickedLat] = useState();
-    const [clickedLng, setClickedLng] = useState();
-    const handleLocationClick = (location) => {
-      setClickedLat(location.lat);
-      setClickedLng(location.lng);
-    };
-  
-    const handleImageChange = (image) => {
-      if(images.length >= 10){
-        alert(`이미지는 최대 10개까지 첨부할 수 있습니다.`);
-        return;
-      }
-      setImages([...images, image]);
-    };
+  const [clickedLat, setClickedLat] = useState();
+  const [clickedLng, setClickedLng] = useState();
+  const handleLocationClick = (location) => {
+    setClickedLat(location.lat);
+    setClickedLng(location.lng);
+  };
 
-    useEffect(() => {
-        const fetchPost = async () => {
-            try {
-                const token = localStorage.getItem("accessToken");
-                const response = await axios.get(
-                    `http://localhost:8080/postInfo/${id}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
-                setTitle(response.data.title);
-                setContent(response.data.content);
-                setImages(response.data.imgsByte);
-                setScope(response.data.scope);
-                setClickedLat(response.data.latitude);
-                setClickedLng(response.data.longitude);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchPost();
-    }, [id]);
-
-    const [modalIsOpen, setIsOpen] = useState(false);
-    const customStyles = {
-      overlay: {
-        backgroundColor: " rgba(0, 0, 0, 0.4)",
-        width: "100%",
-        height: "100vh",
-        zIndex: "10",
-        position: "fixed",
-        top: "0",
-        left: "0",
-      },
-      content: {
-        width: "900px",
-        height: "600px",
-        zIndex: "150",
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        borderRadius: "10px",
-        boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
-        backgroundColor: "#95ada4",
-        justifyContent: "center",
-        border: "none",
-      },
-    };
-    function openModal() {
-      setIsOpen(true);
+  const handleImageChange = (image) => {
+    if (images.length >= 10) {
+      alert(`이미지는 최대 10개까지 첨부할 수 있습니다.`);
+      return;
     }
-    function closeModal() {
-      setIsOpen(false);
-    }
-    useEffect(() => {
-      Modal.setAppElement("#root");
-    }, []);
+    setImages([...images, image]);
+  };
 
-    function onEditorChange(value) {
-        setContent(value);
-      }
-    
-      const handleTitleChange = (event) => {
-        setTitle(event.target.value);
-      };
-
-      const handleSubmit = async () => {
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
         const token = localStorage.getItem("accessToken");
-        const formData = new FormData();
-        formData.append("title", title);
-        formData.append("content", content);
-        formData.append("latitude", clickedLat);
-        formData.append("longitude", clickedLng);
-        formData.append("scope", scope);
-        images.forEach((image) => {
-          formData.append("imgs", image);
-        });
-        
-        try {
-          const response = await axios.put(`http://localhost:8080/posts/home/edit/${id}`, formData, {
+        const response = await axios.get(
+          `http://localhost:8080/api/postInfo/${id}`,
+          {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          });
-          console.log("수정 성공: ", response.data);
-          navigate(-1);
-        } catch (error) {
-          console.error("수정 실패: ", error);
+          }
+        );
+        setTitle(response.data.title);
+        setContent(response.data.content);
+        setImages(response.data.imgsByte);
+        setScope(response.data.scope);
+        setClickedLat(response.data.latitude);
+        setClickedLng(response.data.longitude);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchPost();
+  }, [id]);
+
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const customStyles = {
+    overlay: {
+      backgroundColor: " rgba(0, 0, 0, 0.4)",
+      width: "100%",
+      height: "100vh",
+      zIndex: "10",
+      position: "fixed",
+      top: "0",
+      left: "0",
+    },
+    content: {
+      width: "900px",
+      height: "600px",
+      zIndex: "150",
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      borderRadius: "10px",
+      boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
+      backgroundColor: "#95ada4",
+      justifyContent: "center",
+      border: "none",
+    },
+  };
+  function openModal() {
+    setIsOpen(true);
+  }
+  function closeModal() {
+    setIsOpen(false);
+  }
+  useEffect(() => {
+    Modal.setAppElement("#root");
+  }, []);
+
+  function onEditorChange(value) {
+    setContent(value);
+  }
+
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
+
+  const handleSubmit = async () => {
+    const token = localStorage.getItem("accessToken");
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("latitude", clickedLat);
+    formData.append("longitude", clickedLng);
+    formData.append("scope", scope);
+    images.forEach((image) => {
+      formData.append("imgs", image);
+    });
+
+    try {
+      const response = await axios.put(
+        `http://localhost:8080/api/posts/home/edit/${id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-    };
-
-    return (
-        <Container>
-          <SideMenuBar />
-          <WritingArea>
-            <WritingTitle>수정하기</WritingTitle>
-            <WritingWrapper>
-              <TitleWrapper>
-                <TitleText
-                  value={title}
-                  onChange={handleTitleChange}
-                  placeholder="제목을 입력해 주세요"
-                />
-                <Dropdown setScope={setScope} />
-              </TitleWrapper>
-              <EditorComponent
-                setContent={setContent}
-                onChange={onEditorChange}
-                placeholder="내용을 입력해 주세요"
-              />
-              <ImageComponent images={images} onImageChange={handleImageChange} />
-              <ButtonWrapper>
-                <Button onClick={openModal}>위치 설정</Button>
-                <Button onClick={handleSubmit}>수정 완료</Button>
-              </ButtonWrapper>
-              <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                style={customStyles}
-              >
-                <ModalWrapper>
-                  <h2>지도에서 글쓰기를 원하는 위치를 클릭하세요!</h2>
-                  <Map
-                    closeModal={closeModal}
-                    onLocationClick={handleLocationClick}
-                  ></Map>
-                  <CloseButton onClick={closeModal}>닫기</CloseButton>
-                </ModalWrapper>
-              </Modal>
-            </WritingWrapper>
-          </WritingArea>
-        </Container>
       );
-    };
+      console.log("수정 성공: ", response.data);
+      navigate(-1);
+    } catch (error) {
+      console.error("수정 실패: ", error);
+    }
+  };
 
-    const Container = styled.div`
+  return (
+    <Container>
+      <SideMenuBar />
+      <WritingArea>
+        <WritingTitle>수정하기</WritingTitle>
+        <WritingWrapper>
+          <TitleWrapper>
+            <TitleText
+              value={title}
+              onChange={handleTitleChange}
+              placeholder="제목을 입력해 주세요"
+            />
+            <Dropdown setScope={setScope} />
+          </TitleWrapper>
+          <EditorComponent
+            setContent={setContent}
+            onChange={onEditorChange}
+            placeholder="내용을 입력해 주세요"
+          />
+          <ImageComponent images={images} onImageChange={handleImageChange} />
+          <ButtonWrapper>
+            <Button onClick={openModal}>위치 설정</Button>
+            <Button onClick={handleSubmit}>수정 완료</Button>
+          </ButtonWrapper>
+          <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            style={customStyles}
+          >
+            <ModalWrapper>
+              <h2>지도에서 글쓰기를 원하는 위치를 클릭하세요!</h2>
+              <Map
+                closeModal={closeModal}
+                onLocationClick={handleLocationClick}
+              ></Map>
+              <CloseButton onClick={closeModal}>닫기</CloseButton>
+            </ModalWrapper>
+          </Modal>
+        </WritingWrapper>
+      </WritingArea>
+    </Container>
+  );
+};
+
+const Container = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
@@ -254,4 +258,4 @@ const CloseButton = styled.button`
   cursor: pointer;
 `;
 
-    export default EditPage;
+export default EditPage;

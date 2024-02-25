@@ -17,7 +17,7 @@ const DeleteModal = ({ closeModal, ...props }) => {
   const handleDeleteAccount = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.delete("http://localhost:8080/account", {
+      const response = await axios.delete("http://localhost:8080/api/account", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

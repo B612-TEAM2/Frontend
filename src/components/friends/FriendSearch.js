@@ -17,14 +17,17 @@ const FriendSearch = () => {
   const searchFriends = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.get(`http://localhost:8080/friends/search`, {
-        params: {
-          nickname: input,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        `http://localhost:8080/api/friends/search`,
+        {
+          params: {
+            nickname: input,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log(response.data);
       setSearchedUser(response.data);
     } catch (error) {

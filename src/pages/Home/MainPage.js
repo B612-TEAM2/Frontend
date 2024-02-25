@@ -24,7 +24,7 @@ const MainPage = () => {
     Modal.setAppElement("#root");
     setIsHomePage(true);
     const fetchData = async () => {
-      const apiUrl = `http://localhost:8080/friends/pending`;
+      const apiUrl = `http://localhost:8080/api/friends/pending`;
       const accessToken = localStorage.getItem("accessToken");
       try {
         const response = await axios.get(apiUrl, {
@@ -49,7 +49,7 @@ const MainPage = () => {
       const token = localStorage.getItem("accessToken");
       const requestData = { nickname: userName, status: "accept" };
       const response = await axios.post(
-        `http://localhost:8080/friends/pending`,
+        `http://localhost:8080/api/friends/pending`,
         requestData,
         {
           headers: {
@@ -80,7 +80,7 @@ const MainPage = () => {
       const token = localStorage.getItem("accessToken");
       const requestData = { nickname: userName, status: "reject" };
       const response = await axios.post(
-        `http://localhost:8080/friends/pending`,
+        `http://localhost:8080/api/friends/pending`,
         requestData,
         {
           headers: {

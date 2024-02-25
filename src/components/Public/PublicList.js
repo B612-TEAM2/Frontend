@@ -38,7 +38,7 @@ const PublicList = () => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await axios.get(
-        `http://localhost:8080/posts/home/list`,
+        `http://localhost:8080/api/posts/home/list`,
         {
           params: { latitude: lat, longitude: lng },
           headers: {

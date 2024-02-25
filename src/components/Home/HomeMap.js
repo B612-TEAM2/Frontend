@@ -44,7 +44,7 @@ const HomeMap = () => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await axios.get(
-        `http://localhost:8080/posts/home/pins`,
+        `http://localhost:8080/api/posts/home/pins`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
