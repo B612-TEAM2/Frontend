@@ -43,14 +43,11 @@ const HomeMap = () => {
   const fetchMarkersData = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.get(
-        `http://localhost:8080/api/posts/home/pins`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`/api/posts/home/pins`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setMarkers(response.data);
     } catch (error) {
       console.error("Error fetching markers data:", error);

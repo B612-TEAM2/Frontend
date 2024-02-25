@@ -88,15 +88,11 @@ const Writing = () => {
     });
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/posts/home/store",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.post("/api/posts/home/store", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       console.log("작성 성공: ", response.data);
       navigate(-1);

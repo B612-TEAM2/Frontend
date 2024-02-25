@@ -36,14 +36,11 @@ const HomeList = () => {
   const getUserPosts = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.get(
-        `http://localhost:8080/api/posts/home/list`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`/api/posts/home/list`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(response);
       setPosts(response.data);
     } catch (error) {

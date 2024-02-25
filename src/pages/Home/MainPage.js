@@ -24,7 +24,7 @@ const MainPage = () => {
     Modal.setAppElement("#root");
     setIsHomePage(true);
     const fetchData = async () => {
-      const apiUrl = `http://localhost:8080/api/friends/pending`;
+      const apiUrl = `/api/friends/pending`;
       const accessToken = localStorage.getItem("accessToken");
       try {
         const response = await axios.get(apiUrl, {
@@ -48,15 +48,11 @@ const MainPage = () => {
     try {
       const token = localStorage.getItem("accessToken");
       const requestData = { nickname: userName, status: "accept" };
-      const response = await axios.post(
-        `http://localhost:8080/api/friends/pending`,
-        requestData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.post(`/api/friends/pending`, requestData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (response.status === 200) {
         console.log(response.data);
         alert("친구 수락이 완료되었습니다!");
@@ -79,15 +75,11 @@ const MainPage = () => {
     try {
       const token = localStorage.getItem("accessToken");
       const requestData = { nickname: userName, status: "reject" };
-      const response = await axios.post(
-        `http://localhost:8080/api/friends/pending`,
-        requestData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.post(`/api/friends/pending`, requestData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (response.status === 200) {
         console.log(response.data);
         alert("친구 요청 삭제가 완료되었습니다!");

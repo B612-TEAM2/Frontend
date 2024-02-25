@@ -36,14 +36,11 @@ const EditPage = () => {
     const fetchPost = async () => {
       try {
         const token = localStorage.getItem("accessToken");
-        const response = await axios.get(
-          `http://localhost:8080/api/postInfo/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get(`/api/postInfo/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setTitle(response.data.title);
         setContent(response.data.content);
         setImages(response.data.imgsByte);
@@ -114,15 +111,11 @@ const EditPage = () => {
     });
 
     try {
-      const response = await axios.put(
-        `http://localhost:8080/api/posts/home/edit/${id}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.put(`/api/posts/home/edit/${id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log("수정 성공: ", response.data);
       navigate(-1);
     } catch (error) {

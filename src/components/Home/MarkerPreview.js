@@ -35,15 +35,12 @@ const MarkerPreview = () => {
   const fetchPreview = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.get(
-        `http://localhost:8080/api/posts/clickPin`,
-        {
-          params: { pids: clickedPidList },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`/api/posts/clickPin`, {
+        params: { pids: clickedPidList },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setPostPreviews(response.data);
     } catch (error) {
       console.error("Error fetching preview data:", error);

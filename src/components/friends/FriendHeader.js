@@ -61,7 +61,7 @@ const FriendHeader = () => {
   const fetchFriends = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.get(`http://localhost:8080/api/friends`, {
+      const response = await axios.get(`/api/friends`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -88,15 +88,12 @@ const FriendHeader = () => {
   const fetchMarkersData = async (idList) => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.get(
-        `http://localhost:8080/api/posts/friends/pins`,
-        {
-          params: { uids: idList },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`/api/posts/friends/pins`, {
+        params: { uids: idList },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setMarkers(response.data);
     } catch (error) {
       console.error("Error fetching markers data:", error);
