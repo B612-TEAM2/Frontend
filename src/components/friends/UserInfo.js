@@ -6,7 +6,7 @@ const UserInfo = (props) => {
   const handleDeleteFriend = async (name) => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.delete("http://localhost:8080/friends", {
+      const response = await axios.delete("http://localhost:8080/api/friends", {
         data: {
           nickname: name, //서버에서 req.body.{}로 확인 가능
         },
@@ -32,7 +32,7 @@ const UserInfo = (props) => {
       const token = localStorage.getItem("accessToken");
       const body = { nickname: NameString };
       const response = await axios.post(
-        "http://localhost:8080/friends/search",
+        "http://localhost:8080/api/friends/search",
         body,
         {
           headers: {

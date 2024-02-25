@@ -23,7 +23,7 @@ const Account = () => {
   useEffect(() => {
     setIsAccountPage(true);
     const fetchData = async () => {
-      const apiUrl = `http://localhost:8080/account`;
+      const apiUrl = `http://localhost:8080/api/account`;
       const accessToken = localStorage.getItem("accessToken");
 
       try {

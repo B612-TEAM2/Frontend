@@ -51,7 +51,7 @@ const PublicMap = () => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await axios.get(
-        `http://localhost:8080/posts/public/pins`,
+        `http://localhost:8080/api/posts/public/pins`,
         {
           params: { latitude: lat, longitude: lng },
           headers: {
