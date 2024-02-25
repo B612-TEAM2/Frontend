@@ -16,16 +16,14 @@ import {
 // /posts/friends/list get id, token -> 그 친구가 쓴 모든 글 보기
 
 const FriendHeader = () => {
-  const dummy = [
-    { id: 1, nickname: "닉네임" },
-    { id: 2, nickname: "닉네임2" },
-  ];
+  const dummy = [{ id: 1, nickname: "닉네임" }];
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [friends, setFriends] = useState(dummy);
+  const [friends, setFriends] = useState([]);
   const [markers, setMarkers] = useRecoilState(friendMarkers); //back으로 부터 langitude,longitude,pid 받아옴 -> atom에 저장 -> friendmap에서 사용용
   const [clickedBubble, setClickedBubble] = useRecoilState(clickedFriend);
   const [clickedAll, setClickedAll] = useRecoilState(isAllClicked);
   const [clickedFriendName, setClickedFriendName] = useRecoilState(clickedName);
+  const [allFriendsId, setAllFriendsId] = useState([]);
 
   const customStyles = {
     overlay: {
@@ -63,12 +61,17 @@ const FriendHeader = () => {
   const fetchFriends = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.get(`http://localhost:8080/friends`, {
+      const response = await axios.get(`/api/friends`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setFriends(response.data);
+      setAllFriendsId(
+        response.data.map(function (item) {
+          return item.id;
+        })
+      );
     } catch (error) {
       console.error("Error fetching friends: ", error);
     }
@@ -85,15 +88,12 @@ const FriendHeader = () => {
   const fetchMarkersData = async (idList) => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.get(
-        `http://localhost:8080/posts/friends/pins`,
-        {
-          params: { uids: idList },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`/api/posts/friends/pins`, {
+        params: { uids: idList },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setMarkers(response.data);
     } catch (error) {
       console.error("Error fetching markers data:", error);
@@ -107,13 +107,13 @@ const FriendHeader = () => {
 
   //모든 친구 id list 넘겨주는 함수
   const handleAllClick = () => {
-    var idList =
-      friends &&
-      friends.map(function (item) {
-        return item.id;
-      });
-    fetchMarkersData(idList);
-    setClickedBubble(idList);
+    // var idList =
+    //   friends &&
+    //   friends.map(function (item) {
+    //     return item.id;
+    //   });
+    fetchMarkersData(allFriendsId);
+    setClickedBubble(allFriendsId);
   };
 
   useEffect(() => {

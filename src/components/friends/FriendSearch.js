@@ -17,7 +17,7 @@ const FriendSearch = () => {
   const searchFriends = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.get(`http://localhost:8080/friends/search`, {
+      const response = await axios.get(`/api/friends/search`, {
         params: {
           nickname: input,
         },

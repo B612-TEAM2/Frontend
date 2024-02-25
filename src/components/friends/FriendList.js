@@ -36,11 +36,19 @@ const FriendList = () => {
   // all버튼 클릭 : handleAllClick 함수 내부에서 setClickedBubble(idList)
   // bubble 클릭 : setClickedBubble(f.id)
 
+  axios.defaults.paramsSerializer = function (paramObj) {
+    const params = new URLSearchParams();
+    for (const key in paramObj) {
+      params.append(key, paramObj[key]);
+    }
+    return params.toString();
+  };
+
   const getUserPosts = async () => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await axios.get(
-        `http://localhost:8080/posts/friends/list`,
+        `/api/posts/friends/list`,
         //글 미리보기 (id,title,scope,likeCount, myLike, createdDate, contentPreview,  imgByte)
         {
           params: { uids: clickedFriendId },

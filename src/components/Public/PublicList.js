@@ -37,15 +37,12 @@ const PublicList = () => {
   const getPublicPosts = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.get(
-        `http://localhost:8080/posts/home/list`,
-        {
-          params: { latitude: lat, longitude: lng },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`/api/posts/home/list`, {
+        params: { latitude: lat, longitude: lng },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setPosts(response.data);
     } catch (error) {
       console.error(error);

@@ -23,7 +23,7 @@ const Writing = () => {
   };
 
   const handleImageChange = (image) => {
-    if(images.length >= 10){
+    if (images.length >= 10) {
       alert(`이미지는 최대 10개까지 첨부할 수 있습니다.`);
       return;
     }
@@ -76,29 +76,29 @@ const Writing = () => {
   };
 
   const handleSubmit = async () => {
-      const token = localStorage.getItem("accessToken");
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("content", content);
-      formData.append("latitude", clickedLat);
-      formData.append("longitude", clickedLng);
-      formData.append("scope", scope);
-      images.forEach((image) => {
-        formData.append("imgs", image);
-      });
-      
-      try {
-        const response = await axios.post("http://localhost:8080/posts/home/store", formData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+    const token = localStorage.getItem("accessToken");
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("latitude", clickedLat);
+    formData.append("longitude", clickedLng);
+    formData.append("scope", scope);
+    images.forEach((image) => {
+      formData.append("imgs", image);
+    });
 
-        console.log("작성 성공: ", response.data);
-        navigate(-1);
-      } catch (error) {
-        console.error("작성 실패: ", error);
-      }
+    try {
+      const response = await axios.post("/api/posts/home/store", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log("작성 성공: ", response.data);
+      navigate(-1);
+    } catch (error) {
+      console.error("작성 실패: ", error);
+    }
   };
 
   // const handleSubmit = async () => {
