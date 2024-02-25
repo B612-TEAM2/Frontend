@@ -13,7 +13,7 @@ const PostPage = () => {
     const fetchPost = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/postInfo/`,
+          `http://localhost:8080/postInfo`,
           {
             params: { pid: id },
             headers: {
