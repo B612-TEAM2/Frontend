@@ -66,10 +66,11 @@ const PublicMap = () => {
     getLocation();
     fetchMarkersData();
     setIsMap(true);
-    console.log(isMap);
+    console.log("mount:", isMap);
     return () => {
       setIsMap(false);
       setPreviewState(false);
+      console.log("unmount:", isMap);
     };
   }, []);
 
