@@ -63,7 +63,7 @@ const MarkerPreview = () => {
               <Line />
               <ScopeWrapper>
                 <Scope>{p.scope}</Scope>
-                <Date>{p.createdData}</Date>
+                <Date>{new Date(p.createdDate).toLocaleDateString('ko-KR').replaceAll('.', '/').replaceAll('.', '') + ' ' + new Date(p.createdDate).toLocaleTimeString('ko-KR', {hour: '2-digit', minute: '2-digit'})}</Date>
               </ScopeWrapper>
             </ContentWrapper>
           </PostingWrapper>

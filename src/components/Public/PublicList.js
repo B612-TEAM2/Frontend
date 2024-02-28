@@ -72,7 +72,7 @@ const PublicList = () => {
                   <Line />
                   <ScopeWrapper>
                     <ListScope scope={post.scope} />
-                    <Date>{post.createdDate}</Date>
+                    <Date>{new Date(post.createdDate).toLocaleDateString('ko-KR').replaceAll('.', '/').replaceAll('.', '') + ' ' + new Date(post.createdDate).toLocaleTimeString('ko-KR', {hour: '2-digit', minute: '2-digit'})}</Date>
                   </ScopeWrapper>
                 </ContentWrapper>
               </PostingWrapper>
