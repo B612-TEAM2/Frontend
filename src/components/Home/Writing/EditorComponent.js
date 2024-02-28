@@ -49,6 +49,6 @@ const Div = styled.div`
 
 const StyledQuill = styled(ReactQuill)`
   .ql-container {
-    min-height: 50vh !important;
+    height: 50vh;
   }
 `;

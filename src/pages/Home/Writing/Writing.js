@@ -94,25 +94,25 @@ const Writing = () => {
         },
       });
 
+      if(!title) {
+        alert("제목을 입력해 주세요");
+        return;
+      }
+      if(!content) {
+        alert("내용을 입력해 주세요");
+        return;
+      }
+      if(!clickedLat || !clickedLng) {
+        alert("위치를 설정해 주세요");
+        return;
+      }
+
       console.log("작성 성공: ", response.data);
       navigate(-1);
     } catch (error) {
       console.error("작성 실패: ", error);
     }
   };
-
-  // const handleSubmit = async () => {
-  //   const formData = {
-  //     title: title,
-  //     content: content,
-  //     latitude: clickedLat,
-  //     longitude: clickedLng,
-  //     scope: scope,
-  //     imgs: images,
-  //   };
-
-  //   localStorage.setItem('post', JSON.stringify(formData));
-  // };
 
   return (
     <Container>
@@ -131,7 +131,6 @@ const Writing = () => {
           <EditorComponent
             setContent={setContent}
             onChange={onEditorChange}
-            placeholder="내용을 입력해 주세요"
           />
           <ImageComponent images={images} onImageChange={handleImageChange} />
           <ButtonWrapper>
@@ -144,12 +143,12 @@ const Writing = () => {
             style={customStyles}
           >
             <ModalWrapper>
-              <h2>지도에서 글쓰기를 원하는 위치를 클릭하세요!</h2>
+              <ModalTitle>지도에서 글쓰기를 원하는 위치를 클릭하세요!</ModalTitle>
               <Map
                 closeModal={closeModal}
                 onLocationClick={handleLocationClick}
               ></Map>
-              <CloseButton onClick={closeModal}>닫기</CloseButton>
+              <CloseButton onClick={closeModal}>완료</CloseButton>
             </ModalWrapper>
           </Modal>
         </WritingWrapper>
@@ -171,7 +170,7 @@ const WritingArea = styled.div`
   flex-direction: column;
   align-items: center;
   margin-left: 275px;
-  height: 80%;
+  height: 90%;
 `;
 
 const WritingWrapper = styled.div`
@@ -185,6 +184,7 @@ const WritingWrapper = styled.div`
 const WritingTitle = styled.h1`
   font-family: "inter", sans-serif;
   text-align: center;
+  margin-bottom: 2rem;
 `;
 
 const TitleText = styled.input`
@@ -209,7 +209,7 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 `;
 
 const Button = styled.button`
@@ -222,23 +222,30 @@ const Button = styled.button`
   color: white;
 `;
 
+const ModalTitle = styled.text`
+  font-size: 1.5rem;
+  margin-top: 0.7rem;
+  margin-bottom: 1.4rem;
+  color: black;
+`
+
 const ModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
+
 const CloseButton = styled.button`
   width: 70px;
   height: 30px;
   background-color: black;
   color: white;
-  font-size: 12px;
+  font-size: 0.8rem;
   border: none;
-  border-radius: 10px;
   position: absolute;
   right: 20px;
-  bottom: 10px;
+  bottom: 15px;
   cursor: pointer;
 `;
 

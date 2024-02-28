@@ -17,11 +17,17 @@ function ImageComponent({onImageChange}) {
         }
     };
 
+    const handleRemove = (index, e) => {
+      e.stopPropagation();
+      setPreviews((prevImages) => prevImages.filter((image, i) => i !== index));
+    };
+
     const renderPhotos = (source) => {
         return source.map((photo, index) => {
           return (
             <div className="thumbnail" key={photo} onClick={() => window.open(photo, '_blank')}>
               <img src={photo} alt="" />
+              <DeleteButton onClick={(e) => {handleRemove(index, e)}}>x</DeleteButton>
             </div>
           );
         });
@@ -38,6 +44,17 @@ function ImageComponent({onImageChange}) {
       </Div>
     );
 }
+
+const DeleteButton = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: red;
+  font-weight: 500;
+  font-size: 16px;
+  background-color: white;
+  border: none;
+`;
 
 const Div = styled.div`
   width: 100%;
@@ -63,17 +80,18 @@ const Input = styled.input`
 const Result = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: flex-start;
 
   .thumbnail {
     position: relative;
     width: 100px;
     height: 100px;
     overflow: hidden;
+    padding: 0.3rem;
 
     img {
-        width: 100px;
-        height: 100px;
+        width: 100%;
+        height: 100%;
         object-fit: cover;
         left: 50%;
         top: 50%;
