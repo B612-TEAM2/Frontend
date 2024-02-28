@@ -4,6 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { clickedId } from "../../atom";
 import axios from "axios";
+import { ListScope } from "../ListScope";
 
 // 핀 클릭시 list 반환
 //  -> "/posts/clickPin"  로 pid를 리스트 형식으로 요청보냄
@@ -14,14 +15,14 @@ const MarkerPreview = () => {
     {
       id: 123,
       title: "제목",
-      scope: "공개범위",
+      scope: "private",
       content: "내용15자까지나옴",
       createdData: "날짜",
     },
     {
       id: 456,
       title: "제목",
-      scope: "공개범위",
+      scope: "public",
       content: "내용15자까지나옴",
       createdData: "날짜",
     },
@@ -62,8 +63,18 @@ const MarkerPreview = () => {
               <Content>{p.content}</Content>
               <Line />
               <ScopeWrapper>
-                <Scope>{p.scope}</Scope>
-                <Date>{new Date(p.createdDate).toLocaleDateString('ko-KR').replaceAll('.', '/').replaceAll('.', '') + ' ' + new Date(p.createdDate).toLocaleTimeString('ko-KR', {hour: '2-digit', minute: '2-digit'})}</Date>
+                <ListScope scope={p.scope} />
+                <Date>
+                  {new Date(p.createdDate)
+                    .toLocaleDateString("ko-KR")
+                    .replaceAll(".", "/")
+                    .replaceAll(".", "") +
+                    " " +
+                    new Date(p.createdDate).toLocaleTimeString("ko-KR", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                </Date>
               </ScopeWrapper>
             </ContentWrapper>
           </PostingWrapper>
