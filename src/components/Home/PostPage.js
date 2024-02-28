@@ -34,7 +34,7 @@ const PostPage = () => {
     <Container>
       <SideMenuBar />
       <WritingArea>
-        <DateText>{post.createdDate}</DateText>
+        <DateText>{new Date(post.createdDate).toLocaleDateString('ko-KR').replaceAll('.', '/').replaceAll('.', '') + ' ' + new Date(post.createdDate).toLocaleTimeString('ko-KR', {hour: '2-digit', minute: '2-digit'})}</DateText>
         <TitleText>
           <WritingTitle>{post.title}</WritingTitle>
         </TitleText>
