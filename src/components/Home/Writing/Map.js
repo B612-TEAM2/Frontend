@@ -1,4 +1,3 @@
-// Map.js
 import React, { useState, useEffect } from "react";
 import { GoogleMap, useLoadScript, InfoWindow } from "@react-google-maps/api";
 import styled from "styled-components";
@@ -7,6 +6,8 @@ const Map = ({ closeModal, onLocationClick }) => {
   const [map, setMap] = useState(null);
   const [infoWindow, setInfoWindow] = useState(null);
   const [clickedPosition, setClickedPosition] = useState();
+  const [marker, setMarker] = useState(null);
+  const [isMarkerSet, setIsMarkerSet] = useState(false);
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
@@ -35,7 +36,6 @@ const Map = ({ closeModal, onLocationClick }) => {
     }
     const position = event.latLng.toJSON();
     setClickedPosition(position);
-    console.log(position);
 
     const newInfoWindow = new window.google.maps.InfoWindow({
       position: event.latLng,
@@ -44,14 +44,23 @@ const Map = ({ closeModal, onLocationClick }) => {
     map.panTo(event.latLng);
     newInfoWindow.open(map);
     setInfoWindow(newInfoWindow);
+    setIsMarkerSet(false);
   };
 
   const handleNewFeed = () => {
-    closeModal();
     onLocationClick(clickedPosition);
     if (infoWindow) {
       infoWindow.close();
     }
+    if(marker) {
+      marker.setMap(null);
+    }
+    const newMarker = new window.google.maps.Marker({
+      position: clickedPosition,
+      map,
+    });
+    setMarker(newMarker);
+    setIsMarkerSet(true);
   };
 
   if (loadError) return <div>Error loading maps</div>;
@@ -65,10 +74,11 @@ const Map = ({ closeModal, onLocationClick }) => {
       onClick={handleMapClick}
       onLoad={(map) => setMap(map)}
     >
-      {infoWindow && (
+      {infoWindow && !isMarkerSet && (
         <InfoWindow
           position={infoWindow.getPosition()}
           onCloseClick={() => infoWindow.close()}
+          onClick={handleNewFeed}
         >
           <NewFeedButton onClick={handleNewFeed}>
             이 위치에서 새 글 쓰기
