@@ -12,7 +12,7 @@ import GoogleRedirection from "./pages/Login/GoogleRedirection";
 import SetProfile from "./pages/Login/SetProfile";
 import PostPage from "./components/Home/PostPage";
 import EditPage from "./pages/Home/Writing/EditPage";
-import TokenRefresher from "./components/Token/TokenRefresher.js";
+import TokenRefresher from "./components/Token/TokenRefresher";
 
 function App() {
   return (
