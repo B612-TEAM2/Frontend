@@ -21,7 +21,9 @@ export default function TokenRefresher() {
                             const response = await axios.post('http://localhost:8080/api/jwt/access', {
                                 refresh: refreshToken
                         });
+                        console.log('백엔드에 request 전송:', response);
                         localStorage.setItem('accessToken', response.data.access);
+                        console.log('New access token:', response.data.access);
                         } catch(error) {
                             alert('로그인 유효 기간이 만료되었습니다. 다시 로그인해 주세요.');
                             navigate('/');
