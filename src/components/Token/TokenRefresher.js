@@ -19,7 +19,9 @@ export default function TokenRefresher() {
                     if(refreshToken) {
                         try {
                             const response = await axios.post('http://localhost:8080/api/jwt/access', {
-                                refreshToken: refreshToken
+                                headers: {
+                                    Authorization: `Bearer ${refreshToken}`,
+                                  },
                         });
                         console.log('백엔드에 request 전송:', response);
                         localStorage.setItem('accessToken', response.data.access);
