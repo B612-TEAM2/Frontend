@@ -33,6 +33,14 @@ const MarkerPreview = () => {
     clickedData !== null && clickedData.map((obj) => obj.id);
   const [postPreviews, setPostPreviews] = useState([]);
 
+  axios.defaults.paramsSerializer = function (paramObj) {
+    const params = new URLSearchParams();
+    for (const key in paramObj) {
+      params.append(key, paramObj[key]);
+    }
+    return params.toString();
+  };
+
   const fetchPreview = async () => {
     try {
       const token = localStorage.getItem("accessToken");
