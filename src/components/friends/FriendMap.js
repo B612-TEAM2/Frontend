@@ -93,8 +93,7 @@ const FriendMap = () => {
           onLoad={onLoad}
           onUnmount={onUnmount}
         >
-          {markerData &&
-            markerData.length !== 0 &&
+          {markerData && markerData.length !== 0 ? (
             markerData.map((marker) => (
               <Marker
                 key={marker.id}
@@ -107,7 +106,10 @@ const FriendMap = () => {
                   );
                 }}
               />
-            ))}
+            ))
+          ) : (
+            <></>
+          )}
         </GoogleMap>
       )}
     </>
