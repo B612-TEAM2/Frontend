@@ -7,13 +7,13 @@ export default function TokenRefresher({ children }) {
     const navigate = useNavigate();
     const [isTokenRefreshed, setIsTokenRefreshed] = useState(false);
 
-    useEffect(() => {
-        const checkTokenExpiration = async () => {
-            const accessToken = localStorage.getItem('accessToken');
-            if(accessToken) {
-                const decodedToken = jwtDecode(accessToken);
-                const expirationTime = decodedToken.exp * 1000;
-                const currentTime = Date.now();
+  useEffect(() => {
+    const checkTokenExpiration = async () => {
+      const accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        const decodedToken = jwtDecode(accessToken);
+        const expirationTime = decodedToken.exp * 1000;
+        const currentTime = Date.now();
 
                 if(expirationTime - currentTime < 60000) {
                     const refreshToken = localStorage.getItem('refreshToken');
@@ -39,10 +39,11 @@ export default function TokenRefresher({ children }) {
         } else {
             setIsTokenRefreshed(true);
         }
-        };
+      }
+    };
 
     checkTokenExpiration();
-    }, [navigate]);
+  }, [navigate]);
 
 return isTokenRefreshed ? children : null;
 }
