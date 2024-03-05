@@ -40,10 +40,9 @@ export default function TokenRefresher({ children }) {
             setIsTokenRefreshed(true);
         }
       }
-    };
 
     checkTokenExpiration();
-  }, [navigate]);
+  }, []);
 
 return isTokenRefreshed ? children : null;
 }
