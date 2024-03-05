@@ -105,7 +105,7 @@ const HomeMap = () => {
           onLoad={onLoad}
           onUnmount={onUnmount}
         >
-          {markers.length !== 0 &&
+          {markers.length !== 0 ? (
             markers.map((marker) => (
               <Marker
                 key={marker.id}
@@ -118,7 +118,10 @@ const HomeMap = () => {
                   );
                 }}
               />
-            ))}
+            ))
+          ) : (
+            <></>
+          )}
         </GoogleMap>
       )}
     </>
