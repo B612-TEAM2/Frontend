@@ -155,6 +155,7 @@ const Button = styled.button`
   text-align: center;
   color: black;
   margin-left: 10px;
+  cursor: pointer;
 `;
 
 export default SetProfile;
