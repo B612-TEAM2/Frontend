@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import * as jwtDecode from "jwt-decode";
 
 import KakaoLogin from "../../components/Login/KakaoLogin";
 import GoogleLogin from "../../components/Login/GoogleLogin";
