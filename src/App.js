@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import MainPage from "./pages/Home/MainPage";
 import Writing from "./pages/Home/Writing/Writing";
@@ -18,19 +18,18 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-      <TokenRefresher />
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="/writing" element={<Writing />} />
-          <Route path="/friends" element={<Friends />} />
-          <Route path="/public" element={<Public />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/home" element={<MainPage />} />
+          <Route path="/writing" element={<><TokenRefresher /><Writing /></>} />
+          <Route path="/friends" element={<><TokenRefresher /><Friends /></>} />
+          <Route path="/public" element={<><TokenRefresher /><Public /></>} />
+          <Route path="/account" element={<><TokenRefresher /><Account /></>} />
+          <Route path="/home" element={<><TokenRefresher /><MainPage /></>} />
           <Route exact path="/authkakao" element={<KakaoRedirection />} />
           <Route exact path="/authgoogle" element={<GoogleRedirection />} />
           <Route path="/SetProfile" element={<SetProfile />} />
-          <Route path="/:id" element={<PostPage />} />
-          <Route path="/edit/:id" element={<EditPage />} />
+          <Route path="/:id" element={<><TokenRefresher /><PostPage /></>} />
+          <Route path="/edit/:id" element={<><TokenRefresher /><EditPage /></>} />
         </Routes>
       </BrowserRouter>
     </div>

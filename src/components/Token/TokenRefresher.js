@@ -18,7 +18,7 @@ export default function TokenRefresher() {
                     const refreshToken = localStorage.getItem('refreshToken');
                     if(refreshToken) {
                         try {
-                            const response = await axios.post('/api/jwt/access', {},{
+                            const response = await axios.post('/api/jwt/access', {
                                 headers: {
                                     Authorization: `Bearer ${refreshToken}`,
                                   },
