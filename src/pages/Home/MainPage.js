@@ -144,20 +144,26 @@ const MainPage = () => {
         <FriendAlert src={imgSrc}></FriendAlert>
         <AlertText>새로운 친구 요청이 있어요!</AlertText>
       </AlertWrapper>
-      <PreviewContainer showContainer={openState && preview !== null && isMap}>
-        <PreviewText>이 위치에서 쓴 글</PreviewText>
-        <PreviewWrapper>
-          {" "}
-          <MarkerPreview />
-        </PreviewWrapper>
-        <CloseButton
-          onClick={() => {
-            setOpenState(false);
-          }}
+      {preview.length == 0 ? (
+        <></>
+      ) : (
+        <PreviewContainer
+          showContainer={openState && preview !== null && isMap}
         >
-          닫기
-        </CloseButton>
-      </PreviewContainer>
+          <PreviewText>이 위치에서 쓴 글</PreviewText>
+          <PreviewWrapper>
+            <MarkerPreview />
+          </PreviewWrapper>
+          <CloseButton
+            onClick={() => {
+              setOpenState(false);
+            }}
+          >
+            닫기
+          </CloseButton>
+        </PreviewContainer>
+      )}
+
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
