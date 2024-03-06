@@ -7,7 +7,7 @@ export const previewOpen = atom({
 
 export const clickedId = atom({
   key: "clickedId",
-  default: null,
+  default: [],
 });
 
 export const isHomeMap = atom({

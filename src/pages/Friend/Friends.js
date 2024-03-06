@@ -49,20 +49,25 @@ const Friends = () => {
         </BtnWrapper>
         {toggle === "map" ? <FriendMap /> : <FriendList />}
       </Container>
-      <PreviewContainer showContainer={openState && preview !== null && isMap}>
-        <PreviewText>이 위치에서 쓴 글</PreviewText>
-        <PreviewWrapper>
-          {" "}
-          <MarkerPreview />
-        </PreviewWrapper>
-        <CloseButton
-          onClick={() => {
-            setOpenState(false);
-          }}
+      {preview.length == 0 ? (
+        <></>
+      ) : (
+        <PreviewContainer
+          showContainer={openState && preview !== null && isMap}
         >
-          닫기
-        </CloseButton>
-      </PreviewContainer>
+          <PreviewText>이 위치에서 쓴 글</PreviewText>
+          <PreviewWrapper>
+            <MarkerPreview />
+          </PreviewWrapper>
+          <CloseButton
+            onClick={() => {
+              setOpenState(false);
+            }}
+          >
+            닫기
+          </CloseButton>
+        </PreviewContainer>
+      )}
     </Wrapper>
   );
 };
