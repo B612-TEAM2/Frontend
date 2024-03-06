@@ -27,13 +27,14 @@ const MarkerPreview = () => {
       createdData: "날짜",
     },
   ];
-  const emptyDummy = [];
-  const clickedData = dummy;
+  // const emptyDummy = [];
+  // const clickedData = dummy;
+  // const clickedPidList =
+  //   clickedData !== null && clickedData.map((obj) => obj.id);
+
+  const clickedData = useRecoilValue(clickedId);
   const clickedPidList =
     clickedData !== null && clickedData.map((obj) => obj.id);
-
-  // const clickedData = useRecoilValue(clickedId);
-  // const clickedPidList = clickedData !== null && clickedData.map((obj) => obj.id);
   const [postPreviews, setPostPreviews] = useState([]);
 
   axios.defaults.paramsSerializer = function (paramObj) {
