@@ -8,6 +8,23 @@ import { ListScope, ListMyLike, HandleMyLike } from "../ListScope";
 
 //mylike가 변환된 pid만 보내기
 
+const dummy = [
+  {
+    id: 123,
+    title: "제목",
+    scope: "private",
+    content: "내용15자까지나옴",
+    createdDate: "날짜",
+  },
+  {
+    id: 456,
+    title: "제목",
+    scope: "public",
+    content: "내용15자까지나옴",
+    createdDate: "날짜",
+  },
+];
+
 const HomeList = () => {
   const [posts, setPosts] = useState([]);
   const setIsHome = useSetRecoilState(isHomeMap);
@@ -32,7 +49,10 @@ const HomeList = () => {
   }, []);
 
   function formedDate(dateString) {
-    let listdate = dateString.split('T')[0].replaceAll('-', '/') + ' ' + dateString.split('T')[1].split('.')[0];
+    let listdate =
+      dateString.split("T")[0].replaceAll("-", "/") +
+      " " +
+      dateString.split("T")[1].split(".")[0];
     return listdate;
   }
 
