@@ -87,32 +87,28 @@ const Writing = () => {
       formData.append("imgs", image);
     });
 
-    try {
-      const response = await axios.post("/api/posts/home/store", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if(!title) {
-        alert("제목을 입력해 주세요");
-        return;
+    if(!title) {
+      alert("제목을 입력해 주세요");
+      return;
+    } else if(!content) {
+      alert("내용을 입력해 주세요");
+      return;
+    } else if(!clickedLat || !clickedLng) {
+      alert("위치를 설정해 주세요");
+      return;
+    } else {
+      try {
+        const response = await axios.post("/api/posts/home/store", formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("작성 성공: ", response.data);
+        navigate(-1);
+      } catch (error) {
+        console.error("작성 실패: ", error);
       }
-      if(!content) {
-        alert("내용을 입력해 주세요");
-        return;
-      }
-      if(!clickedLat || !clickedLng) {
-        alert("위치를 설정해 주세요");
-        return;
-      }
-
-      console.log("작성 성공: ", response.data);
-      navigate(-1);
-    } catch (error) {
-      console.error("작성 실패: ", error);
-    }
-  };
+    };
 
   return (
     <Container>
@@ -155,6 +151,7 @@ const Writing = () => {
       </WritingArea>
     </Container>
   );
+};
 };
 
 const Container = styled.div`
