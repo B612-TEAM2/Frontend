@@ -60,7 +60,6 @@ const MarkerPreview = () => {
       }
     };
     fetchPreview();
-    console.log("Fetchpreview 실행");
   }, [clickedPidList.length]);
 
   function formedDate(dateString) {
@@ -83,7 +82,7 @@ const MarkerPreview = () => {
               <Line />
               <ScopeWrapper>
                 <ListScope scope={p.scope} />
-                <Date>{formedDate(post.createdDate)}</Date>
+                <Date>{formedDate(p.createdDate)}</Date>
               </ScopeWrapper>
             </ContentWrapper>
           </PostingWrapper>
