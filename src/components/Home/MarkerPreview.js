@@ -63,6 +63,14 @@ const MarkerPreview = () => {
     console.log("Fetchpreview 실행");
   }, [clickedPidList.length]);
 
+  function formedDate(dateString) {
+    let listdate =
+      dateString.split("T")[0].replaceAll("-", "/") +
+      " " +
+      dateString.split("T")[1].split(".")[0];
+    return listdate;
+  }
+
   return (
     <Wrapper>
       {postPreviews.map((p) => (
@@ -75,18 +83,7 @@ const MarkerPreview = () => {
               <Line />
               <ScopeWrapper>
                 <ListScope scope={p.scope} />
-                <Date>
-                  {/* {new Date(p.createdDate)
-                    .toLocaleDateString("ko-KR")
-                    .replaceAll(".", "/")
-                    .replaceAll(".", "") +
-                    " " +
-                    new Date(p.createdDate).toLocaleTimeString("ko-KR", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })} */}
-                  {p.createdDate}
-                </Date>
+                <Date>{formedDate(post.createdDate)}</Date>
               </ScopeWrapper>
             </ContentWrapper>
           </PostingWrapper>
