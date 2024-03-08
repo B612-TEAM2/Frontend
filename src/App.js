@@ -28,8 +28,8 @@ function App() {
             <Route path="/public" element={<Public />} />
             <Route path="/account" element={<Account />} />
             <Route path="/home" element={<MainPage />} />
-            <Route path="/:id" element={<PostPage />} />
             <Route path="/edit/:id" element={<EditPage />} />
+            <Route path="/:id" element={<PostPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

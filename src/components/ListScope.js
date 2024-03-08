@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 export function ListScope({ scope }) {
-        if (scope === 'private') {
+        if (scope == 'PRIVATE') {
             return (
                 <Div>
                     <Icon className="material-icons">lock</Icon>
@@ -11,7 +11,7 @@ export function ListScope({ scope }) {
             )
         }
 
-    if (scope === 'public') {
+    if (scope == 'PUBLIC') {
         return (
             <Div>
                 <Icon className="material-icons">lock_open_right</Icon>
@@ -20,7 +20,7 @@ export function ListScope({ scope }) {
         )
     }
 
-    if (scope === 'friends') {
+    if (scope == 'FRIENDS') {
         return (
             <Div>
                 <Icon className="material-symbols-outlined">lock_open</Icon>
@@ -82,7 +82,7 @@ const Icon = styled.span`
     color: #6f6f6f;
 `;
 
-const ScopeText = styled.div`
+const ScopeText = styled.text`
     font-size: 1rem;
     color: #6f6f6f;
 `;
