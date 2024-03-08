@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 
-export default function TokenRefresher({ children }) {
-    const [isValidToken, setIsValidToken] = useState(true);
+export default function TokenRefresher() {
     const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,7 +28,6 @@ export default function TokenRefresher({ children }) {
                     console.log('New access token:', response.data["access-token"]);
                 } catch(error) {
                     alert('로그인 유효 기간이 만료되었습니다. 다시 로그인해 주세요.');
-                    setIsValidToken(false);
                     navigate('/');
                 }
             }
@@ -40,5 +38,5 @@ export default function TokenRefresher({ children }) {
     checkTokenExpiration();
   }, [navigate]);
 
-return isValidToken ? children : null;
+return null;
 }
