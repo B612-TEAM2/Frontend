@@ -17,25 +17,24 @@ const MarkerPreview = () => {
       title: "제목",
       scope: "private",
       content: "내용15자까지나옴",
-      createdData: "날짜",
+      createdDate: "날짜",
     },
     {
       id: 456,
       title: "제목",
       scope: "public",
       content: "내용15자까지나옴",
-      createdData: "날짜",
+      createdDate: "날짜",
     },
   ];
-  // const emptyDummy = [];
-  // const clickedData = dummy;
-  // const clickedPidList =
-  //   clickedData !== null && clickedData.map((obj) => obj.id);
 
+  const ClickedDummy = [
+    { id: 1, latitude: 37.55902624, longitude: 126.9749014 },
+    { id: 2, latitude: 37.55902624, longitude: 126.9749014 },
+  ];
   const clickedData = useRecoilValue(clickedId);
-  const clickedPidList =
-    clickedData !== null && clickedData.map((obj) => obj.id);
-  const [postPreviews, setPostPreviews] = useState([]);
+  const clickedPidList = clickedData.map((item) => item.id);
+  const [postPreviews, setPostPreviews] = useState([]); //DUMMY
 
   axios.defaults.paramsSerializer = function (paramObj) {
     const params = new URLSearchParams();
@@ -45,25 +44,25 @@ const MarkerPreview = () => {
     return params.toString();
   };
 
-  const fetchPreview = async () => {
-    try {
-      const token = localStorage.getItem("accessToken");
-      const response = await axios.get(`/api/posts/clickPin`, {
-        params: { pids: clickedPidList },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setPostPreviews(response.data);
-    } catch (error) {
-      console.error("Error fetching preview data:", error);
-    }
-  };
   useEffect(() => {
+    const fetchPreview = async () => {
+      try {
+        const token = localStorage.getItem("accessToken");
+        const response = await axios.get(`/api/posts/clickPin`, {
+          params: { pids: clickedPidList },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setPostPreviews(response.data);
+      } catch (error) {
+        console.error("Error fetching preview data:", error);
+      }
+    };
     fetchPreview();
     console.log("fetchpreview 실행");
-    console.log("clickedPidList:", clickedPidList);
-  }, []);
+    console.log(clickedPidList);
+  }, [clickedPidList]);
 
   return (
     <Wrapper>
@@ -78,7 +77,7 @@ const MarkerPreview = () => {
               <ScopeWrapper>
                 <ListScope scope={p.scope} />
                 <Date>
-                  {new Date(p.createdDate)
+                  {/* {new Date(p.createdDate)
                     .toLocaleDateString("ko-KR")
                     .replaceAll(".", "/")
                     .replaceAll(".", "") +
@@ -86,7 +85,8 @@ const MarkerPreview = () => {
                     new Date(p.createdDate).toLocaleTimeString("ko-KR", {
                       hour: "2-digit",
                       minute: "2-digit",
-                    })}
+                    })} */}
+                  {p.createdDate}
                 </Date>
               </ScopeWrapper>
             </ContentWrapper>
