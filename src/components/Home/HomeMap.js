@@ -9,6 +9,7 @@ const HomeMap = () => {
     { id: 1, latitude: 37.55902624, longitude: 126.9749014 },
     { id: 2, latitude: 37.55902624, longitude: 126.9749014 },
   ];
+  const emptyDummy = [];
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
   const [markers, setMarkers] = useState([]); //dummy
@@ -19,10 +20,15 @@ const HomeMap = () => {
   const [isMap, setIsMap] = useRecoilState(isHomeMap);
 
   const handleMarkerClick = (pid, clickedLat, clickedLng) => {
+    console.log("clickedLat:", clickedLat, "clickedLng: ", clickedLng);
     const sameLat = markers.filter((m) => m.latitude === clickedLat);
+    console.log("sameLat", sameLat);
     const sameLng = sameLat.filter((m) => m.longitude === clickedLng);
+    console.log("sameLng: ", sameLng);
     setPreviewState(true);
+    console.log(previewState);
     setMarkerId(sameLng); //클릭된 마커와 같은 위치의 글 정보
+    console.log("markerId: ", markerId);
   };
 
   const { isLoaded } = useJsApiLoader({

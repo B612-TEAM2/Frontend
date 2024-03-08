@@ -65,7 +65,7 @@ const Account = () => {
     const accessToken = localStorage.getItem("accessToken");
     formData.append("profileImg", fileInput.current.files[0]);
 
-    fetch(`${process.env.REACT_APP_SETPROFILE_URL}`, {
+    fetch(`/api/account`, {
       method: "POST",
       body: formData,
       headers: {
