@@ -5,9 +5,9 @@ const Layout = () => {
   return (
     <>
       <TokenRefresher />
-      <main>
+      <>
         <Outlet />
-      </main>
+      </>
     </>
   );
 };

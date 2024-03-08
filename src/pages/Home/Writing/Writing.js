@@ -30,6 +30,15 @@ const Writing = () => {
     setImages([...images, image]);
   };
 
+  const [content, setContent] = useState("");
+  function onEditorChange(value) {
+    setContent(value);
+  }
+
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
+
   const [modalIsOpen, setIsOpen] = useState(false);
   const customStyles = {
     overlay: {
@@ -66,15 +75,6 @@ const Writing = () => {
     Modal.setAppElement("#root");
   }, []);
 
-  const [content, setContent] = useState("");
-  function onEditorChange(value) {
-    setContent(value);
-  }
-
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
-
   const handleSubmit = async () => {
     const token = localStorage.getItem("accessToken");
     const formData = new FormData();
@@ -90,10 +90,10 @@ const Writing = () => {
     if(!title) {
       alert("제목을 입력해 주세요");
       return;
-    } else if(!content) {
+    } else if (!content) {
       alert("내용을 입력해 주세요");
       return;
-    } else if(!clickedLat || !clickedLng) {
+    } else if (!clickedLat || !clickedLng) {
       alert("위치를 설정해 주세요");
       return;
     } else {
@@ -108,7 +108,8 @@ const Writing = () => {
       } catch (error) {
         console.error("작성 실패: ", error);
       }
-    };
+    }
+  };
 
   return (
     <Container>
@@ -151,8 +152,7 @@ const Writing = () => {
       </WritingArea>
     </Container>
   );
-};
-};
+}
 
 const Container = styled.div`
   display: flex;
