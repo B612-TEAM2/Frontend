@@ -3,6 +3,7 @@ import styled from "styled-components";
 import SideMenuBar from "../SideMenuBar";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import { ListScope } from "../ListScope";
 
 const PostPage = () => {
   const { id } = useParams();
@@ -35,6 +36,7 @@ const PostPage = () => {
       <SideMenuBar />
       <WritingArea>
         <DateText>{new Date(post.createdDate).toLocaleDateString('ko-KR').replaceAll('.', '/').replaceAll('.', '') + ' ' + new Date(post.createdDate).toLocaleTimeString('ko-KR', {hour: '2-digit', minute: '2-digit'})}</DateText>
+        <ListScope scope={post.scope} />
         <TitleText>
           <WritingTitle>{post.title}</WritingTitle>
         </TitleText>

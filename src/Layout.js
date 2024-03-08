@@ -3,12 +3,12 @@ import TokenRefresher from './components/Token/TokenRefresher';
 
 const Layout = () => {
   return (
-    <>
+    <div>
       <TokenRefresher />
       <>
         <Outlet />
       </>
-    </>
+    </div>
   );
 };
 
