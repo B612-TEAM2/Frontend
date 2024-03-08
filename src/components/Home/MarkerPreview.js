@@ -61,7 +61,7 @@ const MarkerPreview = () => {
     };
     fetchPreview();
     console.log("Fetchpreview 실행");
-  }, []);
+  }, [clickedPidList.length]);
 
   return (
     <Wrapper>
