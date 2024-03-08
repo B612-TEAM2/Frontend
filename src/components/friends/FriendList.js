@@ -69,6 +69,13 @@ const FriendList = () => {
     setIsFriend(false);
   }, []);
 
+  function formedDate(dateString) {
+    let listdate =
+      dateString.split("T")[0].replaceAll("-", "/") +
+      " " +
+      dateString.split("T")[1].split(".")[0];
+    return listdate;
+  }
   return (
     <Container>
       {friendName !== null ? (
@@ -91,7 +98,7 @@ const FriendList = () => {
                   <Line />
                   <ScopeWrapper>
                     <ListScope scope={post.scope} />
-                    <Date>{new Date(post.createdDate).toLocaleDateString('ko-KR').replaceAll('.', '/').replaceAll('.', '') + ' ' + new Date(post.createdDate).toLocaleTimeString('ko-KR', {hour: '2-digit', minute: '2-digit'})}</Date>
+                    <Date>{formedDate(post.createdDate)}</Date>
                   </ScopeWrapper>
                 </ContentWrapper>
               </PostingWrapper>
