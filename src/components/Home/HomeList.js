@@ -26,6 +26,7 @@ const dummy = [
 ];
 
 const HomeList = () => {
+  const emptyImg = `${process.env.PUBLIC_URL}/img/empyImg.png`;
   const [posts, setPosts] = useState([]);
   const setIsHome = useSetRecoilState(isHomeMap);
   const getUserPosts = async () => {
@@ -64,10 +65,14 @@ const HomeList = () => {
           {posts.map((post) => (
             <Link to={`/${post.id}`} key={post.id}>
               <PostingWrapper key={post.id}>
-                <Img
-                  src={`data:image/png;base64,${post.imgByte}`}
-                  alt={post.title}
-                />
+                {post.imgByte ? (
+                  <Img
+                    src={`data:image/png;base64,${post.imgByte}`}
+                    alt={post.title}
+                  />
+                ) : (
+                  <Img src={emptyImg} alt={post.title} />
+                )}
                 <ContentWrapper>
                   <TitleWrapper>
                     <PostTitle>{post.title}</PostTitle>
