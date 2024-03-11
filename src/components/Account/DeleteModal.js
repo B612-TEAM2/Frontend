@@ -25,7 +25,9 @@ const DeleteModal = ({ closeModal, ...props }) => {
       if (response.status === 200) {
         console.log(response.data);
         alert("계정 삭제가 완료되었습니다.");
-        navigate("/");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        navigate("/login");
       } else {
         console.error("계정 삭제 중 오류 발생:", response.statusText);
         alert("계정 삭제에 실패했습니다. 다시 시도해주세요.");
