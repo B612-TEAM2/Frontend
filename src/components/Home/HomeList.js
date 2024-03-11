@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { isHomeMap } from "../../atom";
 import { ListScope, ListMyLike } from "../ListScope";
@@ -68,7 +68,6 @@ const HomeList = () => {
       <ListContainer>
         <ListWrapper>
           {posts.map((post) => (
-            <Link to={`/${post.id}`} key={post.id}>
               <PostingWrapper key={post.id}>
                 {post.imgByte ? (
                   <Img
@@ -80,7 +79,9 @@ const HomeList = () => {
                 )}
                 <ContentWrapper>
                   <TitleWrapper>
-                    <PostTitle>{post.title}</PostTitle>
+                    <Link to={`/${post.id}`} key={post.id}>
+                      <PostTitle>{post.title}</PostTitle>
+                    </Link>
                     <ListMyLike
                       myLike={post.myLike}
                       pid={post.id}
@@ -97,7 +98,6 @@ const HomeList = () => {
                   </ScopeWrapper>
                 </ContentWrapper>
               </PostingWrapper>
-            </Link>
           ))}
         </ListWrapper>
       </ListContainer>
