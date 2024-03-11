@@ -4,7 +4,7 @@ import axios from "axios";
 import { useRecoilState } from "recoil";
 import { clickedId, isHomeMap, previewOpen } from "../../atom";
 
-const HomeMap = () => {
+const HomeMap = React.memo(() => {
   const dummy = [
     { id: 1, latitude: 37.55902624, longitude: 126.9749014 },
     { id: 2, latitude: 37.55902624, longitude: 126.9749014 },
@@ -22,6 +22,14 @@ const HomeMap = () => {
   const handleMarkerClick = (pid, clickedLat, clickedLng) => {
     const sameLat = markers.filter((m) => m.latitude === clickedLat);
     const sameLng = sameLat.filter((m) => m.longitude === clickedLng);
+    if (map && sameLng.length > 0) {
+      const clickedMarker = sameLng[0];
+      map.panTo({
+        lat: clickedMarker.latitude,
+        lng: clickedMarker.longitude,
+      });
+    }
+
     setPreviewState(true);
     setMarkerId(sameLng); //클릭된 마커와 같은 위치의 글 정보
   };
@@ -127,6 +135,6 @@ const HomeMap = () => {
       )}
     </>
   );
-};
+});
 
 export default HomeMap;
