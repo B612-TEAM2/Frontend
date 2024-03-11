@@ -13,10 +13,12 @@ const Account = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imgSetModal, setImgSetModal] = useState(false);
-  const [image, setImage] = useState();
+  // const [image, setImage] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
   const fileInput = useRef(null);
   const [userData, setUserData] = useState(null);
-  const [imgSrc, setImgSrc] = useState("");
+  const [imgSrc, setImgSrc] = useState(
+    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+  );
   const [nickname, setNickname] = useState("");
   const setIsAccountPage = useSetRecoilState(isAccountPage);
 
@@ -32,7 +34,6 @@ const Account = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        console.log("백엔드에서 받은 데이터:", response.data);
         setUserData(response.data);
         setImgSrc(response.data.profileImg);
         setNickname(response.data.nickname);
@@ -51,7 +52,7 @@ const Account = () => {
       const reader = new FileReader();
       reader.onload = () => {
         if (reader.readyState === 2) {
-          setImage(reader.result);
+          setImgSrc(reader.result);
         }
       };
       reader.readAsDataURL(e.target.files[0]);
@@ -87,11 +88,11 @@ const Account = () => {
 
   function handleImageClick() {
     if (
-      image !==
+      imgSrc !==
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" &&
       window.confirm("이미지를 삭제하겠습니까?")
     ) {
-      setImage(
+      setImgSrc(
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
       );
     } else {
@@ -152,23 +153,20 @@ const Account = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     navigate("/login");
-  }
+  };
 
   return (
     <>
       <SideMenuBar />
       <Wrapper>
-        {imgSrc ? (
+        {imgSrc !==
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" ? (
           <ProfileImg
             src={`data:image/jpeg;base64,${imgSrc}`}
             alt="Profile Image"
           ></ProfileImg>
         ) : (
-          <ProfileImg
-            src={
-              "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-            }
-          ></ProfileImg>
+          <ProfileImg src={imgSrc}></ProfileImg>
         )}
         {nickname ? (
           <Greeting>{nickname}님, 안녕하세요. </Greeting>
@@ -183,12 +181,18 @@ const Account = () => {
         >
           <Container>
             <ProfileImgSetting>
-              <Avatar
-                src={image}
-                style={{ margin: "20px" }}
-                size={200}
-                onClick={handleImageClick}
-              />
+              {imgSrc !==
+              "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" ? (
+                <Avatar
+                  src={`data:image/jpeg;base64,${imgSrc}`}
+                  style={{ margin: "20px" }}
+                  size={200}
+                  onClick={handleImageClick}
+                />
+              ) : (
+                <Avatar src={imgSrc} style={{ margin: "20px" }} size={200} />
+              )}
+
               <input
                 type="file"
                 style={{ display: "none" }}
@@ -206,7 +210,6 @@ const Account = () => {
         </Modal>
         <AccountSettingButton
           onClick={() => handleLogout()}
-
           children="로그아웃"
         />
         <DeleteAccount onClick={() => onClickDelete()}>
