@@ -31,7 +31,8 @@ export function ListScope({ scope }) {
 }
 
 export function ListMyLike({ myLike, pid, onToggleMyLike }) {
-  const handleIconClick = () => {
+  const handleIconClick = (event) => {
+    event.stopPropagation();
     onToggleMyLike(pid);
   };
 

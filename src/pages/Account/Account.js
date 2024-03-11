@@ -199,7 +199,7 @@ const Account = () => {
         </Modal>
         <AccountSettingButton
           onClick={() => {
-            navigate("/");
+            navigate("/login");
           }}
           children="로그아웃"
         />
