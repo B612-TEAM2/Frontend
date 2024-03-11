@@ -1,5 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
 function SetProfile() {
@@ -7,18 +6,6 @@ function SetProfile() {
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
   );
   const fileInput = useRef(null);
-  const navigate = useNavigate();
-
-  const checkUserData = () => {
-    // 사용자 정보가 있는지 확인하는 로직 작성
-  }
-
-  useEffect(() => {
-    const userDataExists = checkUserData();
-    if (userDataExists) {
-      navigate("/");
-    }
-  }, [navigate]);
 
   function onChange(e) {
     if (e.target.files && e.target.files[0]) {

@@ -17,7 +17,7 @@ const SideMenuBar = () => {
       <Container>
         <TextContainer
           onClick={() => {
-            navigate("/home");
+            navigate("/");
           }}
           clicked={isHome}
         >

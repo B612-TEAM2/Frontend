@@ -11,14 +11,21 @@ function KakaoRedirection() {
       const res = await axios.post(process.env.REACT_APP_KAKAO_URL, {
         code: code,
       });
+
       const ACCESS_TOKEN = res.data["access-token"];
       const REFRESH_TOKEN = res.data["refresh-token"];
+      const wasMember = res.data["wasMember"];
 
       localStorage.setItem("accessToken", ACCESS_TOKEN);
       localStorage.setItem("refreshToken", REFRESH_TOKEN);
+
+      if(wasMember) {
+        navigate("/", { replace: true});
+      } else {
+        navigate("/SetProfile", { replace: true });
+      }
     }
     KakaoLogin();
-    navigate("/SetProfile", { replace: true });
   }, []);
 
   return <div>로그인 중입니다...</div>;
