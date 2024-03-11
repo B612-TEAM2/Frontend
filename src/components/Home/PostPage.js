@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import SideMenuBar from "../SideMenuBar";
@@ -8,6 +8,7 @@ import { ListMyLike } from "../ListScope";
 
 const PostPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [post, setPost] = useState();
   const [likecount, setLikecount] = useState();
   useEffect(() => {
@@ -45,6 +46,7 @@ const PostPage = () => {
       if (response.status === 200) {
         console.log(response.data);
         alert("글 삭제가 완료 되었습니다.");
+        navigate("/");
       } else {
         console.error("글 삭제 중 오류 발생:", response.statusText);
         alert("글 삭제에 실패했습니다. 다시 시도해주세요.");
