@@ -39,6 +39,7 @@ const PublicList = () => {
   const getPublicPosts = async () => {
     try {
       const token = localStorage.getItem("accessToken");
+      console.log(lat, lng);
       const response = await axios.get(`/api/posts/public/list`, {
         params: { latitude: lat, longitude: lng },
         headers: {
