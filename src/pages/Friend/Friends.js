@@ -4,8 +4,8 @@ import FriendHeader from "../../components/friends/FriendHeader";
 import SideMenuBar from "../../components/SideMenuBar";
 import FriendMap from "../../components/friends/FriendMap";
 import FriendList from "../../components/friends/FriendList";
-import { useSetRecoilState, useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
-import { isFriendPage, isFriendMap, previewOpen, clickedId, clickedFriend, friendListState } from "../../atom";
+import { useSetRecoilState, useRecoilState, useRecoilValue } from "recoil";
+import { isFriendPage, isFriendMap, previewOpen, clickedId } from "../../atom";
 import MarkerPreview from "../../components/Home/MarkerPreview";
 
 const Friends = () => {
@@ -14,17 +14,13 @@ const Friends = () => {
   const [isMap, setIsMap] = useRecoilState(isFriendMap);
   const [openState, setOpenState] = useRecoilState(previewOpen);
   const preview = useRecoilValue(clickedId); // 미리보기 필요한 모든 정보
-  const setClickedFriend = useSetRecoilState(clickedFriend);
-  const friendList = useRecoilValueLoadable(friendListState);
-  const allFriendIds = friendList.state === "hasValue" ? friendList.contents.map(friend => friend.id) : [];
 
   useEffect(() => {
     setIsFriendPage(true);
-    setClickedFriend(allFriendIds);
     return () => {
       setIsFriendPage(false);
     };
-  }, [allFriendIds]);
+  }, []);
 
   const toggleHandler = () => {
     setToggle((prevState) => (prevState === "map" ? "list" : "map"));
