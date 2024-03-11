@@ -78,12 +78,9 @@ const MarkerPreview = () => {
         <Link to={`/${p.id}`} key={p.id}>
           <PostingWrapper key={p.id}>
             {p.imgByte ? (
-              <Img
-                src={`data:image/png;base64,${p.imgByte}`}
-                alt={post.title}
-              />
+              <Img src={`data:image/png;base64,${p.imgByte}`} alt={p.title} />
             ) : (
-              <Img src={emptyImg} alt={post.title} />
+              <Img src={emptyImg} alt={p.title} />
             )}
             <ContentWrapper>
               <PostTitle>{p.title}</PostTitle>
