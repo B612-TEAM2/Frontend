@@ -18,16 +18,16 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route exact path="/authkakao" element={<KakaoRedirection />} />
           <Route exact path="/authgoogle" element={<GoogleRedirection />} />
           <Route path="/SetProfile" element={<SetProfile />} />
           <Route element={<Layout />}>
+            <Route path="/" element={<MainPage />} />
             <Route path="/writing" element={<Writing />} />
             <Route path="/friends" element={<Friends />} />
             <Route path="/public" element={<Public />} />
             <Route path="/account" element={<Account />} />
-            <Route path="/home" element={<MainPage />} />
             <Route path="/edit/:id" element={<EditPage />} />
             <Route path="/:id" element={<PostPage />} />
           </Route>
