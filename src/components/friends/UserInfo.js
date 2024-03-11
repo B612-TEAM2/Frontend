@@ -50,7 +50,7 @@ const UserInfo = (props) => {
   };
   return (
     <Container>
-      {imgSrc ? (
+      {props.imgSrc ? (
         <UserImg
           src={`data:image/jpeg;base64,${props.imgSrc}`}
           alt="Profile Image"

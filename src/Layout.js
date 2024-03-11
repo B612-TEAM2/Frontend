@@ -1,8 +1,6 @@
-
-import { Outlet, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import TokenRefresher from './components/Token/TokenRefresher';
-
+import { Outlet, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import TokenRefresher from "./components/Token/TokenRefresher";
 
 const Layout = () => {
   const refreshToken = localStorage.getItem("refreshToken");
