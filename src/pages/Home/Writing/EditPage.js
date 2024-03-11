@@ -36,7 +36,8 @@ const EditPage = (post) => {
     const fetchPost = async () => {
       try {
         const token = localStorage.getItem("accessToken");
-        const response = await axios.get(`/api/postInfo/${id}`, {
+        const response = await axios.get(`/api/postInfo`, {
+          params: { pid: id },
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -238,7 +239,7 @@ const ModalWrapper = styled.div`
   align-items: center;
 `;
 const CloseButton = styled.button`
-  width: 70px;
+  width: 70px;f
   height: 30px;
   background-color: black;
   color: white;
