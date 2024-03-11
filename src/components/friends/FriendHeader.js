@@ -12,12 +12,10 @@ import {
   isAllClicked,
 } from "../../atom";
 
-const FriendHeader = ({setSelectedFriend}) => {
+const FriendHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [friends, setFriends] = useState([]);
   const [markers, setMarkers] = useRecoilState(friendMarkers); //back으로 부터 langitude,longitude,pid 받아옴 -> atom에 저장 -> friendmap에서 사용용
-  
   const [clickedBubble, setClickedBubble] = useRecoilState(clickedFriend);
   const [clickedAll, setClickedAll] = useRecoilState(isAllClicked);
   const [clickedFriendName, setClickedFriendName] = useRecoilState(clickedName);
@@ -163,7 +161,7 @@ const FriendHeader = ({setSelectedFriend}) => {
           onRequestClose={closeModal}
           style={customStyles}
         >
-          <FriendSearch />
+          <FriendSearch></FriendSearch>
         </Modal>
       </Container>
     </>
