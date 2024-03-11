@@ -47,53 +47,55 @@ const PublicMap = () => {
     setMap(null);
   }, []);
 
-  const fetchMarkersData = async () => {
+  const fetchMarkersData = async (latitude, longitude) => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await axios.get(`/api/posts/public/pins`, {
-        params: { latitude: lat, longitude: lng },
+        params: { latitude, longitude },
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setMarkers(response.data);
     } catch (error) {
-      console.error("Error fetching markers data:", error);
+      console.error("핀 데이터를 불러오는 도중 오류 발생:", error);
+    }
+  };
+
+  const getLocation = async () => {
+    if (navigator.geolocation) {
+      try {
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, {
+            enableHighAccuracy: false,
+            maximumAge: 0,
+            timeout: Infinity,
+          });
+        });
+
+        const newLat = position.coords.latitude;
+        const newLng = position.coords.longitude;
+        setLat(newLat);
+        setLng(newLng);
+
+        // 얻은 좌표로 fetchMarkersData 호출
+        fetchMarkersData(newLat, newLng);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      alert("GPS를 지원하지 않습니다. 설정을 확인하세요.");
     }
   };
 
   useEffect(() => {
     getLocation();
-    fetchMarkersData();
     setIsMap(true);
     return () => {
       setIsMap(false);
       setPreviewState(false);
     };
   }, []);
-
-  const getLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const newLat = position.coords.latitude;
-          const newLng = position.coords.longitude;
-          setLat(newLat);
-          setLng(newLng);
-        },
-        (error) => {
-          console.error(error);
-        },
-        {
-          enableHighAccuracy: false,
-          maximumAge: 0,
-          timeout: Infinity,
-        }
-      );
-    } else {
-      alert("GPS를 지원하지 않습니다. 설정을 확인하세요.");
-    }
-  };
 
   const mapStyles = {
     height: "100vh",
