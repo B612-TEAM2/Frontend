@@ -31,6 +31,16 @@ const PostPage = () => {
 
   if (!post) return <h1>Post not found</h1>;
 
+  const ImageComponent = ({images}) => {
+    return images.map((photo, index) => {
+      return (
+        <div className="thumbnail" key={photo} onClick={() => window.open(photo, '_blank')}>
+          <img src={photo} alt="" />
+        </div>
+      );
+    });
+  };
+
   const handleDeletePost = async (id) => {
     try {
       const token = localStorage.getItem("accessToken");
@@ -77,6 +87,7 @@ const PostPage = () => {
             <WritingTitle>{post.title}</WritingTitle>
           </TitleText>
           <TextArea dangerouslySetInnerHTML={{ __html: post.content }} />
+          <ImageComponent images={post.imgsByte} />
           <ButtonWrapper>
             <LikeWrapper>
               <ListMyLike myLike={post.myLike} pid={post.id} />
