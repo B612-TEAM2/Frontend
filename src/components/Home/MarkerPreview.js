@@ -35,7 +35,7 @@ const MarkerPreview = () => {
     { id: 2, latitude: 37.55902624, longitude: 126.9749014 },
   ];
   const clickedData = useRecoilValue(clickedId);
-  const clickedPidList = clickedData.map((item) => item.id);
+  // const clickedPidList = clickedData.map((item) => item.id);
   const [postPreviews, setPostPreviews] = useState([]); //DUMMY
 
   axios.defaults.paramsSerializer = function (paramObj) {
@@ -51,7 +51,7 @@ const MarkerPreview = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(`/api/posts/clickPin`, {
-          params: { pids: clickedPidList },
+          params: { pids: clickedData.map((item) => item.id) },
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -62,7 +62,7 @@ const MarkerPreview = () => {
       }
     };
     fetchPreview();
-  }, [clickedPidList.length]);
+  }, [clickedData]);
 
   function formedDate(dateString) {
     let listdate =

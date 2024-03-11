@@ -87,7 +87,7 @@ const Writing = () => {
       formData.append("imgs", image);
     });
 
-    if(!title) {
+    if (!title) {
       alert("제목을 입력해 주세요");
       return;
     } else if (!content) {
@@ -125,10 +125,7 @@ const Writing = () => {
             />
             <Dropdown setScope={setScope} />
           </TitleWrapper>
-          <EditorComponent
-            setContent={setContent}
-            onChange={onEditorChange}
-          />
+          <EditorComponent setContent={setContent} onChange={onEditorChange} />
           <ImageComponent images={images} onImageChange={handleImageChange} />
           <ButtonWrapper>
             <Button onClick={openModal}>위치 설정</Button>
@@ -140,7 +137,9 @@ const Writing = () => {
             style={customStyles}
           >
             <ModalWrapper>
-              <ModalTitle>지도에서 글쓰기를 원하는 위치를 클릭하세요!</ModalTitle>
+              <ModalTitle>
+                지도에서 글쓰기를 원하는 위치를 클릭하세요!
+              </ModalTitle>
               <Map
                 closeModal={closeModal}
                 onLocationClick={handleLocationClick}
@@ -152,13 +151,14 @@ const Writing = () => {
       </WritingArea>
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
   align-items: center;
+  position: absolute;
 `;
 
 const WritingArea = styled.div`
@@ -224,7 +224,7 @@ const ModalTitle = styled.text`
   margin-top: 0.7rem;
   margin-bottom: 1.4rem;
   color: black;
-`
+`;
 
 const ModalWrapper = styled.div`
   display: flex;
