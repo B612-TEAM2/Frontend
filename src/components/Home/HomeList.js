@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { isHomeMap } from "../../atom";
 import { ListScope, ListMyLike } from "../ListScope";
 
 const HomeList = () => {
+  const navigate = useNavigate();
   const emptyImg = `${process.env.PUBLIC_URL}/img/empyImg.png`;
   const [posts, setPosts] = useState([]);
   const setIsHome = useSetRecoilState(isHomeMap);
@@ -133,6 +134,11 @@ const ListContainer = styled.div`
 `;
 
 const Link = styled(RouterLink)`
+  text-decoration: none;
+  color: black;
+`;
+
+const TempDiv = styled.div`
   text-decoration: none;
   color: black;
 `;
