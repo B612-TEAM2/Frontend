@@ -11,6 +11,8 @@ import { ListScope } from "../ListScope";
 // (id, title, scope, createdDate, contentPreview, imgByte)
 
 const MarkerPreview = () => {
+  const emptyImg = `${process.env.PUBLIC_URL}/img/empyImg.png`;
+
   const dummy = [
     {
       id: 123,
@@ -75,7 +77,14 @@ const MarkerPreview = () => {
       {postPreviews.map((p) => (
         <Link to={`/${p.id}`} key={p.id}>
           <PostingWrapper key={p.id}>
-            <Img />
+            {p.imgByte ? (
+              <Img
+                src={`data:image/png;base64,${p.imgByte}`}
+                alt={post.title}
+              />
+            ) : (
+              <Img src={emptyImg} alt={post.title} />
+            )}
             <ContentWrapper>
               <PostTitle>{p.title}</PostTitle>
               <Content>{p.content}</Content>

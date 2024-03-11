@@ -7,6 +7,7 @@ import { clickedFriend, clickedName, isFriendMap } from "../../atom";
 import { ListScope, ListMyLike } from "../ListScope";
 
 const FriendList = () => {
+  const emptyImg = `${process.env.PUBLIC_URL}/img/empyImg.png`;
   const dummyData = [
     {
       id: 1,
@@ -88,7 +89,14 @@ const FriendList = () => {
           {posts.map((post) => (
             <Link to={`/${post.id}`} key={post.id}>
               <PostingWrapper key={post.id}>
-                <Img src={post.image} alt={post.title} />
+                {post.imgByte ? (
+                  <Img
+                    src={`data:image/png;base64,${post.imgByte}`}
+                    alt={post.title}
+                  />
+                ) : (
+                  <Img src={emptyImg} alt={post.title} />
+                )}
                 <ContentWrapper>
                   <TitleWrapper>
                     <PostTitle>{post.title}</PostTitle>
