@@ -9,11 +9,20 @@ const FriendBubble = (props) => {
   };
   return (
     <Wrapper>
-      <Bubble
-        src={`data:image/jpeg;base64,${props.imgSrc}`}
-        clicked={props.clicked}
-        onClick={handleClick}
-      ></Bubble>
+      {props.imgSrc ? (
+        <Bubble
+          src={`data:image/jpeg;base64,${props.imgSrc}`}
+          clicked={props.clicked}
+          onClick={handleClick}
+        ></Bubble>
+      ) : (
+        <Bubble>
+          src=
+          {
+            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+          }
+        </Bubble>
+      )}
       <UserName>{props.userName}</UserName>
     </Wrapper>
   );

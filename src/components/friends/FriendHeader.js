@@ -12,9 +12,6 @@ import {
   isAllClicked,
 } from "../../atom";
 
-//  /posts/friends/pins로 get id, token -> 위도, 경도 ,pid
-// /posts/friends/list get id, token -> 그 친구가 쓴 모든 글 보기
-
 const FriendHeader = () => {
   const dummy = [{ id: 1, nickname: "닉네임" }];
   const [isModalOpen, setIsModalOpen] = useState(false);
