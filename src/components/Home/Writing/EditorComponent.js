@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import styled from "styled-components";
 
-function EditorComponent({setContent}){
+function EditorComponent({setContent, content}){
   const formats = [
     'font',
     'header',
@@ -31,6 +31,7 @@ function EditorComponent({setContent}){
     <Div>
       <StyledQuill
         theme="snow"
+        value={content}
         modules={modules}
         formats={formats}
         onChange={setContent}

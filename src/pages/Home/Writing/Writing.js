@@ -126,6 +126,7 @@ const Writing = () => {
             <Dropdown setScope={setScope} />
           </TitleWrapper>
           <EditorComponent
+            content={content}
             setContent={setContent}
             onChange={onEditorChange}
           />
