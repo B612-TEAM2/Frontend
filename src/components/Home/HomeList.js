@@ -4,26 +4,7 @@ import axios from "axios";
 import { Link as RouterLink } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { isHomeMap } from "../../atom";
-import { ListScope, ListMyLike, HandleMyLike } from "../ListScope";
-
-//mylike가 변환된 pid만 보내기
-
-const dummy = [
-  {
-    id: 123,
-    title: "제목",
-    scope: "private",
-    content: "내용15자까지나옴",
-    createdDate: "날짜",
-  },
-  {
-    id: 456,
-    title: "제목",
-    scope: "public",
-    content: "내용15자까지나옴",
-    createdDate: "날짜",
-  },
-];
+import { ListScope, ListMyLike } from "../ListScope";
 
 const HomeList = () => {
   const emptyImg = `${process.env.PUBLIC_URL}/img/empyImg.png`;
@@ -57,6 +38,30 @@ const HomeList = () => {
     return listdate;
   }
 
+  const handleToggleMyLike = async (postId, like) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const requestData = { pid: postId, isLike: like };
+      const response = await axios.post(`/api/likeToggle`, requestData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setPosts((prevPosts) => {
+        return prevPosts.map((post) => {
+          if (post.id === postId) {
+            return {
+              ...post,
+              myLike: !post.myLike,
+            };
+          }
+          return post;
+        });
+      });
+    } catch (error) {
+      console.error("Error updating like status:", error);
+    }
+  };
   return (
     <Container>
       <TitleText>내가 쓴 글</TitleText>
@@ -76,7 +81,11 @@ const HomeList = () => {
                 <ContentWrapper>
                   <TitleWrapper>
                     <PostTitle>{post.title}</PostTitle>
-                    <ListMyLike myLike={post.myLike} />
+                    <ListMyLike
+                      myLike={post.myLike}
+                      pid={post.id}
+                      onToggleMyLike={handleToggleMyLike}
+                    />{" "}
                   </TitleWrapper>
                   <Content
                     dangerouslySetInnerHTML={{ __html: post.contentPreview }}
