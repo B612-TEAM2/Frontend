@@ -147,6 +147,13 @@ const Account = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    navigate("/login");
+  }
+
   return (
     <>
       <SideMenuBar />
@@ -198,9 +205,7 @@ const Account = () => {
           <CloseButton onClick={closeImgModal}>닫기</CloseButton>
         </Modal>
         <AccountSettingButton
-          onClick={() => {
-            navigate("/");
-          }}
+          onClick={() => handleLogout()}
           children="로그아웃"
         />
         <DeleteAccount onClick={() => onClickDelete()}>
