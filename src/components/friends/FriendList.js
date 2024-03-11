@@ -46,7 +46,7 @@ const FriendList = () => {
   useEffect(() => {
     getUserPosts();
     setIsFriend(false);
-  }, []);
+  }, [clickedFriendId]);
 
   function formedDate(dateString) {
     let listdate =

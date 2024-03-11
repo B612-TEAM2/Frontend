@@ -35,7 +35,7 @@ const Account = () => {
           },
         });
         setUserData(response.data);
-        setImgSrc(response.data.profileImg);
+        setImgSrc(response.data.profileImg || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
         setNickname(response.data.nickname);
       } catch (error) {
         console.error("에러 발생:", error);
@@ -62,6 +62,11 @@ const Account = () => {
   }
 
   function handleCompleteButton() {
+    if(!fileInput.current.files[0]) {
+      fileInput.current.click();
+      return;
+    }
+    
     const formData = new FormData();
     const accessToken = localStorage.getItem("accessToken");
     formData.append("profileImg", fileInput.current.files[0]);
@@ -196,6 +201,7 @@ const Account = () => {
                   }
                   style={{ margin: "20px" }}
                   size={200}
+                  onClick={handleImageClick}
                 />
               )}
 
