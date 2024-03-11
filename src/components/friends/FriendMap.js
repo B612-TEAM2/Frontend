@@ -11,6 +11,7 @@ const FriendMap = () => {
   const [previewState, setPreviewState] = useRecoilState(previewOpen);
   const [markerId, setMarkerId] = useRecoilState(clickedId);
   const [isMap, setIsMap] = useRecoilState(isFriendMap); // isFriendmap으로 state관리 필요!
+  const [clickedFriendId, setClickedFriendId] = useRecoilState(clickedId);
 
   const dummy = [
     { id: 61, latitude: 37.587624, longitude: 126.97602 },
@@ -49,7 +50,7 @@ const FriendMap = () => {
       setIsMap(false);
       setPreviewState(false);
     };
-  }, []);
+  }, [clickedFriendId]);
 
   const getLocation = () => {
     if (navigator.geolocation) {

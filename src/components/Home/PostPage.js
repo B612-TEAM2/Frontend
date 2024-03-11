@@ -7,18 +7,12 @@ import { ListScope } from "../ListScope";
 import { ListMyLike } from "../ListScope";
 
 const ImageComponent = ({ images }) => {
-  const convertBytesToBase64 = (bytes) => {
-    return `data:image/jpeg;base64,${btoa(
-      bytes.reduce((data, byte) => data + String.fromCharCode(byte), '')
-    )}`;
-  };
-
   if (!images || images.length === 0) return null;
 
   return images.map((image, index) => (
-    <div key={index} className="thumbnail" onClick={() => window.open(image, '_blank')}>
-      <img src={convertBytesToBase64(image)} alt={`Post image ${index + 1}`} />
-    </div>
+    <ImageWrapper key={index}>
+      <img src={`data:image/jpeg;base64,${image}`} alt={`Post image ${index + 1}`} />
+    </ImageWrapper>
   ));
 };
 
@@ -45,16 +39,6 @@ const PostPage = () => {
     };
     fetchPost();
   }, [id]);
-
-  // const ImageComponent = ({ images }) => {
-  //   if (!images || images.length === 0) return null;
-  
-  //   return images.map((image, index) => (
-  //     <div key={index} className="thumbnail" onClick={() => window.open(image, '_blank')}>
-  //       <img src={`data:image/jpeg;base64,${image}`} alt={`Post image ${index + 1}`} />
-  //     </div>
-  //   ));
-  // };
 
   if (!post) return <h1>Post not found</h1>;
 
@@ -106,9 +90,6 @@ const PostPage = () => {
           </TitleText>
           <TextArea dangerouslySetInnerHTML={{ __html: post.content }} />
           <ImageComponent images={post.imgsByte} />
-          {/* <ImageWrapper images={post.imgsByte}>
-            <ImageComponent images={post.imgsByte} />
-          </ImageWrapper> */}
           <ButtonWrapper>
             <LikeWrapper>
               <ListMyLike myLike={post.myLike} pid={post.id} />
@@ -233,26 +214,12 @@ const ModalWrapper = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  width: 100%;
-
-  .thumbnail {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    overflow: hidden;
-    padding: 0.3rem;
-
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        left: 50%;
-        top: 50%;
-    }
-    }
+  img {
+    max-width: 300px;
+    height: auto;
+    margin-bottom: 1rem;
+  }
+  gap: 1rem;
 `;
 
 export default PostPage;

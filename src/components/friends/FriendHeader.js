@@ -12,7 +12,7 @@ import {
   isAllClicked,
 } from "../../atom";
 
-const FriendHeader = () => {
+const FriendHeader = ({}) => {
   const dummy = [{ id: 1, nickname: "닉네임" }];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [friends, setFriends] = useState([]);
