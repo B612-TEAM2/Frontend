@@ -116,7 +116,6 @@ const FriendHeader = () => {
   useEffect(() => {
     Modal.setAppElement("#root");
     fetchFriends();
-    handleAllClick();
     setClickedAll(true);
     return () => {
       setClickedBubble(null);
