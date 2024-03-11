@@ -125,7 +125,12 @@ const Writing = () => {
             />
             <Dropdown setScope={setScope} />
           </TitleWrapper>
-          <EditorComponent setContent={setContent} onChange={onEditorChange} />
+          <EditorComponent
+            content={content}
+            setContent={setContent}
+            onChange={onEditorChange}
+          />
+
           <ImageComponent images={images} onImageChange={handleImageChange} />
           <ButtonWrapper>
             <Button onClick={openModal}>위치 설정</Button>

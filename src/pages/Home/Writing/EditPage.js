@@ -139,6 +139,7 @@ const EditPage = (post) => {
             <Dropdown setScope={setScope} />
           </TitleWrapper>
           <EditorComponent
+            content={content}
             setContent={setContent}
             onChange={onEditorChange}
             placeholder="내용을 입력해 주세요"
