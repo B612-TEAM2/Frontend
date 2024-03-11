@@ -55,6 +55,7 @@ const FriendList = () => {
       dateString.split("T")[1].split(".")[0];
     return listdate;
   }
+  
   return (
     <Container>
       {friendName !== null ? (
