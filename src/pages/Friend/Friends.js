@@ -28,9 +28,9 @@ const Friends = () => {
 
   return (
     <Wrapper>
-      <SideMenuBar></SideMenuBar>
+      <SideMenuBar />
       <Container>
-        <FriendHeader></FriendHeader>
+        <FriendHeader />
         <BtnWrapper>
           <Checkbox
             type="checkbox"
