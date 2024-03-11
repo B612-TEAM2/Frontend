@@ -62,6 +62,11 @@ const Account = () => {
   }
 
   function handleCompleteButton() {
+    if(!fileInput.current.files[0]) {
+      fileInput.current.click();
+      return;
+    }
+    
     const formData = new FormData();
     const accessToken = localStorage.getItem("accessToken");
     formData.append("profileImg", fileInput.current.files[0]);
@@ -200,6 +205,7 @@ const Account = () => {
                   }
                   style={{ margin: "20px" }}
                   size={200}
+                  onClick={handleImageClick}
                 />
               )}
 
