@@ -4,10 +4,12 @@ import styled from "styled-components";
 import axios from "axios";
 import SideMenuBar from "../SideMenuBar";
 import { ListScope } from "../ListScope";
+import { ListMyLike } from "../ListScope";
 
 const PostPage = () => {
   const { id } = useParams();
   const [post, setPost] = useState();
+  const [likecount, setLikecount] = useState();
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     const fetchPost = async () => {
@@ -19,11 +21,11 @@ const PostPage = () => {
           },
         });
         setPost(response.data);
+        setLikecount(response.data.likeCount);
       } catch (error) {
         console.error(error);
       }
     };
-
     fetchPost();
   }, [id]);
 
@@ -34,13 +36,19 @@ const PostPage = () => {
       <SideMenuBar />
       <WritingArea>
         <PostWrapper>
-          <DateText>{new Date(post.createdDate).toLocaleDateString('ko-KR').replaceAll('.', '/').replaceAll('.', '') + ' ' + new Date(post.createdDate).toLocaleTimeString('ko-KR', {hour: '2-digit', minute: '2-digit'})}</DateText>
-          <ListScope scope={post.scope} />
+          <DetailWrapper>
+            <DateText>{new Date(post.createdDate).toLocaleDateString('ko-KR').replaceAll('.', '/').replaceAll('.', '') + ' ' + new Date(post.createdDate).toLocaleTimeString('ko-KR', {hour: '2-digit', minute: '2-digit'})}</DateText>
+            <ListScope scope={post.scope} />
+          </DetailWrapper>
           <TitleText>
             <WritingTitle>{post.title}</WritingTitle>
           </TitleText>
           <TextArea dangerouslySetInnerHTML={{ __html: post.content }} />
           <ButtonWrapper>
+            <LikeWrapper>
+              <ListMyLike myLike={post.myLike} pid={post.id} />
+              <LikeCount>{likecount}</LikeCount>
+            </LikeWrapper>
             <Link to={`/edit/${post.id}`}>
               <Button>수정하기</Button>
             </Link>
@@ -76,6 +84,13 @@ const PostWrapper = styled.div`
   justify-content: center;
 `;
 
+const DetailWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`
+
 const WritingTitle = styled.h1`
   font-size: 1.8rem;
   font-weight: bold;
@@ -84,7 +99,6 @@ const WritingTitle = styled.h1`
 `;
 
 const DateText = styled.text`
-  width: 100%;
   font-size: 1rem;
   color: #6f6f6f;
   text-align: right;
@@ -116,8 +130,22 @@ const ButtonWrapper = styled.div`
   justify-content: flex-end;
 `;
 
+const LikeWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const LikeCount = styled.div`
+  font-size: 0.7rem;
+  color: #6f6f6f;
+  margin-top: 3px;
+`;
+
 const Button = styled.button`
   width: 100px;
+  height: 40px;
   padding: 0.5rem;
   border: 1px solid #ccc;
   cursor: pointer;

@@ -51,7 +51,6 @@ const Div = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  max-width: 2rem;
 `;
 
 const Icon = styled.span`
