@@ -19,7 +19,6 @@ const HomeList = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response);
       setPosts(response.data);
     } catch (error) {
       console.error(error);

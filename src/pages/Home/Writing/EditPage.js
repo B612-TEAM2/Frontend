@@ -239,8 +239,9 @@ const ModalWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const CloseButton = styled.button`
-  width: 70px;f
+  width: 70px;
   height: 30px;
   background-color: black;
   color: white;
