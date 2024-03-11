@@ -159,17 +159,14 @@ const Account = () => {
     <>
       <SideMenuBar />
       <Wrapper>
-        {imgSrc !==
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" ? (
+        {imgSrc == null ? (
           <ProfileImg
-            src={`data:image/jpeg;base64,${imgSrc}`}
-            alt="Profile Image"
+            src={`https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`}
           ></ProfileImg>
         ) : (
           <ProfileImg
-            src={
-              "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-            }
+            src={`data:image/jpeg;base64,${imgSrc}`}
+            alt="Profile Image"
           ></ProfileImg>
         )}
         {nickname ? (
@@ -185,8 +182,7 @@ const Account = () => {
         >
           <Container>
             <ProfileImgSetting>
-              {imgSrc !==
-              "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" ? (
+              {imgSrc !== null ? (
                 <Avatar
                   src={`data:image/jpeg;base64,${imgSrc}`}
                   style={{ margin: "20px" }}
