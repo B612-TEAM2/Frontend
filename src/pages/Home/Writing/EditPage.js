@@ -9,13 +9,13 @@ import ImageComponent from "../../../components/Home/Writing/ImageComponent";
 import Dropdown from "../../../components/Home/Writing/Dropdown";
 import SideMenuBar from "../../../components/SideMenuBar";
 
-const EditPage = () => {
+const EditPage = (post) => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [images, setImages] = useState([]);
-  const [scope, setScope] = useState("");
+  const [title, setTitle] = useState(post.title);
+  const [content, setContent] = useState(post.content);
+  const [images, setImages] = useState(post.imgByte);
+  const [scope, setScope] = useState(post.scope);
 
   const [clickedLat, setClickedLat] = useState();
   const [clickedLng, setClickedLng] = useState();

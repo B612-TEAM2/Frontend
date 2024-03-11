@@ -63,6 +63,7 @@ const HomeList = () => {
       console.error("Error updating like status:", error);
     }
   };
+  
   return (
     <Container>
       <TitleText>내가 쓴 글</TitleText>
@@ -171,11 +172,11 @@ const ContentWrapper = styled.div`
   margin-left: 1rem;
   font-family: "Noto Sans KR", sans-serif;
   letter-spacing: -0.5px;
-  cursor: pointer;
 `;
 
 const PostTitle = styled.div`
   font-size: 1.2rem;
+  cursor: pointer;
 `;
 
 const Content = styled.div`

@@ -49,7 +49,7 @@ const PostPage = () => {
               <ListMyLike myLike={post.myLike} pid={post.id} />
               <LikeCount>{likecount}</LikeCount>
             </LikeWrapper>
-            <Link to={`/edit/${post.id}`}>
+            <Link to={`/edit/${post.id}`} post={post}>
               <Button>수정하기</Button>
             </Link>
             <Button>삭제하기</Button>
