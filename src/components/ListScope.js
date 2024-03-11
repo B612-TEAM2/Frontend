@@ -33,7 +33,7 @@ export function ListScope({ scope }) {
 export function ListMyLike({ myLike, pid, onToggleMyLike }) {
   const handleIconClick = (event) => {
     event.stopPropagation();
-    onToggleMyLike(pid);
+    onToggleMyLike();
   };
 
   return (
@@ -61,6 +61,7 @@ const Icon = styled.span`
   margin-left: 0.5rem;
   margin-right: 0.1rem;
   color: #6f6f6f;
+  cursor: pointer;
 `;
 
 const ScopeText = styled.text`
