@@ -206,6 +206,7 @@ const Account = () => {
         </Modal>
         <AccountSettingButton
           onClick={() => handleLogout()}
+
           children="로그아웃"
         />
         <DeleteAccount onClick={() => onClickDelete()}>
