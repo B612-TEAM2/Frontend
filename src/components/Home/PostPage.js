@@ -31,13 +31,46 @@ const PostPage = () => {
 
   if (!post) return <h1>Post not found</h1>;
 
+  const handleDeletePost = async (id) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await axios.delete("/api/post/delete", {
+        data: {
+          pid: id,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 200) {
+        console.log(response.data);
+        alert("글 삭제가 완료 되었습니다.");
+      } else {
+        console.error("글 삭제 중 오류 발생:", response.statusText);
+        alert("글 삭제에 실패했습니다. 다시 시도해주세요.");
+      }
+    } catch (error) {
+      console.error("글 삭제 중 오류 발생:", error);
+    }
+  };
+
   return (
     <Container>
       <SideMenuBar />
       <WritingArea>
         <PostWrapper>
           <DetailWrapper>
-            <DateText>{new Date(post.createdDate).toLocaleDateString('ko-KR').replaceAll('.', '/').replaceAll('.', '') + ' ' + new Date(post.createdDate).toLocaleTimeString('ko-KR', {hour: '2-digit', minute: '2-digit'})}</DateText>
+            <DateText>
+              {new Date(post.createdDate)
+                .toLocaleDateString("ko-KR")
+                .replaceAll(".", "/")
+                .replaceAll(".", "") +
+                " " +
+                new Date(post.createdDate).toLocaleTimeString("ko-KR", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+            </DateText>
             <ListScope scope={post.scope} />
           </DetailWrapper>
           <TitleText>
@@ -52,7 +85,13 @@ const PostPage = () => {
             <Link to={`/edit/${post.id}`}>
               <Button>수정하기</Button>
             </Link>
-            <Button>삭제하기</Button>
+            <Button
+              onClick={() => {
+                handleDeletePost(post.id);
+              }}
+            >
+              삭제하기
+            </Button>
           </ButtonWrapper>
         </PostWrapper>
       </WritingArea>
@@ -89,7 +128,7 @@ const DetailWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-`
+`;
 
 const WritingTitle = styled.h1`
   font-size: 1.8rem;
