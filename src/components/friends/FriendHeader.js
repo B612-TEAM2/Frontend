@@ -13,7 +13,6 @@ import {
 } from "../../atom";
 
 const FriendHeader = ({}) => {
-  const dummy = [{ id: 1, nickname: "닉네임" }];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [friends, setFriends] = useState([]);
   const [markers, setMarkers] = useRecoilState(friendMarkers); //back으로 부터 langitude,longitude,pid 받아옴 -> atom에 저장 -> friendmap에서 사용용
