@@ -69,7 +69,6 @@ const HomeList = () => {
       <ListContainer>
         <ListWrapper>
           {posts.map((post) => (
-            <Link to={`/${post.id}`} key={post.id}>
               <PostingWrapper key={post.id}>
                 {post.imgByte ? (
                   <Img
@@ -81,7 +80,9 @@ const HomeList = () => {
                 )}
                 <ContentWrapper>
                   <TitleWrapper>
-                    <PostTitle>{post.title}</PostTitle>
+                    <Link to={`/${post.id}`} key={post.id}>
+                      <PostTitle>{post.title}</PostTitle>
+                    </Link>
                     <ListMyLike
                       myLike={post.myLike}
                       pid={post.id}
@@ -98,7 +99,6 @@ const HomeList = () => {
                   </ScopeWrapper>
                 </ContentWrapper>
               </PostingWrapper>
-            </Link>
           ))}
         </ListWrapper>
       </ListContainer>
