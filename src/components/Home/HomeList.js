@@ -63,43 +63,45 @@ const HomeList = () => {
       console.error("Error updating like status:", error);
     }
   };
-  
+
   return (
     <Container>
       <TitleText>내가 쓴 글</TitleText>
       <ListContainer>
         <ListWrapper>
           {posts.map((post) => (
-              <PostingWrapper key={post.id}>
-                {post.imgByte ? (
-                  <Img
-                    src={`data:image/png;base64,${post.imgByte}`}
-                    alt={post.title}
-                  />
-                ) : (
-                  <Img src={emptyImg} alt={post.title} />
-                )}
-                <ContentWrapper>
-                  <TitleWrapper>
-                    <Link to={`/${post.id}`} key={post.id}>
-                      <PostTitle>{post.title}</PostTitle>
-                    </Link>
-                    <ListMyLike
-                      myLike={post.myLike}
-                      pid={post.id}
-                      onToggleMyLike={handleToggleMyLike(post.id, post.myLike)}
-                    />{" "}
-                  </TitleWrapper>
-                  <Content
-                    dangerouslySetInnerHTML={{ __html: post.contentPreview }}
-                  />
-                  <Line />
-                  <ScopeWrapper>
-                    <ListScope scope={post.scope} />
-                    <Date>{formedDate(post.createdDate)}</Date>
-                  </ScopeWrapper>
-                </ContentWrapper>
-              </PostingWrapper>
+            <PostingWrapper key={post.id}>
+              {post.imgByte ? (
+                <Img
+                  src={`data:image/png;base64,${post.imgByte}`}
+                  alt={post.title}
+                />
+              ) : (
+                <Img src={emptyImg} alt={post.title} />
+              )}
+              <ContentWrapper>
+                <TitleWrapper>
+                  <Link to={`/${post.id}`} key={post.id}>
+                    <PostTitle>{post.title}</PostTitle>
+                  </Link>
+                  <ListMyLike
+                    myLike={post.myLike}
+                    pid={post.id}
+                    onToggleMyLike={() => {
+                      handleToggleMyLike(post.id, post.myLike);
+                    }}
+                  />{" "}
+                </TitleWrapper>
+                <Content
+                  dangerouslySetInnerHTML={{ __html: post.contentPreview }}
+                />
+                <Line />
+                <ScopeWrapper>
+                  <ListScope scope={post.scope} />
+                  <Date>{formedDate(post.createdDate)}</Date>
+                </ScopeWrapper>
+              </ContentWrapper>
+            </PostingWrapper>
           ))}
         </ListWrapper>
       </ListContainer>
