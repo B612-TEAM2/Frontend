@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import SideMenuBar from "../SideMenuBar";
 import { useParams, Link } from "react-router-dom";
+import styled from "styled-components";
 import axios from "axios";
+import SideMenuBar from "../SideMenuBar";
 import { ListScope } from "../ListScope";
 
 const PostPage = () => {
   const { id } = useParams();
   const [post, setPost] = useState();
-  //조회수 높이는 기능도 같이 반환됨
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     const fetchPost = async () => {
@@ -30,21 +29,24 @@ const PostPage = () => {
 
   if (!post) return <h1>Post not found</h1>;
 
-  //sidemenubar layout 수정 필요!
   return (
     <Container>
       <SideMenuBar />
       <WritingArea>
-        <DateText>{new Date(post.createdDate).toLocaleDateString('ko-KR').replaceAll('.', '/').replaceAll('.', '') + ' ' + new Date(post.createdDate).toLocaleTimeString('ko-KR', {hour: '2-digit', minute: '2-digit'})}</DateText>
-        <ListScope scope={post.scope} />
-        <TitleText>
-          <WritingTitle>{post.title}</WritingTitle>
-        </TitleText>
-        <TextArea dangerouslySetInnerHTML={{ __html: post.content }} />
-        <Link to={`/edit/${post.id}`}>
-          <Button>수정하기</Button>
-        </Link>
-        <Button>삭제하기</Button>
+        <PostWrapper>
+          <DateText>{new Date(post.createdDate).toLocaleDateString('ko-KR').replaceAll('.', '/').replaceAll('.', '') + ' ' + new Date(post.createdDate).toLocaleTimeString('ko-KR', {hour: '2-digit', minute: '2-digit'})}</DateText>
+          <ListScope scope={post.scope} />
+          <TitleText>
+            <WritingTitle>{post.title}</WritingTitle>
+          </TitleText>
+          <TextArea dangerouslySetInnerHTML={{ __html: post.content }} />
+          <ButtonWrapper>
+            <Link to={`/edit/${post.id}`}>
+              <Button>수정하기</Button>
+            </Link>
+            <Button>삭제하기</Button>
+          </ButtonWrapper>
+        </PostWrapper>
       </WritingArea>
     </Container>
   );
@@ -52,22 +54,30 @@ const PostPage = () => {
 
 const Container = styled.div`
   display: flex;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   flex-direction: row;
 `;
 
 const WritingArea = styled.div`
+  width: calc(100vw - 275px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 275px;
+  height: 90%;
+`;
+
+const PostWrapper = styled.div`
+  margin-top: 8vh;
   width: 50vw;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 1rem;
-  margin-left: 400px;
+  justify-content: center;
 `;
 
 const WritingTitle = styled.h1`
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: bold;
   font-family: "inter", sans-serif;
   text-align: center;
@@ -81,16 +91,17 @@ const DateText = styled.text`
 `;
 
 const TitleText = styled.div`
-  width: 100%;
   padding: 0.5rem;
   border: 1px solid #ccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 `;
 
 const TextArea = styled.div`
-  width: 100%;
-  height: 200px;
-  padding: 0.5rem;
+  min-height: 200px;
+  padding: 1rem;
   border: 1px solid #ccc;
+  margin-bottom: 1rem;
 `;
 
 const Preview = styled.div`
@@ -99,11 +110,20 @@ const Preview = styled.div`
   border: 1px solid #ccc;
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+`;
+
 const Button = styled.button`
-  width: 100%;
+  width: 100px;
   padding: 0.5rem;
   border: 1px solid #ccc;
   cursor: pointer;
+  margin-left: 0.5rem;
+  background-color: #95ada4;
+  color: white;
 `;
 
 const ModalWrapper = styled.div`

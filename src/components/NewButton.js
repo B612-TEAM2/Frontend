@@ -31,6 +31,5 @@ const Circle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 5px;
   cursor: pointer;
 `;
