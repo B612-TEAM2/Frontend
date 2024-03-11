@@ -166,7 +166,11 @@ const Account = () => {
             alt="Profile Image"
           ></ProfileImg>
         ) : (
-          <ProfileImg src={imgSrc}></ProfileImg>
+          <ProfileImg
+            src={
+              "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+            }
+          ></ProfileImg>
         )}
         {nickname ? (
           <Greeting>{nickname}님, 안녕하세요. </Greeting>
@@ -190,7 +194,13 @@ const Account = () => {
                   onClick={handleImageClick}
                 />
               ) : (
-                <Avatar src={imgSrc} style={{ margin: "20px" }} size={200} />
+                <Avatar
+                  src={
+                    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                  }
+                  style={{ margin: "20px" }}
+                  size={200}
+                />
               )}
 
               <input
