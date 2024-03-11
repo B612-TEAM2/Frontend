@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -7,6 +7,18 @@ function SetProfile() {
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
   );
   const fileInput = useRef(null);
+  const navigate = useNavigate();
+
+  const checkUserData = () => {
+    // 사용자 정보가 있는지 확인하는 로직 작성
+  }
+
+  useEffect(() => {
+    const userDataExists = checkUserData();
+    if (userDataExists) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   function onChange(e) {
     if (e.target.files && e.target.files[0]) {
@@ -112,8 +124,8 @@ const Container = styled.div`
 
 const ProfileImgSetting = styled.div`
   display: flex;
-  width: 50vw;
-  height: 20vh;
+  width: 200px;
+  height: 200px;
   justify-content: center;
   align-items: center;
 `;
@@ -126,9 +138,8 @@ const Avatar = styled.img`
 `;
 
 const NicknameSetting = styled.div`
+  margin-top: 20px;
   display: flex;
-  width: 50vw;
-  height: 10vh;
   justify-content: center;
   align-items: center;
 `;
