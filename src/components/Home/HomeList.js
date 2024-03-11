@@ -86,7 +86,7 @@ const HomeList = () => {
                     <ListMyLike
                       myLike={post.myLike}
                       pid={post.id}
-                      onToggleMyLike={handleToggleMyLike}
+                      onToggleMyLike={handleToggleMyLike(post.id, post.myLike)}
                     />{" "}
                   </TitleWrapper>
                   <Content
