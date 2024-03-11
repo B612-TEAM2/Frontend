@@ -25,9 +25,10 @@ const FriendMap = () => {
     const sameLat = markerData.filter((m) => m.latitude === clickedLat);
     const sameLng = sameLat.filter((m) => m.longitude === clickedLng);
     if (map && sameLng.length > 0) {
-      map.setCenter({
-        lat: clickedLat,
-        lng: clickedLng,
+      const clickedMarker = sameLng[0];
+      map.panTo({
+        lat: clickedMarker.latitude,
+        lng: clickedMarker.longitude,
       });
     }
     setPreviewState(true);
