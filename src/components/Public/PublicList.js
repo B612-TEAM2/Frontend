@@ -7,6 +7,8 @@ import { curLng, curLat, isPublicMap } from "../../atom";
 import { ListScope, ListMyLike } from "../ListScope";
 
 const PublicList = () => {
+  const emptyImg = `${process.env.PUBLIC_URL}/img/empyImg.png`;
+
   // const dummyData = [
   //   {
   //     id: 1,
@@ -37,7 +39,7 @@ const PublicList = () => {
   const getPublicPosts = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.get(`/api/posts/home/list`, {
+      const response = await axios.get(`/api/posts/public/list`, {
         params: { latitude: lat, longitude: lng },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -70,7 +72,14 @@ const PublicList = () => {
           {posts.map((post) => (
             <Link to={`/${post.id}`} key={post.id}>
               <PostingWrapper key={post.id}>
-                <Img src={post.image} alt={post.title} />
+                {post.imgByte ? (
+                  <Img
+                    src={`data:image/png;base64,${post.imgByte}`}
+                    alt={post.title}
+                  />
+                ) : (
+                  <Img src={emptyImg} alt={post.title} />
+                )}
                 <ContentWrapper>
                   <TitleWrapper>
                     <PostTitle>{post.title}</PostTitle>
