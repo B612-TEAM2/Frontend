@@ -19,7 +19,7 @@ const Public = () => {
   }, []);
   return (
     <>
-      <SideMenuBar></SideMenuBar>
+      <SideMenuBar />
       <Container>
         <PublicToggle />
         {preview.length == 0 ? (

@@ -40,8 +40,9 @@ const HomeList = () => {
 
   const handleToggleMyLike = async (postId, like) => {
     try {
+      const newState = !like;
       const token = localStorage.getItem("accessToken");
-      const requestData = { pid: postId, isLike: like };
+      const requestData = { pid: postId, isLike: newState };
       const response = await axios.post(`/api/likeToggle`, requestData, {
         headers: {
           Authorization: `Bearer ${token}`,
