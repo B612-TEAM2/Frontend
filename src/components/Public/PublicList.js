@@ -8,33 +8,39 @@ import { ListScope, ListMyLike } from "../ListScope";
 
 const PublicList = () => {
   const emptyImg = `${process.env.PUBLIC_URL}/img/empyImg.png`;
-
-  // const dummyData = [
-  //   {
-  //     id: 1,
-  //     title: "제목1",
-  //     scope: "public",
-  //     likeCount: 10,
-  //     myLike: false,
-  //     createdDate: "2021-08-19",
-  //     contentPreview: "내용1",
-  //     image: "https://source.unsplash.com/random",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "제목2",
-  //     scope: "private",
-  //     likeCount: 5,
-  //     myLike: true,
-  //     createdDate: "2021-08-20",
-  //     contentPreview: "내용2",
-  //     image: "https://source.unsplash.com/random",
-  //   },
-  // ];
   const [posts, setPosts] = useState([]);
   const setIsMap = useSetRecoilState(isPublicMap);
   const lat = useRecoilValue(curLat);
   const lng = useRecoilValue(curLng);
+
+  const handleToggleMyLike = async (postId, like) => {
+    try {
+      console.log("like", like);
+      const newState = !like;
+      console.log("newState:", newState);
+      const token = localStorage.getItem("accessToken");
+      const requestData = { pid: postId, isLike: newState };
+      const response = await axios.post(`/api/likeToggle`, requestData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+      setPosts((prevPosts) => {
+        return prevPosts.map((post) => {
+          if (post.id === postId) {
+            return {
+              ...post,
+              myLike: newState,
+            };
+          }
+          return post;
+        });
+      });
+    } catch (error) {
+      console.error("Error updating like status:", error);
+    }
+  };
 
   const getPublicPosts = async () => {
     try {
@@ -84,7 +90,13 @@ const PublicList = () => {
                 <ContentWrapper>
                   <TitleWrapper>
                     <PostTitle>{post.title}</PostTitle>
-                    <ListMyLike myLike={post.myLike} />
+                    <ListMyLike
+                      myLike={post.myLike}
+                      pid={post.id}
+                      onToggleMyLike={() => {
+                        handleToggleMyLike(post.id, post.myLike);
+                      }}
+                    />{" "}
                   </TitleWrapper>
                   <Content>{post.contentPreview}</Content>
                   <Line />

@@ -6,36 +6,10 @@ import { clickedId } from "../../atom";
 import axios from "axios";
 import { ListScope } from "../ListScope";
 
-// 핀 클릭시 list 반환
-//  -> "/posts/clickPin"  로 pid를 리스트 형식으로 요청보냄
-// (id, title, scope, createdDate, contentPreview, imgByte)
-
 const MarkerPreview = () => {
   const emptyImg = `${process.env.PUBLIC_URL}/img/empyImg.png`;
 
-  const dummy = [
-    {
-      id: 123,
-      title: "제목",
-      scope: "private",
-      content: "내용15자까지나옴",
-      createdDate: "날짜",
-    },
-    {
-      id: 456,
-      title: "제목",
-      scope: "public",
-      content: "내용15자까지나옴",
-      createdDate: "날짜",
-    },
-  ];
-
-  const ClickedDummy = [
-    { id: 1, latitude: 37.55902624, longitude: 126.9749014 },
-    { id: 2, latitude: 37.55902624, longitude: 126.9749014 },
-  ];
   const clickedData = useRecoilValue(clickedId);
-  // const clickedPidList = clickedData.map((item) => item.id);
   const [postPreviews, setPostPreviews] = useState([]); //DUMMY
 
   axios.defaults.paramsSerializer = function (paramObj) {

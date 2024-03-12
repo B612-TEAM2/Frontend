@@ -40,6 +40,7 @@ const HomeList = () => {
 
   const handleToggleMyLike = async (postId, like) => {
     try {
+
       const newState = !like;
       const token = localStorage.getItem("accessToken");
       
@@ -52,7 +53,6 @@ const HomeList = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
       setPosts((prevPosts) => {
         return prevPosts.map((post) => {
           if (post.id === postId) {
@@ -95,7 +95,7 @@ const HomeList = () => {
                     onToggleMyLike={() => {
                       handleToggleMyLike(post.id, post.myLike);
                     }}
-                  />{" "}
+                  />
                 </TitleWrapper>
                 <Content
                   dangerouslySetInnerHTML={{ __html: post.contentPreview }}
