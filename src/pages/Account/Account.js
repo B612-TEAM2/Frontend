@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import Modal from "react-modal";
 import styled from "styled-components";
+import axios from "axios";
+
 import SideMenuBar from "../../components/SideMenuBar";
 import AccountSettingButton from "../../components/Account/AccountSettingButton";
-import { useNavigate } from "react-router-dom";
 import DeleteModal from "../../components/Account/DeleteModal";
-import Modal from "react-modal";
-import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { isAccountPage } from "../../atom";
 
@@ -13,29 +14,32 @@ const Account = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imgSetModal, setImgSetModal] = useState(false);
-  // const [image, setImage] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
-  const fileInput = useRef(null);
   const [userData, setUserData] = useState(null);
-  const [imgSrc, setImgSrc] = useState(
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-  );
+
+  const [imgSrc, setImgSrc] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
+  const fileInput = useRef(null);
+
   const [nickname, setNickname] = useState("");
   const setIsAccountPage = useSetRecoilState(isAccountPage);
 
   useEffect(() => {
     setIsAccountPage(true);
     const fetchData = async () => {
-      const apiUrl = `/api/account`;
       const accessToken = localStorage.getItem("accessToken");
 
       try {
-        const response = await axios.get(apiUrl, {
+        const response = await axios.get(`/api/account`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
         setUserData(response.data);
-        setImgSrc(response.data.profileImg || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
+        if(response.data.profileImg == "") {
+          setImgSrc("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
+         } else {
+          setImgSrc(response.data.profileImg);
+         }
+         console.log(imgSrc);
         setNickname(response.data.nickname);
       } catch (error) {
         console.error("에러 발생:", error);
@@ -62,11 +66,6 @@ const Account = () => {
   }
 
   function handleCompleteButton() {
-    if(!fileInput.current.files[0]) {
-      fileInput.current.click();
-      return;
-    }
-    
     const formData = new FormData();
     const accessToken = localStorage.getItem("accessToken");
     formData.append("profileImg", fileInput.current.files[0]);
@@ -81,7 +80,7 @@ const Account = () => {
       .then((response) => {
         if (response.ok) {
           console.log("변경된 이미지 전송 성공");
-          window.location.href = "/";
+          window.location.href = "/account";
         } else {
           console.log("변경된 이미지 전송 실패");
         }
@@ -164,6 +163,7 @@ const Account = () => {
     <>
       <SideMenuBar />
       <Wrapper>
+<<<<<<< HEAD
         {imgSrc == null ? (
           <ProfileImg
             src={`https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`}
@@ -174,6 +174,12 @@ const Account = () => {
             alt="Profile Image"
           ></ProfileImg>
         )}
+=======
+          <ProfileImg
+            src={imgSrc}
+            alt="Profile Image"
+          />
+>>>>>>> bd1d0895e93ac79d69540c065436f734cd49ba50
         {nickname ? (
           <Greeting>{nickname}님, 안녕하세요. </Greeting>
         ) : (
@@ -187,24 +193,16 @@ const Account = () => {
         >
           <Container>
             <ProfileImgSetting>
+<<<<<<< HEAD
               {imgSrc !== null ? (
+=======
+>>>>>>> bd1d0895e93ac79d69540c065436f734cd49ba50
                 <Avatar
-                  src={`data:image/jpeg;base64,${imgSrc}`}
+                  src={imgSrc}
                   style={{ margin: "20px" }}
                   size={200}
                   onClick={handleImageClick}
                 />
-              ) : (
-                <Avatar
-                  src={
-                    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                  }
-                  style={{ margin: "20px" }}
-                  size={200}
-                  onClick={handleImageClick}
-                />
-              )}
-
               <input
                 type="file"
                 style={{ display: "none" }}
