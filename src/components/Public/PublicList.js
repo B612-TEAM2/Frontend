@@ -103,7 +103,9 @@ const PublicList = () => {
                     }}
                   />{" "}
                 </TitleWrapper>
-                <Content>{post.contentPreview}</Content>
+                <Content
+                  dangerouslySetInnerHTML={{ __html: post.contentPreview }}
+                />
                 <Line />
                 <ScopeWrapper>
                   <ListScope scope={post.scope} />

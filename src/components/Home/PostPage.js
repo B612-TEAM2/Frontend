@@ -38,7 +38,6 @@ const PostPage = () => {
       }
     };
     fetchPost();
-    if(!post) return <h1>Post not found</h1>;
   }, [id]);
 
   const handleDeletePost = async (id) => {
@@ -67,6 +66,10 @@ const PostPage = () => {
 
   return (
     <Container>
+      { post === undefined ? (
+        <h1>Loading...</h1>
+      ) : post ? (
+        <>
       <SideMenuBar />
       <WritingArea>
         <PostWrapper>
@@ -107,6 +110,10 @@ const PostPage = () => {
           </ButtonWrapper>
         </PostWrapper>
       </WritingArea>
+      </>
+      ) : (
+        <h1>Post not found</h1>
+      )}
     </Container>
   );
 };
