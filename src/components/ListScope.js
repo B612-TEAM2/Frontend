@@ -40,7 +40,7 @@ export function ListMyLike({ myLike, pid, onToggleMyLike }) {
       {myLike ? (
         <Icon className="material-icons">favorite</Icon>
       ) : (
-        <span class="material-symbols-outlined">favorite</span>
+        <Icon className="material-symbols-outlined">favorite</Icon>
       )}
     </i>
   );

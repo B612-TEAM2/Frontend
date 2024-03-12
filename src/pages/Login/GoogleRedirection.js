@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function GoogleRedirection() {
   const code = new URL(document.location.toString()).searchParams.get("code");
   const navigate = useNavigate();
+  const [wasMember, setWasMember] = useState(false);
 
   useEffect(() => {
     async function GoogleLogin() {
@@ -14,13 +15,14 @@ function GoogleRedirection() {
 
       const ACCESS_TOKEN = res.data["access-token"];
       const REFRESH_TOKEN = res.data["refresh-token"];
-      const wasMember = res.data["wasMember"];
+      const wasMemberFromResponse = res.data["wasMember"];
+      setWasMember(wasMemberFromResponse);
 
       localStorage.setItem("accessToken", ACCESS_TOKEN);
       localStorage.setItem("refreshToken", REFRESH_TOKEN);
 
-      if(wasMember) {
-        navigate("/", { replace: true});
+      if (wasMemberFromResponse) {
+        navigate("/", { replace: true });
       } else {
         navigate("/SetProfile", { replace: true });
       }
