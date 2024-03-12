@@ -15,21 +15,20 @@ function KakaoRedirection() {
 
       const ACCESS_TOKEN = res.data["access-token"];
       const REFRESH_TOKEN = res.data["refresh-token"];
-      setWasMember(res.data["wasMember"]);
+      const wasMemberFromResponse = res.data["wasMember"];
+      setWasMember(wasMemberFromResponse);
 
       localStorage.setItem("accessToken", ACCESS_TOKEN);
       localStorage.setItem("refreshToken", REFRESH_TOKEN);
+
+      if (wasMemberFromResponse) {
+        navigate("/", { replace: true });
+      } else {
+        navigate("/SetProfile", { replace: true });
+      }
     }
     KakaoLogin();
   }, []);
-
-  useEffect(() => {
-    if (wasMember) {
-      navigate("/", { replace: true });
-    } else {
-      navigate("/SetProfile", { replace: true });
-    }
-  }, [wasMember]);
 
   return <div>로그인 중입니다...</div>;
 }
