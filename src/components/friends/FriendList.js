@@ -55,6 +55,36 @@ const FriendList = () => {
       dateString.split("T")[1].split(".")[0];
     return listdate;
   }
+
+  const handleToggleMyLike = async (postId, like) => {
+    try {
+      console.log("like", like);
+      const newState = !like;
+      console.log("newState:", newState);
+      const token = localStorage.getItem("accessToken");
+      const requestData = { pid: postId, isLike: newState };
+      const response = await axios.post(`/api/likeToggle`, requestData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+      setPosts((prevPosts) => {
+        return prevPosts.map((post) => {
+          if (post.id === postId) {
+            return {
+              ...post,
+              myLike: newState,
+            };
+          }
+          return post;
+        });
+      });
+    } catch (error) {
+      console.error("Error updating like status:", error);
+    }
+  };
+
   return (
     <Container>
       {friendName !== null ? (
@@ -78,7 +108,13 @@ const FriendList = () => {
                 <ContentWrapper>
                   <TitleWrapper>
                     <PostTitle>{post.title}</PostTitle>
-                    <ListMyLike myLike={post.myLike} />
+                    <ListMyLike
+                      myLike={post.myLike}
+                      pid={post.id}
+                      onToggleMyLike={() => {
+                        handleToggleMyLike(post.id, post.myLike);
+                      }}
+                    />{" "}
                   </TitleWrapper>
                   <Content
                     dangerouslySetInnerHTML={{ __html: post.contentPreview }}

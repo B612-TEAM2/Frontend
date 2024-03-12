@@ -34,11 +34,13 @@ const Account = () => {
           },
         });
         setUserData(response.data);
-        if(response.data.profileImg == "") {
-          setImgSrc("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
-         } else {
+        if (response.data.profileImg == "") {
+          setImgSrc(
+            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+          );
+        } else {
           setImgSrc(`data:image/jpeg;base64,${response.data.profileImg}`);
-         }
+        }
         setNickname(response.data.nickname);
       } catch (error) {
         console.error("에러 발생:", error);
@@ -162,23 +164,7 @@ const Account = () => {
     <>
       <SideMenuBar />
       <Wrapper>
-<<<<<<< HEAD
-        {imgSrc == null ? (
-          <ProfileImg
-            src={`https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`}
-          ></ProfileImg>
-        ) : (
-          <ProfileImg
-            src={`data:image/jpeg;base64,${imgSrc}`}
-            alt="Profile Image"
-          ></ProfileImg>
-        )}
-=======
-          <ProfileImg
-            src={imgSrc}
-            alt="Profile Image"
-          />
->>>>>>> bd1d0895e93ac79d69540c065436f734cd49ba50
+        <ProfileImg src={imgSrc} alt="Profile Image" />
         {nickname ? (
           <Greeting>{nickname}님, 안녕하세요. </Greeting>
         ) : (
@@ -192,16 +178,12 @@ const Account = () => {
         >
           <Container>
             <ProfileImgSetting>
-<<<<<<< HEAD
-              {imgSrc !== null ? (
-=======
->>>>>>> bd1d0895e93ac79d69540c065436f734cd49ba50
-                <Avatar
-                  src={imgSrc}
-                  style={{ margin: "20px" }}
-                  size={200}
-                  onClick={handleImageClick}
-                />
+              <Avatar
+                src={imgSrc}
+                style={{ margin: "20px" }}
+                size={200}
+                onClick={handleImageClick}
+              />
               <input
                 type="file"
                 style={{ display: "none" }}

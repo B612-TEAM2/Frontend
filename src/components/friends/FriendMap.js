@@ -24,13 +24,7 @@ const FriendMap = () => {
   const handleMarkerClick = (pid, clickedLat, clickedLng) => {
     const sameLat = markerData.filter((m) => m.latitude === clickedLat);
     const sameLng = sameLat.filter((m) => m.longitude === clickedLng);
-    if (map && sameLng.length > 0) {
-      const clickedMarker = sameLng[0];
-      map.panTo({
-        lat: clickedMarker.latitude,
-        lng: clickedMarker.longitude,
-      });
-    }
+
     setPreviewState(true);
     setMarkerId(sameLng); //클릭된 마커와 같은 위치의 글 정보
   };
