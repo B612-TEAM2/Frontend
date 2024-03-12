@@ -16,7 +16,7 @@ const Account = () => {
   const [imgSetModal, setImgSetModal] = useState(false);
   const [userData, setUserData] = useState(null);
 
-  const [imgSrc, setImgSrc] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
+  const [imgSrc, setImgSrc] = useState("");
   const fileInput = useRef(null);
 
   const [nickname, setNickname] = useState("");
@@ -37,9 +37,8 @@ const Account = () => {
         if(response.data.profileImg == "") {
           setImgSrc("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
          } else {
-          setImgSrc(response.data.profileImg);
+          setImgSrc(`data:image/jpeg;base64,${response.data.profileImg}`);
          }
-         console.log(imgSrc);
         setNickname(response.data.nickname);
       } catch (error) {
         console.error("에러 발생:", error);
