@@ -18,8 +18,6 @@ const FriendMap = () => {
     { id: 62, latitude: 37.587624, longitude: 126.97602 },
   ];
   const markerData = useRecoilValue(friendMarkers); // friendheader에서 클릭시 바뀌는 friendmarkers data 구독
-  // {latitude, longitude, pid}배열
-  // const markerData = dummy;
 
   const handleMarkerClick = (pid, clickedLat, clickedLng) => {
     const sameLat = markerData.filter((m) => m.latitude === clickedLat);
