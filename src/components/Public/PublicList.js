@@ -15,23 +15,27 @@ const PublicList = () => {
 
   const handleToggleMyLike = async (postId, like) => {
     try {
-      console.log("like", like);
       const newState = !like;
-      console.log("newState:", newState);
       const token = localStorage.getItem("accessToken");
-      const requestData = { pid: postId, isLike: newState };
-      const response = await axios.post(`/api/likeToggle`, requestData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(response.data);
+      const response = await axios.post(
+        `/api/likeToggle`,
+        {},
+        {
+          params: {
+            pid: postId.toString(),
+            isLike: newState,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setPosts((prevPosts) => {
         return prevPosts.map((post) => {
           if (post.id === postId) {
             return {
               ...post,
-              myLike: newState,
+              myLike: response.data.isLike,
             };
           }
           return post;
@@ -77,36 +81,36 @@ const PublicList = () => {
       <ListContainer>
         <ListWrapper>
           {posts.map((post) => (
-            <Link to={`/${post.id}`} key={post.id}>
-              <PostingWrapper key={post.id}>
-                {post.imgByte ? (
-                  <Img
-                    src={`data:image/png;base64,${post.imgByte}`}
-                    alt={post.title}
-                  />
-                ) : (
-                  <Img src={emptyImg} alt={post.title} />
-                )}
-                <ContentWrapper>
-                  <TitleWrapper>
+            <PostingWrapper key={post.id}>
+              {post.imgByte ? (
+                <Img
+                  src={`data:image/png;base64,${post.imgByte}`}
+                  alt={post.title}
+                />
+              ) : (
+                <Img src={emptyImg} alt={post.title} />
+              )}
+              <ContentWrapper>
+                <TitleWrapper>
+                  <Link to={`/${post.id}`} key={post.id}>
                     <PostTitle>{post.title}</PostTitle>
-                    <ListMyLike
-                      myLike={post.myLike}
-                      pid={post.id}
-                      onToggleMyLike={() => {
-                        handleToggleMyLike(post.id, post.myLike);
-                      }}
-                    />{" "}
-                  </TitleWrapper>
-                  <Content>{post.contentPreview}</Content>
-                  <Line />
-                  <ScopeWrapper>
-                    <ListScope scope={post.scope} />
-                    <Date>{formedDate(post.createdDate)}</Date>
-                  </ScopeWrapper>
-                </ContentWrapper>
-              </PostingWrapper>
-            </Link>
+                  </Link>
+                  <ListMyLike
+                    myLike={post.myLike}
+                    pid={post.id}
+                    onToggleMyLike={() => {
+                      handleToggleMyLike(post.id, post.myLike);
+                    }}
+                  />{" "}
+                </TitleWrapper>
+                <Content>{post.contentPreview}</Content>
+                <Line />
+                <ScopeWrapper>
+                  <ListScope scope={post.scope} />
+                  <Date>{formedDate(post.createdDate)}</Date>
+                </ScopeWrapper>
+              </ContentWrapper>
+            </PostingWrapper>
           ))}
         </ListWrapper>
       </ListContainer>
