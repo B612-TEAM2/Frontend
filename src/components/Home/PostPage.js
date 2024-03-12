@@ -38,9 +38,8 @@ const PostPage = () => {
       }
     };
     fetchPost();
+    if(!post) return <h1>Post not found</h1>;
   }, [id]);
-
-  if (!post) return <h1>Post not found</h1>;
 
   const handleDeletePost = async (id) => {
     try {
